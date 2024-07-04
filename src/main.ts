@@ -6,10 +6,10 @@ import 'element-plus/dist/index.css'
 import router from "./router";
 
 import { createPinia } from "pinia";
-import piniaPluginPersist from "pinia-plugin-persist";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 const pinia = createPinia();
-pinia.use(piniaPluginPersist);
+pinia.use(piniaPluginPersistedstate)
 createApp(App).use(router).use(ElementPlus).mount('#app')
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {

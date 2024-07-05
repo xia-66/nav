@@ -5,12 +5,13 @@
       'gross-glass': showGrossGlass || props.headBgConfig.grossGlass,
     }">
     <section class="fold" @click="handleNavbar">
-      <i class="iconfont icon-a-unfoldcross-line"></i>
+      <i class="iconfont icon-md-menu"></i>
     </section>
     <section class="menu" @click="handleMenu">
       <i class="iconfont icon-md-menu"></i>
     </section>
-    <section v-if="showMenu" class="collapse">
+
+    <section class="collapse">
       <ul class="links">
         <li v-for="(item, index) in links" :key="index" @click="jump(item, index)">
           <i :class="item.iconfontClass" class="icon"></i>
@@ -22,89 +23,100 @@
       <div class="clock-group">
         <Clock></Clock>
       </div>
-      <div class="weather-group">
+      <!-- <div class="weather-group">
         <Weather></Weather>
-      </div>
+      </div> -->
     </section>
-    <section v-if="showMenu" class="take">
+    <section class="take">
       <el-dropdown class="dropdown" trigger="click" @command="handleSelectJournal">
         <span class="el-dropdown-link pointer">
-          Dropdown List
-          {{ currentJournal.name || '无订阅源' }}
+         '无订阅源'
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <template #dropdown>
+        <template #dropdown >
           <el-dropdown-menu>
+            <!-- <el-dropdown-item v-for="item in journals" :key="item._id" :command="item._id">
+              {{ item.name }}</el-dropdown-item> -->
             <el-dropdown-item>Action 1</el-dropdown-item>
             <el-dropdown-item>Action 2</el-dropdown-item>
             <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item disabled>Action 4</el-dropdown-item>
+            <el-dropdown-item divided>Action 5</el-dropdown-item>
           </el-dropdown-menu>
         </template>
-      </el-dropdown>
-      <el-dropdown class="dropdown" trigger="click" @command="handleSelectJournal">
-        <span class="el-dropdown-link pointer">
-          {{ currentJournal.name || '无订阅源' }}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <template v-if="journals.length">
-            <el-dropdown-item v-for="item in journals" :key="item._id" :command="item._id">
-              {{ item.name }}
-            </el-dropdown-item>
-          </template>
-          <template v-else>
-            <el-dropdown-item :disabled="true">
-              空空如也
-            </el-dropdown-item>
-          </template>
-        </el-dropdown-menu>
+        <!-- <template #dropdown >
+          <el-dropdown-item :disabled="true"> 空空如也</el-dropdown-item>
+        </template> -->
       </el-dropdown>
     </section>
-    <section v-if="showMenu" @click="sign" class="sign">
-      {{ signText || '初级花酱' }}
+    <section class="sign">
+      '初级花酱'
     </section>
 
   </div>
-
-  <h1> {{ props.mydata }}</h1>
 </template>
 
 
 <script setup>
-import { computed, defineProps, ref } from 'vue';
-// import { useMainStore } from '@/store'
-// import Clock from '@/components/clock/Clock.vue';
-// const store = useMainStore()
-// const showMenu = ref(false)
-// const selectedTake = ref('常用热门')
-// const take = ref([])
-// const journal = ref([])
-// const currentJournal = ref([])
+import { computed, ref } from 'vue';
+import { useMainStore } from '@/store'
+import Clock from '@/components/clock/Clock.vue';
+const store = useMainStore()
+const showMenu = ref(false)
+const selectedTake = ref('常用热门')
+const take = ref([])
+const journal = ref([])
+const currentJournal = ref([])
+
 const props = defineProps({
-  mydata: {
-    type: Number,
-  }
+  headBgConfig: {
+    type: Object,
+    default: () => {
+      return {
+        clear: false,
+        white: false,
+        grossGlass: true,
+      };
+    },
+  },
 
 })
-// const props = defineProps({
-//   headBgConfig: {
-//     type: Object,
-//     default: () => {
-//       return {
-//         clear: false,
-//         white: false,
-//         grossGlass: true,
-//       };
-//     },
-//   },
+const links = [
+  {
+    iconfontClass: 'iconfont icon-md-home',
+    text: '首页',
+    url: 'https://onenav.heiyu.fun/',
+    isArticle: false,
+  },
+  {
+    iconfontClass: 'iconfont icon-md-stats',
+    text: '更新日志',
+    url: 'https://onenav.heiyu.fun/',
 
-// })
-// const showGrossGlass = computed(() => {
-//   return showMenu.value && document.body.clientWidth <= 1024 ? true : false;
-// })
-// const signText = computed(() => {
-//   return store.$state.user.token ? store.$state.user.name : '注册登录';
-// })
+    isArticle: true,
+  },
+  {
+    iconfontClass: 'iconfont icon-md-at',
+    text: '关于我们',
+    url: 'https://onenav.heiyu.fun/',
+    isArticle: true,
+  },
+]
+// 跳转
+const jump = (item, index) => {
+  // let url = item.url;
+  // if (index === 0) {
+  //   this.TOOL.openPage(url);
+  // } else {
+  //   this.TOOL.jumpToRead(this, url);
+  // }
+}
+const showGrossGlass = computed(() => {
+  return showMenu.value && document.body.clientWidth <= 1024 ? true : false;
+})
+const signText = computed(() => {
+  return store.$state.user.token ? store.$state.user.name : '注册登录';
+})
 // const links = computed(() => {
 //   let site = store.$state.appConfig.site;
 //   return [
@@ -133,38 +145,6 @@ const props = defineProps({
 
 // import Weather from '@/components/common/weather/Weather.vue';
 
-//   computed: {
-//     ...mapState(['user']),
-//     showGrossGlass() {
-//       return this.showMenu && document.body.clientWidth <= 1024 ? true : false;
-//     },
-//     signText() {
-//       return this.user.token ? this.user.name : '注册登录';
-//     },
-//     links() {
-//       let site = this.$store.state.appConfig.site;
-//       return [
-//         {
-//           iconfontClass: 'iconfont icon-md-home',
-//           text: site.guidePageName,
-//           url: site.guidePageUrl,
-//           isArticle: false,
-//         },
-//         {
-//           iconfontClass: 'iconfont icon-md-stats',
-//           text: '更新日志',
-//           url: this.$store.state.appConfig.article.changelog,
-//           isArticle: true,
-//         },
-//         {
-//           iconfontClass: 'iconfont icon-md-at',
-//           text: '关于我们',
-//           url: this.$store.state.appConfig.article.about,
-//           isArticle: true,
-//         },
-//       ];
-//     },
-//   },
 
 //   mounted() {
 //     this.querySites();
@@ -271,20 +251,12 @@ const props = defineProps({
 //       });
 //     },
 
-//     // 跳转
-//     jump(item, index) {
-//       let url = item.url;
-//       if (index === 0) {
-//         this.TOOL.openPage(url);
-//       } else {
-//         this.TOOL.jumpToRead(this, url);
-//       }
-//     },
+
 //   },
 // };
 </script>
 
-<!-- <style lang="scss" scoped>
+<style lang="scss" scoped>
 .home-head {
   position: absolute;
   left: 0;
@@ -449,4 +421,4 @@ const props = defineProps({
     }
   }
 }
-</style> -->
+</style>

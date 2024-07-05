@@ -25,6 +25,8 @@
 <script setup>
 import { ref } from 'vue';
 const showConnect = ref(false)
+import { useMainStore } from "../../store";
+const store = useMainStore()
 //   computed: {
 //     ...mapState(['showWrapSidebarSocket', 'appConfig', 'user']),
 //   },
@@ -70,7 +72,7 @@ const showConnect = ref(false)
 
 <style lang="scss" scoped>
 .wrap-sidebar {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 50px;
   z-index: 1;

@@ -1,12 +1,25 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Index from "@/views/Index/index.vue";
-
+import Search from "@/components/search/Search.vue";
+import Background from "@/components/background/Background.vue"
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Index",
     component: Index,
     meta: { title: "河南农业大学微服务平台" },
+  },
+  {
+    path: "/search",
+    name: "Search",
+    component: Search,
+    meta: { title: "搜索" },
+  },
+  {
+    path: "/background",
+    name: "Background",
+    component: Background,
+    meta: { title: "背景" },
   },
 ];
 const router = createRouter({

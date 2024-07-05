@@ -12,7 +12,7 @@ export const useMainStore = defineStore("mainStore", {
         records: [],
         config: {
           // 色值｜图片链接| base64
-          bg: require('@/assets/img/wallpaper/3.jpeg'),
+          bg: '/src/assets/img/wallpaper/3.jpeg',
           // 顶栏文字颜色
           headerFontColor: '#ffffff',
           // 背景模糊度 0-10
@@ -43,26 +43,26 @@ export const useMainStore = defineStore("mainStore", {
       sites: [],
       // 选中订阅源的站点
       categorySites: [],
-    
+
       showWrapSidebar: true,
       showWrapSidebarSocket: false,
       showWrapConnect: false,
       showWrapSign: false,
       showWrapPerson: false,
       showForm: false,
-    
+
       // 主题配置
       themeConfig: {
         pure: [],
         wallpaper: [],
         defaultWallpaper: {},
       },
-    
+
       // 系统配置
       appConfig: {
         // 是否已加载配置
         loaded: false,
-    
+
         article: {
           id: '',
           course: '',
@@ -72,12 +72,12 @@ export const useMainStore = defineStore("mainStore", {
         },
         site: {
           name: '花森',
-          logoURL: require('@/assets/img/logo/favicon.svg'),
+          logoURL: import('@/assets/img/logo/favicon.svg'),
           redirectURL: 'http://huasenjio.top/',
           guidePageName: '花森小窝',
           guidePageUrl: 'http://huasenjio.top/',
           footerHtml: '',
-          serviceQRCodeUrl: require('@/assets/img/logo/weixin.png'),
+          serviceQRCodeUrl: import('@/assets/img/logo/weixin.png'),
           openLabelClassification: false,
         },
       },

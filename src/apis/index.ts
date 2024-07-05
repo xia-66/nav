@@ -14,5 +14,4 @@ const WfwGetUserInfo = (code: string, state: string) => {
 
 export {
   WfwGetUserInfo,
-
 };

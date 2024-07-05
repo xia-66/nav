@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-sidebar">
     <ul>
-      <li v-if="showWrapSidebarSocket" class="animate__animated animate__fadeIn shadow">
+      <li  class="animate__animated animate__fadeIn shadow">
         <i class="iconfont icon-md-rocket" @click="goTop"></i>
       </li>
       <li class="shadow">

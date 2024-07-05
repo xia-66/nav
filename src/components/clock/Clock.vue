@@ -34,8 +34,8 @@ const clock = () => {
 
 <style lang="scss" scoped>
 .hs-clock {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   .time {
     width: 140px;
     height: 100%;

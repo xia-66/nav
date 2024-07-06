@@ -3,87 +3,199 @@ import { defineStore } from "pinia";
 export const useMainStore = defineStore("mainStore", {
   state: () => {
     return {
-      user: {
-        id: 'localhost@qq.com',
-        name: '本地用户',
-        headImg: '',
-        token: '',
-        code: 1,
-        records: [],
-        config: {
-          // 色值｜图片链接| base64
-          bg: '/src/assets/img/wallpaper/3.jpeg',
-          // 顶栏文字颜色
-          headerFontColor: '#ffffff',
-          // 背景模糊度 0-10
-          bgFilter: 0,
-          // 背景明暗0-1（黑）
-          bgLightness: 0,
-          // 极简模式
-          simpleMode: false,
-          // 明亮模式
-          lightMode: true,
-          // 配色
-          theme: {},
-          // 搜索联想数量
-          searchAssociationCount: 6,
-          // 搜索框圆角
-          searchBorderRadius: 24,
-          // 预选搜索引擎索引
-          searchEngineIndex: 2,
-          // 显示左侧切换栏
-          showNavbar: true,
-          // 城市码
-          cityCode: 101210101,
-          // 城市名
-          cityName: '杭州'
+      isShowDrawer: false,
+      site: {
+        "category1": {
+          "name": "实用工具",
+          "content": [
+            {
+              "name": '黑羽导航',
+              "url": 'https://onenav.heiyu.fun/',
+              "discribe": '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
         },
-      },
-      // 全部站点
-      sites: [],
-      // 选中订阅源的站点
-      categorySites: [],
-
-      showWrapSidebar: true,
-      showWrapSidebarSocket: false,
-      showWrapConnect: false,
-      showWrapSign: false,
-      showWrapPerson: false,
-      showForm: false,
-
-      // 主题配置
-      themeConfig: {
-        pure: [],
-        wallpaper: [],
-        defaultWallpaper: {},
-      },
-
-      // 系统配置
-      appConfig: {
-        // 是否已加载配置
-        loaded: false,
-
-        article: {
-          id: '',
-          course: '',
-          about: '',
-          help: '',
-          notice: '',
+        "category2": {
+          "name": "站长工具",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
         },
-        site: {
-          name: '花森',
-          logoURL: import('@/assets/img/logo/favicon.svg'),
-          redirectURL: 'http://huasenjio.top/',
-          guidePageName: '花森小窝',
-          guidePageUrl: 'http://huasenjio.top/',
-          footerHtml: '',
-          serviceQRCodeUrl: import('@/assets/img/logo/weixin.png'),
-          openLabelClassification: false,
+        "category3": {
+          "name": "站长工具1",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
         },
+        "category4": {
+          "name": "站长工具1",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
+        }
+        , "category5": {
+          "name": "站长工具2",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
+        }, 
+        "category6": {
+          "name": "站长工具2",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
+        }, 
+        "category7": {
+          "name": "站长工具3",
+          "content": [
+            {
+              name: '黑羽导航',
+              url: 'https://onenav.heiyu.fun/',
+              discribe: '一个自用的导航网'
+            },
+            {
+              name: '黑羽博客',
+              url: 'https://blog.heiyu.fun/',
+              discribe: '个人博客'
+            },
+          ]
+        }
       },
+      menu : [
+
+        {
+          index: 1,
+          name: '首页',
+          iconClass: 'iconfont icon-md-home'
+        },
+        {
+          index: 2,
+          name: '更新日志',
+          iconClass: 'iconfont icon-iconset0278'
+        },
+        {
+          index: 3,
+          name: '关于我们',
+          iconClass: 'iconfont icon-iconset0156'
+        },
+      
+      ],
+      searchs : [
+        {
+          url: 'https://www.baidu.com/s',
+          key: 'word',
+          params: {},
+          name: '百度',
+          iconClass: 'iconfont icon-baidu',
+        },
+        {
+          url: 'https://www.google.com/search',
+          key: 'q',
+          params: {},
+          name: '谷歌',
+          iconClass: 'iconfont icon-chrome',
+        },
+        {
+          url: 'https://cn.bing.com/search',
+          key: 'q',
+          params: {},
+          name: '必应',
+          iconClass: 'iconfont icon-yingyong',
+        },
+        {
+          url: 'https://dict.youdao.com/search',
+          key: 'q',
+          params: {},
+          name: '翻译',
+          iconClass: 'iconfont icon-translate',
+        },
+        {
+          url: 'https://xueshu.baidu.com/s',
+          key: 'wd',
+          params: {},
+          name: '学术',
+          iconClass: 'iconfont icon-md-school',
+        },
+        {
+          url: 'https://image.baidu.com/search/index',
+          key: 'word',
+          params: {
+            tn: 'baiduimage',
+          },
+          name: '搜图',
+          iconClass: 'iconfont icon-md-image',
+        },
+        {
+          url: 'localhost',
+          key: 'instation',
+          params: {},
+          name: '站内',
+          iconClass: 'iconfont icon-md-planet',
+        },
+        // {
+        //   url: "https://quark.sm.cn/s",
+        //   key: "q",
+        //   params: {},
+        //   name: "夸克",
+        //   iconClass: "iconfont icon-md-planet",
+        // },
+      ]
+
+
     };
   },
-  getters: {},
-  actions: {},
-  persist: true,
+getters: { },
+actions: { },
+
+persist: true,
 });

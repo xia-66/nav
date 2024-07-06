@@ -13,7 +13,7 @@ import Footer from "../../components/footer/Footer.vue"
 
     <Head></Head>
     <Search></Search>
-    <!-- <Anchor></Anchor> -->
+    <Anchor></Anchor>
     <Site></Site>
     <Sidebar></Sidebar>
     <Footer></Footer>

@@ -1,46 +1,25 @@
 <template>
-  <div id="js-home-site" class="home-site" >
-    <section>
-      <div class="site-item" >
-        <header>
+  <div id="js-home-site" class="home-site">
+    <section v-for="category in store.$state.site" :key="category.index"  :id="`site-anchor-${category.name}`">
+      <div class="site-item">
+        <header :id="category.name">
           <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
-          <a class="category-title" name="category.typeName">{{ '自定义网站' }}</a>
-          <div class="w-full pb-px-4 my-px-4 overflow-x-auto overflow-y-hidden">
-            <div class="inherit-bg tag-container flex items-center p-px-4 bg-gray-100 rounded-full">
-              <!-- 默认占位标签 -->
-              <!-- <div class="inherit-bg flex-shrink-0 text-12px text text-center w-px-80 px-px-2 py-px-4 ml-px-6 first:ml-px-0 hover:bg-blue-400 hover:text-white transition rounded-full pointer" title="全部">
-                全部
-              </div> -->
-              <!-- 其他标签 -->
-              <!-- <div
-                class="inherit-bg flex-shrink-0 text-12px text text-center w-px-80 px-px-2 py-px-4 ml-px-6 first:ml-px-0 hover:bg-blue-400 hover:text-white transition rounded-full pointer"
-              >
-                {{ '热'}}
-              </div> -->
-            </div>
-          </div>
+          <a class="category-title" :name="category.name">{{ category.name }}</a>
         </header>
         <main>
           <ul v-balance>
-            <a class="relative site inherit-text" target="_blank">
-              <div class="pin-group absolute -top-px-6 right-px-0 w-full h-px-16 flex justify-end">
-                <div  class="w-px-16 h-px-16 mr-px-2 text-12px text-gray-0 flex justify-center items-center rounded-full">
-                  <template >
-                    {{ 2424 }}
-                  </template>
-                </div>
-              </div>
-
+            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                 <div class="img-group">
-                  <img v-lazy src="/src/assets/img/wallpaper/1.jpeg" />
+                  <img v-lazy :src="`https://getfavicon.heiyu.fun/get.php?url=${item.url}`" />
                 </div>
                 <div class="text-group">
-                  <div class="name text">{{ 'changjkjg' }}</div>
-                  <div class="describe inherit-text text">{{ 'ajfkskjlafkj' }}</div>
+                  <div class="name text">{{item.name }}</div>
+                  <div class="describe inherit-text text">{{ item.discribe }}</div>
                 </div>
               </div>
             </a>
+
           </ul>
         </main>
       </div>
@@ -48,12 +27,18 @@
   </div>
 </template>
 
+<script setup>
+import { useMainStore } from '../../store';
+
+const store = useMainStore()
+</script>
+
 <style lang="scss" scoped>
 .home-site {
   flex: 1;
   position: relative;
   height: 100vh;
-  margin-top: 40vh;
+  // margin-top: 40vh;
   background-color: #f9fafb;
   z-index: 1;
   section {
@@ -92,13 +77,22 @@
         ul {
           display: flex;
           flex-wrap: wrap;
+          justify-content: space-between;
+          &::after {
+            content: "";
+            flex: auto;
+          }
           .site {
             margin-top: 10px;
             .pin-group {
               transition: transform 0.3s ease;
             }
             .site-card {
+              @media screen and (max-width: 768px) {
+                width: 160px;
+              }
               position: relative;
+              width: 200px;
               height: 50px;
               padding: 5px;
               display: flex;

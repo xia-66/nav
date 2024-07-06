@@ -21,6 +21,9 @@
 
 <style lang="scss" scoped>
 .footer {
+  position: relative;
+  z-index: 999;
+  margin-top: 100px;
   padding: 20px 0;
 }
 .footer .footer-alink,

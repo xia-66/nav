@@ -1,29 +1,63 @@
 <template>
-  <div class="anchor">
-    <!-- <el-anchor :offset="70" direction="horizontal">
-      <el-anchor-link :href="`#${locale['basic-usage']}`">
-        {{ locale['Basic Usage'] }}
-      </el-anchor-link>
-      <el-anchor-link :href="`#${locale['horizontal-mode']}`">
-        {{ locale['Horizontal Mode'] }}
-      </el-anchor-link>
-      <el-anchor-link :href="`#${locale['scroll-container']}`">
-        {{ locale['Scroll Container'] }}
-      </el-anchor-link>
-    </el-anchor> -->
+  <div id="js-home-nav" class="home-nav" v-discolor>
+    <header></header>
+    <main id="js-home-nav__main" v-discolor>
+      <ul id="js-home-nav__main-ul" v-balance v-discolor>
+        <li class="record-item pointer text" v-for="category in store.$state.site" :key="category.index"
+          @click="changeAnchorPosition(category.name)">
+          {{ category.name }}
+        </li>
+      </ul>
+    </main>
   </div>
 </template>
 <script setup>
-import { computed } from 'vue'
-// import anchorLocale from '../../.vitepress/i18n/component/anchor.json'
-// import { useLang } from '~/composables/lang'
+import { useMainStore } from '../../store';
 
-// const lang = useLang()
-// const locale = computed(() => anchorLocale[lang.value])
+const store = useMainStore()
+const changeAnchorPosition = (name) => {
+  let target = document.getElementById(`site-anchor-${name}`);
+  console.log(name);
+  // 没有找到节点，退出执行
+  if (!target) return;
+  target.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
+}
 </script>
+
 <style lang="scss" scoped>
-.anchor {
-  background-color: red;
-  margin-top: 500px;
+.home-nav {
+  width: 100%;
+  // height: 100vh;
+  margin-top: 200px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  background-color: #f9fafb;
+  main {
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    padding: 10px 0;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    ul {
+      width: calc(100% - 20px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      background-color: #f9fafb;
+      .record-item {
+        position: relative;
+        width: 110px;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+    }
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASEURL } from "@/config/index";
+import { BASEURL } from "@/config/index.ts";
 export default (config: any) => {
   const service: any = axios.create({
     baseURL: `${BASEURL}`,

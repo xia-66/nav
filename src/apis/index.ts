@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from "@/utils/request.ts";
 
 // 微服务对接统一授权
 const WfwGetUserInfo = (code: string, state: string) => {

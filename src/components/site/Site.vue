@@ -1,6 +1,6 @@
 <template>
   <div id="js-home-site" class="home-site">
-    <section v-for="category in store.$state.site" :key="category.index"  :id="`site-anchor-${category.name}`">
+    <section v-for="category in store.$state.site" :key="category.index" :id="`site-anchor-${category.name}`">
       <div class="site-item">
         <header :id="category.name">
           <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
@@ -8,7 +8,8 @@
         </header>
         <main>
           <ul v-balance>
-            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
+            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index"
+              @click="openUrl(item.url)">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                 <div class="img-group">
                   <img v-lazy :src="`https://getfavicon.heiyu.fun/get.php?url=${item.url}`" />
@@ -28,8 +29,8 @@
 </template>
 
 <script setup>
-import { useMainStore } from '../../store';
-import {openUrl} from '../../utils'
+import { useMainStore } from '@/store';
+import { openUrl } from '@/utils'
 const store = useMainStore()
 </script>
 

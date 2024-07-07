@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-import { computed,ref } from 'vue';
-import { useMainStore } from '../../store';
+import { computed, ref } from 'vue';
+import { useMainStore } from '@/store';
 
 const store = useMainStore()
 const changeAnchorPosition = (name) => {

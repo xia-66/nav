@@ -23,7 +23,7 @@
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import Clock from '../clock/Clock.vue';
 import LeftDrawer from '../leftdrawer/LeftDrawer.vue'
-import { useMainStore } from '../../store';
+import { useMainStore } from '@/store';
 const change = ref(false)
 const store = useMainStore()
 const scrollHeight = ref(0);

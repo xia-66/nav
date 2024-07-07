@@ -15,9 +15,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)
 createApp(App).use(router).use(ElementPlus).use(pinia).mount('#app')
-router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title;
-  }
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.title) {
+//     document.title = to.meta.title;
+//   }
+//   next();
+// });

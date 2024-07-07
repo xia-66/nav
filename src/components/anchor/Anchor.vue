@@ -12,7 +12,7 @@
   </div>
 </template>
 <script setup>
-import { useMainStore } from '../../store';
+import { useMainStore } from '@/store';
 
 const store = useMainStore()
 const changeAnchorPosition = (name) => {

@@ -1,10 +1,10 @@
 <template>
-  <div class="head">
+  <div class="head" :class="{headsp:change}">
+    <div @click="showDrawer">
+      <i class="iconfont icon-md-menu" style="margin-right: 5px;"></i>
+      <span style="margin-right: 60px;"></span>
+    </div>
     <ul class="menu">
-      <li @click="showDrawer">
-        <i class="iconfont icon-md-menu" style="margin-right: 5px;"></i>
-        <span style="margin-right: 80px;"></span>
-      </li>
       <li v-for="item in store.$state.menu" :key="item.index">
         <i :class="item.iconClass" style="margin-right: 5px;"></i>
         <span style="margin-right: 60px;">{{ item.name }}</span>
@@ -20,36 +20,73 @@
   <LeftDrawer></LeftDrawer>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import Clock from '../clock/Clock.vue';
 import LeftDrawer from '../leftdrawer/LeftDrawer.vue'
 import { useMainStore } from '../../store';
+const change = ref(false)
 const store = useMainStore()
+const scrollHeight = ref(0);
+
 const showDrawer = () => {
   store.$state.isShowDrawer = true
 }
 
+const handleScroll = () => {
+  // 直接使用 window.scrollY 获取当前滚动高度
+  scrollHeight.value = window.scrollY;
+  // console.log(scrollHeight.value);
+  if (scrollHeight.value > 30) {
+    change.value = true;
+  } else {
+    change.value = false;
+  }// 打印当前滚动高度
+};
+
+onMounted(() => {
+  // 监听整个窗口的滚动事件
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
 </script>
 <style lang="scss" scoped>
 .head {
-  //  position: absolute;
-  //  top: 0;
-  //  left: 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
   display: flex;
   height: 75px;
   line-height: 75px;
   padding: 0 40px;
   background-color: transparent;
+  z-index: 999;
   color: #fff;
-  // z-index:999;
   .menu {
     display: flex;
   }
+
   .my {
     display: flex;
+  }
+  @media screen and (max-width: 414px) {
+    .menu {
+      display: none;
+    }
+    .my {
+      display: none;
+    }
   }
   .flex-grow {
     flex-grow: 1;
   }
+}
+.headsp {
+  background-color: #fff;
+  color: #000;
 }
 </style>

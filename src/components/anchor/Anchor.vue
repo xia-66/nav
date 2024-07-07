@@ -17,7 +17,7 @@ import { useMainStore } from '../../store';
 const store = useMainStore()
 const changeAnchorPosition = (name) => {
   let target = document.getElementById(`site-anchor-${name}`);
-  console.log(name);
+  // console.log(name);
   // 没有找到节点，退出执行
   if (!target) return;
   target.scrollIntoView({
@@ -31,7 +31,7 @@ const changeAnchorPosition = (name) => {
 .home-nav {
   width: 100%;
   // height: 100vh;
-  margin-top: 200px;
+  margin-top: 300px;
   padding-bottom: 10px;
   box-sizing: border-box;
   background-color: #f9fafb;

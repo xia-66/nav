@@ -1,18 +1,19 @@
 <template>
-  <div class="home-search">
+  <div class="home-search xl:w-px-600 lg:w-px-400 sm:w-px-360 h-px-40">
     <ul class="menu" style="color: #fff;">
-      <li v-for="item in store.$state.searchs" :key="item.key">{{ item.name }}</li>
+      <li v-for=" (item,index) in store.$state.searchs" :key="item.key" @click="selectEngine(index)"
+        class="xl:text-base" :class="{ active: activeSearchIndex === index }">{{ item.name }}</li>
     </ul>
     <form>
       <div class="left">
-        <i class="iconfont icon-baidu"></i>
+        <i :class="currentSearch.iconClass"></i>
       </div>
-      <el-input  placeholder="Please Input" clearable style="width: 500px;height: 50px;" v-model="searchQuery" @input="() => {}"/>
+      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}" class="size"
+        :class="{sizesp : changeSize}" />
       <div class="right">
         <i class="iconfont icon-md-search" @click="doSearch"></i>
       </div>
     </form>
-
   </div>
 
 </template>
@@ -23,28 +24,64 @@ import { computed, ref, watch } from 'vue';
 const store = useMainStore()
 
 const searchQuery = ref('');
-
+const activeSearchIndex = ref(0)
+const currentSearch = ref({})
 const debouncedSearch = (query) => {
   console.log('搜索:', query);
   // 这里放置你的搜索逻辑
 };
-
+// 选择搜索引擎
+const selectEngine = (index) => {
+  // 搜索输入框获得光标
+  // searchQuery.focus();
+  // console.log(index);
+  // 选择引擎索引
+  activeSearchIndex.value = index;
+}
+watch(    // 选中的建议索引
+  activeSearchIndex, (newV, oldV) => {
+    currentSearch.value = store.$state.searchs[newV];
+  },
+  {
+    deep: true,
+    immediate: true,
+  }
+)
 watch(searchQuery, (newVal, oldVal) => {
   clearTimeout(debounceTimer);
   const debounceTimer = setTimeout(() => {
     debouncedSearch(newVal);
   }, 300);
 });
+const changeSize = computed(() => {
+  if (document.body.clientWidth <= 414) {
+    return true
+  } else {
+    return false
+  }
+})
 </script>
 
 
 <style lang="scss" scoped>
+.size {
+  width: 500px;
+  height: 40px;
+}
+.sizesp {
+  width: 200px;
+}
+.el-input {
+  --el-input-focus-border-color: none;
+}
+::v-deep(.el-input__wrapper) {
+  box-shadow: none;
+}
 .home-search {
   position: absolute;
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--gray-o7);
   form {
     position: relative;
     width: 100%;
@@ -54,7 +91,7 @@ watch(searchQuery, (newVal, oldVal) => {
     align-items: center;
     background-color: #fff;
     border-radius: 25px;
-    opacity: 0.8;
+    opacity: 0.7;
     .left {
       position: relative;
       width: 50px;
@@ -192,7 +229,7 @@ watch(searchQuery, (newVal, oldVal) => {
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background-color: var(--green-500);
+        background-color: #34d399;
       }
     }
   }

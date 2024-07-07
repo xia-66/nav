@@ -8,7 +8,7 @@
         </header>
         <main>
           <ul v-balance>
-            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index">
+            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                 <div class="img-group">
                   <img v-lazy :src="`https://getfavicon.heiyu.fun/get.php?url=${item.url}`" />
@@ -29,7 +29,7 @@
 
 <script setup>
 import { useMainStore } from '../../store';
-
+import {openUrl} from '../../utils'
 const store = useMainStore()
 </script>
 

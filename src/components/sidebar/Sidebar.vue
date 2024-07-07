@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-sidebar">
     <ul>
-      <li  class="animate__animated animate__fadeIn shadow">
+      <li v-if="isVisible" @click="scrollToTop" class="animate__animated animate__fadeIn shadow">
         <i class="iconfont icon-md-rocket" @click="goTop"></i>
       </li>
       <li class="shadow">
@@ -23,51 +23,38 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
 const showConnect = ref(false)
-import { useMainStore } from "../../store";
-const store = useMainStore()
-//   computed: {
-//     ...mapState(['showWrapSidebarSocket', 'appConfig', 'user']),
-//   },
-// methods: {
-//     ...mapMutations(['commitAll']),
+import { ref, onMounted, onUnmounted } from 'vue';
 
-//     handleNavbar() {
-//     this.commitAll({
-//       user: {
-//         config: {
-//           showNavbar: !this.user.config.showNavbar,
-//         },
-//       },
-//     });
-//     this.$store.dispatch('snapshoot');
-//   },
+// 定义是否显示按钮的变量
+const isVisible = ref(false);
 
-  // 回到顶部
-//  const  goTop = () =>  {
-//     // Bus.pubEv(HOME_SCROLL_TO, 0, true);
-//   },
+// 滚动监听事件
+const handleScroll = () => {
+  if (window.scrollY  > 300) {
+    isVisible.value = true;
+  } else {
+    isVisible.value = false;
+  }
+};
 
-  // 查看使用说明
-  // readHelp() {
-  //   let help = this.appConfig.article.help;
-  //   this.TOOL.jumpToRead(this, help);
-  // },
+// 回到顶部的函数
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
 
-  // 特别提醒：修改仓库地址将视为侵权
-  // Special reminder: Modifying the warehouse address will be regarded as infringement
-  // goStorage() {
-  //   window.open('https://github.com/huasenjio/huasenjio-compose', '_blank');
-  // },
+onMounted(() => {
+  // 页面加载完成后，添加滚动监听
+  window.addEventListener('scroll', handleScroll);
+});
 
-  // showConnectPannel() {
-  //   this.showConnect = true;
-  // },
-
-  // closeConnectPannel() {
-  //   this.showConnect = false;
-  // },
+onUnmounted(() => {
+  // 组件卸载时，移除滚动监听
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <style lang="scss" scoped>

@@ -21,15 +21,16 @@
 <script setup>
 import { useMainStore } from '@/store';
 import { computed, ref, watch } from 'vue';
+import { openUrl } from '@/utils';
 const store = useMainStore()
 
 const searchQuery = ref('');
 const activeSearchIndex = ref(0)
 const currentSearch = ref({})
-const debouncedSearch = (query) => {
-  console.log('搜索:', query);
-  // 这里放置你的搜索逻辑
-};
+// const debouncedSearch = (query) => {
+//   console.log('搜索:', query);
+//   // 这里放置你的搜索逻辑
+// };
 // 选择搜索引擎
 const selectEngine = (index) => {
   // 搜索输入框获得光标
@@ -47,12 +48,12 @@ watch(    // 选中的建议索引
     immediate: true,
   }
 )
-watch(searchQuery, (newVal, oldVal) => {
-  clearTimeout(debounceTimer);
-  const debounceTimer = setTimeout(() => {
-    debouncedSearch(newVal);
-  }, 300);
-});
+// watch(searchQuery, (newVal, oldVal) => {
+//   clearTimeout(debounceTimer);
+//   const debounceTimer = setTimeout(() => {
+//     debouncedSearch(newVal);
+//   }, 300);
+// });
 const changeSize = computed(() => {
   if (document.body.clientWidth <= 414) {
     return true
@@ -60,6 +61,13 @@ const changeSize = computed(() => {
     return false
   }
 })
+const doSearch =() => {
+  if (searchQuery.value) {
+        const searchUrl = `${currentSearch.value.url}?${currentSearch.value.key}=${searchQuery.value}`;
+        // window.location.href = searchUrl; 
+openUrl(searchUrl)
+      }
+}
 </script>
 
 

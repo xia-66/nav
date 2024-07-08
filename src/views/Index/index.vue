@@ -14,13 +14,11 @@ import Footer from "@/components/footer/Footer.vue";
     <Background></Background>
     <!-- 主要内容 -->
     <section class="content">
-
       <Head></Head>
       <main ref="homeContent" class="home-content">
         <Search></Search>
         <Anchor></Anchor>
         <Site></Site>
-
         <Sidebar></Sidebar>
         <Footer></Footer>
         <!-- 空内容展示 -->

@@ -31,7 +31,46 @@
 <script setup>
 import { useMainStore } from '@/store';
 import { openUrl } from '@/utils'
+import unloadImg from "@/assets/img/error/image-error.png"
+import loadImg from '@/assets/img/loading/3.gif';
 const store = useMainStore()
+
+const vLazy = {
+    // 在绑定元素插入到 DOM 中时调用
+    mounted(el, binding) {
+    handleLazy(el, binding);
+  },
+  // 当绑定元素的 VNode 更新时调用
+  updated(el, binding) {
+    handleLazy(el, binding);
+  }
+}
+function handleLazy(el, binding) {
+  let url = el.src;
+  // 清空加载资源
+  el.src = loadImg; // Vue 3 中使用空字符串代替 loadImg 占位符
+  let { unload = unloadImg } = binding.value || {}; // 假设 unloadImg 是一个 URL 字符串
+  // 元素进入离开可视区域触发回调
+  let observe = new IntersectionObserver(([{ isIntersecting }]) => {
+    if (isIntersecting) {
+      el.src = url;
+      el.onload = function() {
+        observe.unobserve(el);
+      };
+      el.onerror = function() {
+        // 加载失败时
+        el.src = unload;
+        observe.unobserve(el);
+      };
+    }
+  }, {
+    root: null, // 可选，指定 IntersectionObserver 的根
+    rootMargin: '0px', // 可选，指定 IntersectionObserver 的根边缘
+    threshold: 0.1 // 可选，指定 IntersectionObserver 的触发阈值
+  });
+  observe.observe(el);
+}
+
 </script>
 
 <style lang="scss" scoped>

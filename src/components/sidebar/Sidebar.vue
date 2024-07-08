@@ -1,17 +1,14 @@
 <template>
-  <div class="wrap-sidebar">
+  <div class="wrap-sidebar" v-if="isShowSidebar">
     <ul>
       <li v-if="isVisible" @click="scrollToTop" class="animate__animated animate__fadeIn shadow">
         <i class="iconfont icon-md-rocket" @click="goTop"></i>
       </li>
       <li class="shadow">
-        <i class="iconfont icon-a-unfoldcross-line" @click="handleNavbar"> </i>
+        <i class="iconfont icon-md-menu" @click="showDrawer"> </i>
       </li>
       <li class="shadow">
         <i class="iconfont icon-github" @click="goStorage"> </i>
-      </li>
-      <li class="shadow">
-        <i class="iconfont icon-weixin" @mouseenter="showConnectPannel" @mouseleave="closeConnectPannel"> </i>
       </li>
       <li class="shadow" @click="readHelp">
         <i class="iconfont icon-md-help-circle"></i>
@@ -24,11 +21,17 @@
 </template>
 <script setup>
 const showConnect = ref(false)
-import { ref, onMounted, onUnmounted } from 'vue';
-
+import { useMainStore } from '@/store';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+const store = useMainStore()
 // 定义是否显示按钮的变量
 const isVisible = ref(false);
-
+const isShowSidebar =ref(true)
+const originalHeight = ref(0)
+const showHeight = ref(0)
+const showDrawer = () => {
+  store.$state.isShowDrawer = true
+}
 // 滚动监听事件
 const handleScroll = () => {
   if (window.scrollY  > 300) {
@@ -37,7 +40,21 @@ const handleScroll = () => {
     isVisible.value = false;
   }
 };
-
+onMounted(() => {
+  originalHeight.value =  document.documentElement.clientHeight
+  window.onresize = () => {
+console.log(originalHeight.value);
+showHeight.value = document.body.clientHeight
+ }
+})
+watch (showHeight.value , () => {
+  
+if(originalHeight.value > showHeight.value) {
+  isShowSidebar.value = false
+} else {
+  isShowSidebar.value = true
+}
+})
 // 回到顶部的函数
 const scrollToTop = () => {
   window.scrollTo({

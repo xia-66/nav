@@ -31,9 +31,14 @@
     height: 100%;
     background-position: center center;
     background-size: cover;
-    background-image: url(/src/assets/img/wallpaper/3.jpeg);
+    background-image: url(/src/assets/img/wallpaper/j2k25v.webp);
     // background-repeat: no-repeat;
 
+  }
+  @media screen and (max-width: 414px) {
+    .bg {
+      background-image: url(/src/assets/img//wallpaper/khadmv.webp);
+    }
   }
   .bg-shadow {
     position: absolute;

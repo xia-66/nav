@@ -2,19 +2,18 @@
   <div class="head" :class="{headsp:change}">
     <div @click="showDrawer">
       <i class="iconfont icon-md-menu" style="margin-right: 5px;"></i>
-      <span style="margin-right: 60px;"></span>
+      <span style="margin-right: 40px;"></span>
     </div>
     <ul class="menu">
       <li v-for="item in store.$state.menu" :key="item.index">
-        <i :class="item.iconClass" style="margin-right: 5px;"></i>
-        <span style="margin-right: 60px;">{{ item.name }}</span>
+        <div style="margin-right: 30px;overflow: hidden;height: 75px;"><i :class="item.iconClass" style="margin-right: 5px;"></i>{{ item.name }}</div>
       </li>
     </ul>
     <Clock></Clock>
     <div class="flex-grow" />
     <ul class="my">
-      <li>默认订阅</li>
-      <li style="margin-left: 80px">注册登录</li>
+      <li style="overflow: hidden;">默认订阅</li>
+      <li style="margin-left: 60px;overflow: hidden;">注册登录</li>
     </ul>
   </div>
   <LeftDrawer></LeftDrawer>

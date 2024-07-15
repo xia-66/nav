@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap-sidebar" v-if="isShowSidebar">
+  <div class="wrap-sidebar">
     <ul>
       <li v-if="isVisible" @click="scrollToTop" class="animate__animated animate__fadeIn shadow">
         <i class="iconfont icon-md-rocket" @click="goTop"></i>
@@ -14,21 +14,14 @@
         <i class="iconfont icon-md-help-circle"></i>
       </li>
     </ul>
-    <section v-if="showConnect" class="connect-panel animate__animated animate__fadeIn">
-      <img :src="appConfig.site.serviceQRCodeUrl" />
-    </section>
   </div>
 </template>
 <script setup>
-const showConnect = ref(false)
 import { useMainStore } from '@/store';
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 const store = useMainStore()
 // 定义是否显示按钮的变量
 const isVisible = ref(false);
-const isShowSidebar =ref(true)
-const originalHeight = ref(0)
-const showHeight = ref(0)
 const showDrawer = () => {
   store.$state.isShowDrawer = true
 }
@@ -40,21 +33,6 @@ const handleScroll = () => {
     isVisible.value = false;
   }
 };
-onMounted(() => {
-  originalHeight.value =  document.documentElement.clientHeight
-  window.onresize = () => {
-console.log(originalHeight.value);
-showHeight.value = document.body.clientHeight
- }
-})
-watch (showHeight.value , () => {
-  
-if(originalHeight.value > showHeight.value) {
-  isShowSidebar.value = false
-} else {
-  isShowSidebar.value = true
-}
-})
 // 回到顶部的函数
 const scrollToTop = () => {
   window.scrollTo({
@@ -94,29 +72,6 @@ onUnmounted(() => {
         font-size: 24px;
         font-weight: bold;
       }
-    }
-  }
-  .connect-panel {
-    position: absolute;
-    left: -110px;
-    bottom: 18px;
-    width: 120px;
-    height: 120px;
-    padding: 4px;
-    background-color: var(--gray-400);
-    box-sizing: border-box;
-    &::after {
-      content: "";
-      position: absolute;
-      top: calc(50% - 8px);
-      right: -16px;
-      border-width: 8px;
-      border-color: transparent;
-      border-left-color: var(--gray-400);
-      border-style: solid;
-    }
-    img {
-      width: 100%;
     }
   }
 }

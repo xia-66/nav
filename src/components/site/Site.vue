@@ -7,7 +7,7 @@
           <a class="category-title" :name="category.name">{{ category.name }}</a>
         </header>
         <main>
-          <ul v-balance>
+          <ul >
             <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index"
               @click="openUrl(item.url)">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
@@ -117,7 +117,7 @@ function handleLazy(el, binding) {
         ul {
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-between;
+          // justify-content: space-between;
           &::after {
             content: "";
             flex: auto;

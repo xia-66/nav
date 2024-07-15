@@ -1,14 +1,5 @@
 <template>
   <div class=" footer px-5">
-    <!-- <div class="footer-alink">
-      <a href="hadsky-download.html" class="" target="" onclick="">免费下载</a>
-      <a href="app-puyuetian_documents-index.html">用户文档</a>
-      <a href="app-zhanzhang-index3.html?s=search">授权查询</a>
-      <a href="app-zhanzhang-index.html?s=shoudongbangdingwangzhan">网站绑定</a>
-      <a href="hadsky-git.html" class="" target="" onclick="">更新补丁</a>
-      <a href="case.html" class="" target="" onclick="">客户案例</a>
-    </div> -->
-
     <div class="footer-copy"><span>&copy; 2024 All rights reserved. </span><a target="_blank"
         href="https://beian.miit.gov.cn/">豫ICP备2023030596号</a> </div>
     <div class="footer-powered">

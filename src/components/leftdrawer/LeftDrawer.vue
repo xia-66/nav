@@ -1,6 +1,6 @@
 <template>
   <el-drawer v-model="store.$state.isShowDrawer" :with-header="false" direction="ltr" modal close-on-click-modal
-    :size="changeSize">
+     class="xl:w-px-600 lg:w-px-400 sm:w-px-360 h-px-40">
     <h2 style="text-align: center;font-size: 20px;margin-top: 20px;">黑羽导航</h2>
     <div style="height: 40px;"></div>
     <div v-for="category in store.$state.site" :key="category.index" @click="changeAnchorPosition(category.name)"
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import {  ref } from 'vue';
 import { useMainStore } from '@/store';
 
 const store = useMainStore()
@@ -23,13 +23,6 @@ const changeAnchorPosition = (name) => {
     block: 'start',
   });
 }
-const changeSize = computed(() => {
-  if (document.body.clientWidth <= 414) {
-    return "60%"
-  } else {
-    return "20%"
-  }
-})
 </script>
 <style lang="scss" scoped>
 .text {

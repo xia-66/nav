@@ -1,8 +1,8 @@
 <template>
-  <div id="js-home-nav" class="home-nav" v-discolor>
+  <div id="js-home-nav" class="home-nav" >
     <header></header>
-    <main id="js-home-nav__main" v-discolor>
-      <ul id="js-home-nav__main-ul" v-balance v-discolor>
+    <main id="js-home-nav__main" >
+      <ul id="js-home-nav__main-ul"  >
         <li class="record-item pointer text" v-for="category in store.$state.site" :key="category.index"
           @click="changeAnchorPosition(category.name)">
           {{ category.name }}
@@ -30,7 +30,6 @@ const changeAnchorPosition = (name) => {
 <style lang="scss" scoped>
 .home-nav {
   width: 100%;
-  // height: 100vh;
   margin-top: 300px;
   padding-bottom: 10px;
   box-sizing: border-box;

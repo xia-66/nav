@@ -1,0 +1,457 @@
+{
+  "category1": {
+    "name": "常用推荐",
+    "content": [
+      {
+        "name": "Kimi",
+        "url": "https://kimi.moonshot.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Gmail",
+        "url": "https://www.google.com.hk/int I/zh-HK_hk/gmail/about/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "AI排行榜",
+        "url": "https://aigcrank.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "游戏下载",
+        "url": "https://www.gamer520.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "APP喵",
+        "url": "https://www.appmiu.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "微服务",
+        "url": "https://microservices.heiyu.fun/henauwfw/#/index",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Gitee",
+        "url": "https://gitee.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "ChatGPT",
+        "url": "https://chat.openai.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "QQ邮箱",
+        "url": "https://mail.qq.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "农大Gitlab",
+        "url": "https://git.henau.edu.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "阿里云控制台",
+        "url": "https://account.aliyun.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "哔哩哔哩",
+        "url": "https://www.bilibili.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "洛克王国",
+        "url": "https://17roco.qq.com/",
+        "discribe": "一个自用的导航网"
+      },
+    ]
+  },
+  "category2": {
+    "name": "实用工具",
+    "content": [
+      {
+        "name": "致美化",
+        "url": "https://zhutix.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "FreeReNamer",
+        "url": "https://renamer.cyhuajuan.site/profile/vabsBDra",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "萤火虫",
+        "url": "https://firefly.libertynlp.com/#/ docConvert",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "性格测试",
+        "url": "https://www.16personalities.com/ch",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "一键激活",
+        "url": "https://kms.cx/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "PPT超级市场",
+        "url": "https://www.pptsupermarket.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "百度网盘解析",
+        "url": "https://jx.os3.top/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Bilidown",
+        "url": "https://zhouql.vip/bilibili/pc/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "uTools",
+        "url": "https://u.tools/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Real-ESRGAN-GUI",
+        "url": "https://github.com/tsukumijima/Real-ESRGAN-GUI",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "qBittorrent",
+        "url": "https://www.qbittorrent.org/download",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "GitHub Desktop",
+        "url": "https://desktop.github.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "文件转换器",
+        "url": "https://convertio.co/zh/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "草料二维码",
+        "url": "https://cli.im/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Adobe全家桶",
+        "url": "https://www.superso.top/Adobe/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "LocalSend",
+        "url": "https://localsend.org/#/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Greasy Fork",
+        "url": "https://greasyfork.org/zh-CN",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "爬虫工具",
+        "url": "https://spiderbox.cn/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category3": {
+    "name": "日漫专区",
+    "content": [
+      {
+        "name": "Anime Garden",
+        "url": "https://garden.onekuma.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Mikan",
+        "url": "https://mikanani.hacgn.fun/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "5dm.one",
+        "url": "https://www.5dm.link/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "风车动漫",
+        "url": "https://www.dm302.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Omofun",
+        "url": "https://omofun.link/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category4": {
+    "name": "在线翻译",
+    "content": [
+      {
+        "name": "沪江小D",
+        "url": "https://dict.hjenglish.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "有道翻译",
+        "url": "https://fanyi.youdao.com/inde x.html#/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category5": {
+    "name": "站长工具",
+    "content": [
+      {
+        "name": "HTMLrev",
+        "url": "https://htmlrev.com",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "获取Favicon图标",
+        "url": "https://favicon.vwood.xyz/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "生成短链接",
+        "url": "https://zws.im/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Web API",
+        "url": "https://api.vvhan.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "教书先生API",
+        "url": "https://api.oioweb.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "帧率测试",
+        "url": "https://www.testufo.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "CDN加速",
+        "url": "https://www.bootcdn.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "域名检测",
+        "url": "https://tool.chinaz.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "测速网站",
+        "url": "https://test.ustc.edu.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "IPv6测试",
+        "url": "https://www.test-ipv6.com/index.html.zh_CN",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "宝塔面板",
+        "url": "https://www.bt.cn/new/index.html?btwaf=35186210",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "IT Tools",
+        "url": "https://it-tools.tech/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "检测IP端口",
+        "url": "http://coolaf.com/zh/tool/port",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "IPChecking",
+        "url": "https://ipcheck.ing/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "图床",
+        "url": "https://www.freeimg.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Vercel",
+        "url": "https://vercel.com/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category6": {
+    "name": "网盘搜索",
+    "content": [
+      {
+        "name": "PikPak",
+        "url": "https://mypikpak.com/zh-CN",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "阿里云盘",
+        "url": "https://www.aliyundrive.com/sign/in",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "123云盘",
+        "url": "https://www.123pan.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "易搜",
+        "url": "https://yiso.work/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "蓝奏云网盘",
+        "url": "https://up.woozooo.com/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category7": {
+    "name": "临时邮箱",
+    "content": [
+      {
+        "name": "Vmail",
+        "url": "https://vmail.dev/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "tempmail",
+        "url": "https://tempmail.io/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Amz123邮箱",
+        "url": "https://www.amz123.com/tools-mail",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category8": {
+    "name": "清理工具",
+    "content": [
+      {
+        "name": "SpaceSniffer(磁盘空间分析工具)",
+        "url": "https://soft.3dmgame.com/down/200352.html",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Geek",
+        "url": "https://geekuninstaller.com/",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  },
+  "category9": {
+    "name": "官方文档",
+    "content": [
+      {
+        "name": "NestJS",
+        "url": "https://nest.nodejs.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "TDesign",
+        "url": "https://tdesign.tencent.com/TDesign",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "wangEditor",
+        "url": "https://www.wangeditor.com/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Layui-Vue",
+        "url": "http://www.layui-vue.com/zh-CN/index",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Koa中文网",
+        "url": "https://koa.nodejs.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "koa2",
+        "url": "https://chenshenhai.com/koa2-note/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Electron",
+        "url": "https://www.electronjs.org/zh/docs/latest/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "AList文档",
+        "url": "https://alist.nn.ci/zh/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "ts粒子",
+        "url": "https://particles.js.org/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Flutter实战",
+        "url": "https://book.flutterchina.club/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Flutter中文网",
+        "url": "https://flutter.cn/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "SQL文档",
+        "url": "https://www.runoob.com/sql/sql-tutorial.html",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "docsifyl中文文档",
+        "url": "https://jingping-ye.github.io/docsify-docs-zh/#/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/%E5%BC%80%E5%A7%8B",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "ThinkPHP文档",
+        "url": "https://www.thinkphp.cn/doc",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "PHP文档",
+        "url": "https://www.php.net/manual/zh/index.php",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "CSS文档",
+        "url": "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "微信官方文档微信官方文档",
+        "url": "https://developers.weixin.qq.com/doc/",
+        "discribe": "一个自用的导航网"
+      },
+      {
+        "name": "Vant 4",
+        "url": "https://vant-contrib.gitee.io/vant/#/zh-CN",
+        "discribe": "一个自用的导航网"
+      }
+    ]
+  }
+}

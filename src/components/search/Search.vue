@@ -1,5 +1,5 @@
 <template>
-  <div class="home-search xl:w-px-600 lg:w-px-400 sm:w-px-360 h-px-40">
+  <div class="home-search xl:w-px-600 lg:w-px-400 sm:w-px-340 h-px-40">
     <ul class="menu" style="color: #fff;">
       <li v-for=" (item,index) in store.$state.searchs" :key="item.key" @click="selectEngine(index)"
         class="xl:text-base" :class="{ active: activeSearchIndex === index }">{{ item.name }}</li>
@@ -8,8 +8,7 @@
       <div class="left">
         <i :class="currentSearch.iconClass"></i>
       </div>
-      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}" class="size"
-        :class="{sizesp : changeSize}" />
+      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  />
       <div class="right">
         <i class="iconfont icon-md-search" @click="doSearch"></i>
       </div>
@@ -54,13 +53,6 @@ watch(    // 选中的建议索引
 //     debouncedSearch(newVal);
 //   }, 300);
 // });
-const changeSize = computed(() => {
-  if (document.body.clientWidth <= 414) {
-    return true
-  } else {
-    return false
-  }
-})
 const doSearch =() => {
   if (searchQuery.value) {
         const searchUrl = `${currentSearch.value.url}?${currentSearch.value.key}=${searchQuery.value}`;
@@ -72,13 +64,6 @@ openUrl(searchUrl)
 
 
 <style lang="scss" scoped>
-.size {
-  width: 500px;
-  height: 40px;
-}
-.sizesp {
-  width: 200px;
-}
 .el-input {
   --el-input-focus-border-color: none;
 }

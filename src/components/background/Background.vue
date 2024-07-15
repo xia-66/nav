@@ -1,10 +1,3 @@
-<!--
- * @Autor: huasenjio
- * @Date: 2021-11-15 00:52:46
- * @LastEditors: huasenjio
- * @LastEditTime: 2022-09-20 22:38:17
- * @Description: 壁纸
--->
 <template>
   <div class="home-wallpaper" >
     <section class="bg" ></section>
@@ -32,8 +25,6 @@
     background-position: center center;
     background-size: cover;
     background-image: url(/src/assets/img/wallpaper/j2k25v.webp);
-    // background-repeat: no-repeat;
-
   }
   @media screen and (max-width: 414px) {
     .bg {
@@ -46,7 +37,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    // background-color: #ffffff;
   }
   .bg-fiiter {
     position: absolute;

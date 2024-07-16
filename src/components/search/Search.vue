@@ -8,7 +8,7 @@
       <div class="left">
         <i :class="currentSearch.iconClass"></i>
       </div>
-      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  />
+      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  @keyup.enter.native="handleEnterKey"/>
       <div class="right">
         <i class="iconfont icon-md-search" @click="doSearch"></i>
       </div>
@@ -26,16 +26,14 @@ const store = useMainStore()
 const searchQuery = ref('');
 const activeSearchIndex = ref(0)
 const currentSearch = ref({})
-// const debouncedSearch = (query) => {
-//   console.log('搜索:', query);
-//   // 这里放置你的搜索逻辑
-// };
+
+const handleEnterKey = () => {
+  doSearch()
+}
+
 // 选择搜索引擎
 const selectEngine = (index) => {
   // 搜索输入框获得光标
-  // searchQuery.focus();
-  // console.log(index);
-  // 选择引擎索引
   activeSearchIndex.value = index;
 }
 watch(    // 选中的建议索引
@@ -47,12 +45,6 @@ watch(    // 选中的建议索引
     immediate: true,
   }
 )
-// watch(searchQuery, (newVal, oldVal) => {
-//   clearTimeout(debounceTimer);
-//   const debounceTimer = setTimeout(() => {
-//     debouncedSearch(newVal);
-//   }, 300);
-// });
 const doSearch =() => {
   if (searchQuery.value) {
         const searchUrl = `${currentSearch.value.url}?${currentSearch.value.key}=${searchQuery.value}`;

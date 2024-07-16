@@ -16,11 +16,11 @@
                 </div>
                 <div class="text-group">
                   <div class="name text">{{item.name }}</div>
-                  <div class="describe inherit-text text">{{ item.discribe }}</div>
+                  <div class="name text describe">{{ item.discribe }}</div>
                 </div>
               </div>
             </a>
-
+            <i style="width: 200px;" v-for="i in 6" :key="i.indx"></i>          
           </ul>
         </main>
       </div>
@@ -117,13 +117,16 @@ function handleLazy(el, binding) {
         ul {
           display: flex;
           flex-wrap: wrap;
-          // justify-content: space-between;
-          &::after {
-            content: "";
-            flex: auto;
-          }
+          justify-content: space-between;
+          // &::after {
+          //   content: "";
+          //   width: 100rem;
+          //   // flex: 0.95;
+          // }
+
           .site {
             margin-top: 10px;
+
             .pin-group {
               transition: transform 0.3s ease;
             }
@@ -172,6 +175,9 @@ function handleLazy(el, binding) {
                 .describe {
                   color: #9ca3af;
                   font-size: 12px;
+      
+
+
                 }
               }
             }

@@ -7,6 +7,7 @@
           @click="changeAnchorPosition(category.name)">
           {{ category.name }}
         </li>
+        <i style="width: 100px;" v-for="i in 6" :key="i.index"></i>
       </ul>
     </main>
   </div>
@@ -20,10 +21,25 @@ const changeAnchorPosition = (name) => {
   // console.log(name);
   // 没有找到节点，退出执行
   if (!target) return;
-  target.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
+    // 计算目标元素距离视口顶部的距离
+  let targetTop = target.getBoundingClientRect().top + window.scrollY;
+
+  // 设置额外的滚动偏移量
+  let additionalOffset = 75;
+
+  // 计算最终的滚动位置
+  let finalScrollPosition = targetTop - additionalOffset;
+
+  // 滚动到最终位置
+  window.scroll({
+    top: finalScrollPosition,
+    left: 0,
+    behavior: 'smooth'
   });
+  // target.scrollIntoView({
+  //   behavior: 'smooth',
+  //   block: 'start',
+  // });
 }
 </script>
 
@@ -45,14 +61,16 @@ const changeAnchorPosition = (name) => {
       margin: 0 auto;
       display: flex;
       align-items: center;
+        justify-content: space-between;
+
       flex-wrap: wrap;
       background-color: #f9fafb;
       .record-item {
         position: relative;
-        width: 110px;
+        width: 100px;
         padding: 10px;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
       }

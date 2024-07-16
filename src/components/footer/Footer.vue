@@ -13,8 +13,9 @@
 <style lang="scss" scoped>
 .footer {
   position: relative;
-  z-index: 999;
-  margin-top: 50px;
+  background: #fff;
+  z-index: 99;
+  padding-top: 50px;
   padding: 20px 0;
 }
 .footer .footer-alink,

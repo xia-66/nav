@@ -17,10 +17,20 @@ const changeAnchorPosition = (name) => {
   let target = document.getElementById(`site-anchor-${name}`);
   // console.log(name);
   // 没有找到节点，退出执行
-  if (!target) return;
-  target.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start',
+  // 计算目标元素距离视口顶部的距离
+  let targetTop = target.getBoundingClientRect().top + window.scrollY;
+
+  // 设置额外的滚动偏移量
+  let additionalOffset = 75;
+
+  // 计算最终的滚动位置
+  let finalScrollPosition = targetTop - additionalOffset;
+
+  // 滚动到最终位置
+  window.scroll({
+    top: finalScrollPosition,
+    left: 0,
+    behavior: 'smooth'
   });
 }
 </script>

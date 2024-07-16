@@ -376,7 +376,7 @@ export const useMainStore = defineStore("mainStore", {
             {
               "name": "TDesign",
               "url": "https://tdesign.tencent.com/TDesign",
-              "discribe": "一个自用的导航网"
+              "discribe": "一个自用的导航网2424242424"
             },
             {
               "name": "wangEditor",
@@ -516,29 +516,6 @@ export const useMainStore = defineStore("mainStore", {
           name: '学术',
           iconClass: 'iconfont icon-md-school',
         },
-        {
-          url: 'https://image.baidu.com/search/index',
-          key: 'word',
-          params: {
-            tn: 'baiduimage',
-          },
-          name: '搜图',
-          iconClass: 'iconfont icon-md-image',
-        },
-        {
-          url: 'localhost',
-          key: 'instation',
-          params: {},
-          name: '站内',
-          iconClass: 'iconfont icon-md-planet',
-        },
-        // {
-        //   url: "https://quark.sm.cn/s",
-        //   key: "q",
-        //   params: {},
-        //   name: "夸克",
-        //   iconClass: "iconfont icon-md-planet",
-        // },
       ]
     };
   },

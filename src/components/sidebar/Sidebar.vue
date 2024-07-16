@@ -57,7 +57,7 @@ onUnmounted(() => {
   position: fixed;
   right: 0;
   bottom: 50px;
-  z-index: 1;
+  z-index: 999;
   ul {
     li {
       width: 40px;

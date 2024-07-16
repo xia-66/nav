@@ -13,5 +13,11 @@ const WEBURL: string = 'https://microservices.heiyu.fun/henauwfw/#/';
 const BASEURL: string = 'https://microservices.heiyu.fun';
 // const BASEURL: string = 'http://127.0.0.1:97';
 
+//获取网站Favicon接口
+
+// const Favicon = "https://api.ekumao.com/api/favicon?url=";
+const Favicon = "https://getfavicon.heiyu.fun/get.php?url=";
+
+
 // 导出项目配置信息
-export { WFWAPPID, RELEASE, WEBURL, BASEURL };
+export { WFWAPPID, RELEASE, WEBURL, BASEURL,Favicon };

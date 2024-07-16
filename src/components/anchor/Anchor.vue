@@ -5,7 +5,8 @@
       <ul id="js-home-nav__main-ul"  >
         <li class="record-item pointer text" v-for="category in store.$state.site" :key="category.index"
           @click="changeAnchorPosition(category.name)">
-          {{ category.name }}
+          
+          <div style="width: 100%;height: 100%;text-align: center;">{{ category.name }}</div>
         </li>
         <i style="width: 100px;" v-for="i in 6" :key="i.index"></i>
       </ul>
@@ -70,7 +71,9 @@ const changeAnchorPosition = (name) => {
         width: 100px;
         padding: 10px;
         display: flex;
-        justify-content: space-between;
+        text-align: center;
+
+        // justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
       }

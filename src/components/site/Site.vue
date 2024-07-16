@@ -12,7 +12,7 @@
               @click="openUrl(item.url)">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                 <div class="img-group">
-                  <img v-lazy :src="`https://getfavicon.heiyu.fun/get.php?url=${item.url}`" />
+                  <img v-lazy :src="`${Favicon}${item.url}`" />
                 </div>
                 <div class="text-group">
                   <div class="name text">{{item.name }}</div>
@@ -30,6 +30,7 @@
 
 <script setup>
 import { useMainStore } from '@/store';
+import { Favicon } from '@/config';
 import { openUrl } from '@/utils'
 import unloadImg from "@/assets/img/error/image-error.png"
 import loadImg from '@/assets/img/loading/3.gif';

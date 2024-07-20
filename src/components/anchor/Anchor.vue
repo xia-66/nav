@@ -3,7 +3,7 @@
     <header></header>
     <main id="js-home-nav__main" >
       <ul id="js-home-nav__main-ul"  >
-        <li class="record-item pointer text" v-for="category in categories" :key="category.id"
+        <li class="record-item pointer text" v-for="category in store.$state.site" :key="category.id"
           @click="changeAnchorPosition(category.name)">
           
           <div style="width: 100%;height: 100%;text-align: center;">{{ category.name }}</div>
@@ -17,12 +17,8 @@
 import { useMainStore } from '@/store';
 import {ref} from "vue"
 import {GetCategories} from "@/apis"
-const categories = ref([])
 const store = useMainStore()
 
-GetCategories().then((res) => {
-categories.value = res
-} )
 const changeAnchorPosition = (name) => {
   let target = document.getElementById(`site-anchor-${name}`);
   // console.log(name);

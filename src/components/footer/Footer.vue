@@ -5,11 +5,13 @@
     <div class="footer-powered">
       <span>Powered by &nbsp;</span>
       <a target="_blank" href="https://blog.heiyu.fun/">黑羽</a>
-      <span> &nbsp; 0.1.0</span>
+      <span> &nbsp; {{ RELEASE }}</span>
     </div>
   </div>
 </template>
-
+<script setup>
+import {RELEASE} from '@/config'
+</script>
 <style lang="scss" scoped>
 .footer {
   position: relative;

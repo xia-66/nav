@@ -3,7 +3,7 @@ const WFWAPPID: string = "nd8663242fd34da047";
 // const WFWAPPID: string = "nd4f60c50ae22887bc";
 
 // 项目版本号
-const RELEASE: string = "MicroService v1.3.1";
+const RELEASE: string = "v0.1.1";
 
 // 前端路由信息
 const WEBURL: string = 'https://microservices.heiyu.fun/henauwfw/#/';

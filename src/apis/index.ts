@@ -13,11 +13,18 @@ const WfwGetUserInfo = (code: string, state: string) => {
 };
 const GetData = () => {
   return request({
-    url: `/category/list`,
+    url: `/item`,
+    method: "GET",
+  })
+}
+const GetCategories = () => {
+  return request({
+    url: `/category`,
     method: "GET",
   })
 }
 export {
   WfwGetUserInfo,
-  GetData
+  GetData,
+  GetCategories
 };

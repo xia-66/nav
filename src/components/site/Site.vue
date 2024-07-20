@@ -1,6 +1,6 @@
 <template>
   <div id="js-home-site" class="home-site">
-    <section v-for="category in data" :key="category.index" :id="`site-anchor-${category.name}`">
+    <section v-for="category in dataValue" :key="category.index" :id="`site-anchor-${category.name}`">
       <div class="site-item">
         <header :id="category.name">
           <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
@@ -34,89 +34,47 @@ import { Favicon } from '@/config';
 import { openUrl } from '@/utils'
 import unloadImg from "@/assets/img/error/image-error.png"
 import loadImg from '@/assets/img/loading/3.gif';
-import {GetData} from "@/apis"
+import {GetData,GetCategories} from "@/apis"
 import {ref} from "vue"
 const store = useMainStore()
-const data = ref([])
+const dataValue = ref([]); // 创建一个数组来存储最终的对象
+let categories = {}
+
+GetCategories().then((res) => {
+categories = transformData(res);
 GetData().then((res) => {
 // console.log(res);
 if (Array.isArray(res) && res.length > 0) {
-    const a = []
-    const b = []
-    const c = []
-    const d = []
-    const e = []
-    const f = []
-    const g = []
-    const h = []
-    const i = []
-    const obj1 = {}
-    const obj2 = {}
-    const obj3 = {}
-    const obj4 = {}
-    const obj5 = {}
-    const obj6 = {}
-    const obj7 = {}
-    const obj8 = {}
-    const obj9 = {}
-    res.forEach((item) => {
-      if (item.category_id) {
-        switch (item.category_id) {
-          case 1:
-            a.push(item)
-            break;
-          case 2:
-            b.push(item);
-            break;
-          case 3:
-            c.push(item);
-            break;
-          case 4:
-            d.push(item);
-            break;          
-          case 5:
-            e.push(item);
-            break;         
-          case 6:
-            f.push(item);
-            break;          
-          case 7:
-            g.push(item);
-            break;          
-          case 8:
-            h.push(item);
-            break;          
-          case 9:
-            i.push(item);
-            break;
-          default:
-            break;
-        }
-      }
-    });
-    obj1.name = '常用推荐'
-    obj1.content = a
-    obj2.name = '实用工具'
-    obj2.content = b
-    obj3.name = '日漫专区'
-    obj3.content = c
-    obj4.name = '在线翻译'
-    obj4.content = d
-    obj5.name = '站长工具'
-    obj5.content = e
-    obj6.name = '网盘搜索'
-    obj6.content = f
-    obj7.name = '临时邮箱'
-    obj7.content = g   
-    obj8.name = '清理工具'
-    obj8.content = h    
-    obj9.name = '官方文档'
-    obj9.content = i
-    data.value.push(obj1,obj2,obj3,obj4,obj5,obj6,obj7,obj8,obj9)
-    // console.log(data);
-    store.$state.site = data.value   
+const arrays = {}; // 创建一个对象来存储每个category_id对应的数组
+Object.keys(categories).forEach(key => {
+  arrays[key] = []; // 初始化每个category_id对应的空数组
+});
+
+res.forEach((item) => {
+  if (item.category_id && categories[item.category_id]) {
+    arrays[item.category_id].push(item); // 直接使用category_id作为键来push到对应的数组
+  }
+});
+
+Object.keys(categories).forEach(key => {
+  const obj = {}; // 创建一个新对象
+  obj.name = categories[key]; // 设置name属性
+  obj.content = arrays[key]; // 设置content属性
+  dataValue.value.push(obj); // 将对象push到数组中
+});
+store.$state.site = dataValue.value
   }
 })
+} )
+//转换分类的返回数据
+function transformData(arr) {
+    return arr.reduce((acc, item) => {
+        acc[item.id] = item.name;
+        return acc;
+    }, {});
+}
+
+
 
 const vLazy = {
     // 在绑定元素插入到 DOM 中时调用

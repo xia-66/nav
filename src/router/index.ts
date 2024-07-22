@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "Index",
     component: Index,
-    meta: { title: "河南农业大学微服务平台" },
+    meta: { title: "黑羽导航" },
   },
   {
     path: "/search",

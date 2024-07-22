@@ -17,14 +17,14 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 8080,
     // 配置代理
-    proxy: {
-      "/api": {
-        target: "http://127.0.0.1:3000",
-        changeOrigin: true,
-        // 若有https证书，即可将secure设为true
-        secure: false,
-        rewrite: (path) => path.replace("/api", ""),
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "http://127.0.0.1:3000",
+    //     changeOrigin: true,
+    //     // 若有https证书，即可将secure设为true
+    //     secure: false,
+    //     rewrite: (path) => path.replace("/api", ""),
+    //   },
+    // },
   },
 })

@@ -6,8 +6,8 @@ const RELEASE: string = "v0.1.1";
 const WEBURL: string = 'http://127.0.0.1:8080/#/';
 
 // 后端路由信息
-const BASEURL: string = 'https://navserve.heiyu.fun';
-// const BASEURL: string = 'http://127.0.0.1:3000';
+// const BASEURL: string = 'https://navserve.heiyu.fun';
+const BASEURL: string = 'http://127.0.0.1:3000';
 
 //获取网站Favicon接口
 

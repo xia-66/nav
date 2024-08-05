@@ -23,12 +23,10 @@ export const GetCategories = () => {
     method: "GET",
   })
 }
-export const PostIP = (IP:string) => {
+export const PostIP = (IP: string) => {
   return request({
-    url: `/ip`,
-    method:"POST",
-    params: {
-      IP: IP,
-    },
+    url: `/index/ip`,
+    method: "POST",
+    data: IP,
   })
 }

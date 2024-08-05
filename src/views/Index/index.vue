@@ -10,8 +10,14 @@ import axios from "axios";
 import { PostIP } from "@/apis";
 axios.get('http://myip.ipip.net').then(res => {
     if(res.status === 200) {
+      console.log(typeof(res.data));
+      
       console.log(res.data);
-      PostIP(res.data)
+      PostIP(res.data).then((res) => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err);  
+      })
     }
   })
 

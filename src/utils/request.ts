@@ -1,9 +1,9 @@
 import axios from "axios";
-import { BASEURL } from "@/config/index.ts";
+// import { BASEURL } from "@/config/index.ts";
 export default (config: any) => {
   const service: any = axios.create({
-    baseURL: `${BASEURL}`,
-    // baseURL: `/api`,
+    // baseURL: `${BASEURL}`,
+    baseURL: `/api`,
     timeout: 12000,
   });
   service.interceptors.request.use(

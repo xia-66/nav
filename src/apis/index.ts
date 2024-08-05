@@ -1,7 +1,7 @@
 import request from "@/utils/request.ts";
 
 // 微服务对接统一授权
-const WfwGetUserInfo = (code: string, state: string) => {
+export const WfwGetUserInfo = (code: string, state: string) => {
   return request({
     url: `/WfwGetUserInfo`,
     method: "GET",
@@ -11,20 +11,24 @@ const WfwGetUserInfo = (code: string, state: string) => {
     },
   });
 };
-const GetData = () => {
+export const GetData = () => {
   return request({
     url: `/item`,
     method: "GET",
   })
 }
-const GetCategories = () => {
+export const GetCategories = () => {
   return request({
     url: `/category`,
     method: "GET",
   })
 }
-export {
-  WfwGetUserInfo,
-  GetData,
-  GetCategories
-};
+export const PostIP = (IP:string) => {
+  return request({
+    url: `/ip`,
+    method:"POST",
+    params: {
+      IP: IP,
+    },
+  })
+}

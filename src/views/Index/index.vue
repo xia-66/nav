@@ -6,7 +6,14 @@ import Anchor from "@/components/anchor/Anchor.vue";
 import Site from "@/components/site/Site.vue";
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import Footer from "@/components/footer/Footer.vue";
-
+import axios from "axios";
+import { PostIP } from "@/apis";
+axios.get('http://myip.ipip.net').then(res => {
+    if(res.status === 200) {
+      console.log(res.data);
+      PostIP(res.data)
+    }
+  })
 
 </script>
 

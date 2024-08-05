@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Index from "@/views/Index/index.vue";
-import Search from "@/components/search/Search.vue";
+import Login from "@/components/login/Login.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,10 +10,10 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: "黑羽导航" },
   },
   {
-    path: "/search",
-    name: "Search",
-    component: Search,
-    meta: { title: "搜索" },
+    path: "/login",
+    name: "Login",
+    component: Login,
+    meta: { title: "测试" },
   },
 ];
 const router = createRouter({

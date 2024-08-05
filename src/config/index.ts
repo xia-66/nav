@@ -2,8 +2,8 @@
 const RELEASE: string = "v0.1.1";
 
 // 前端路由信息
-const WEBURL: string = 'https://nav.heiyu.fun/#/';
-// const WEBURL: string = 'http://127.0.0.1:8080/#/';
+// const WEBURL: string = 'https://nav.heiyu.fun/#/';
+const WEBURL: string = 'http://127.0.0.1:8080/#/';
 
 // 后端路由信息
 const BASEURL: string = 'https://navserve.heiyu.fun';

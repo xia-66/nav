@@ -30,3 +30,9 @@ export const PostIP = (IP: string) => {
     data: IP,
   })
 }
+export const GetProgramAvatar = () => {
+  return request({
+    url: `/program/programavatar`,
+    method: "GET",
+  })
+}

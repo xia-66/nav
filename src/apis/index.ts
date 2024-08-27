@@ -23,13 +23,7 @@ export const GetCategories = () => {
     method: "GET",
   })
 }
-export const PostIP = (IP: string) => {
-  return request({
-    url: `/index/ip`,
-    method: "POST",
-    data: IP,
-  })
-}
+
 export const GetProgramAvatar = () => {
   return request({
     url: `/program/programavatar`,

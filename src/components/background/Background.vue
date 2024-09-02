@@ -24,7 +24,7 @@
     height: 100%;
     background-position: center center;
     background-size: cover;
-    background-image: url(/src/assets/img/wallpaper/j2k25v.webp);
+    background-image: url(/src/assets/img/wallpaper/2.jpeg);
   }
   @media screen and (max-width: 414px) {
     .bg {

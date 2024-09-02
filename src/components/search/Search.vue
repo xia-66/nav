@@ -8,7 +8,7 @@
       <div class="left">
         <i :class="currentSearch.iconClass"></i>
       </div>
-      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  @keyup.enter.native="handleEnterKey"/>
+      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  @keydown.enter.prevent="handleEnterKey" id="searchInput"/>
       <div class="right">
         <i class="iconfont icon-md-search" @click="doSearch"></i>
       </div>
@@ -19,7 +19,7 @@
 
 <script setup>
 import { useMainStore } from '@/store';
-import { computed, ref, watch } from 'vue';
+import { ref, watch,onMounted,onBeforeUnmount } from 'vue';
 import { openUrl } from '@/utils';
 const store = useMainStore()
 
@@ -49,9 +49,27 @@ const doSearch =() => {
   if (searchQuery.value) {
         const searchUrl = `${currentSearch.value.url}?${currentSearch.value.key}=${searchQuery.value}`;
         // window.location.href = searchUrl; 
-openUrl(searchUrl)
-      }
+        openUrl(searchUrl)
+    }
 }
+
+const focusSearchInput = (event) => {
+      if (event.key === '/') {
+        event.preventDefault(); // 阻止默认行为
+        const searchInput = document.querySelector('#searchInput')
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+    };
+
+    onMounted(() => {
+      window.addEventListener('keydown', focusSearchInput);
+    });
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('keydown', focusSearchInput);
+    });
 </script>
 
 

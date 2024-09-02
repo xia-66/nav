@@ -28,15 +28,15 @@ const buffer = ref([])
 GetProgramAvatar().then(res => {
 if(res.code === 200) {
   buffer.value = res.qrcode.data
-  // console.log(res.qrcode.data);
+  console.log(buffer.value);
+  const blob = bufferToBlob(buffer.value, mimeType);
+  // 现在你可以使用这个Blob对象了，例如用于FileSaver.js等
+  console.log(blob);
+  // 将Blob转换为URL
+  imageSrc.value = URL.createObjectURL(blob);
 }
 })
 
-const blob = bufferToBlob(buffer.value, mimeType);
-// 现在你可以使用这个Blob对象了，例如用于FileSaver.js等
-console.log(blob);
-// 将Blob转换为URL
-imageSrc.value = URL.createObjectURL(blob);
- /// 声明定义一下echart
+
 
 </script>

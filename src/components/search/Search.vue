@@ -8,7 +8,7 @@
       <div class="left">
         <i :class="currentSearch.iconClass"></i>
       </div>
-      <el-input placeholder="Please Input" clearable v-model="searchQuery" @input="() => {}"  @keydown.enter.prevent="handleEnterKey" id="searchInput"/>
+      <el-input placeholder="按下/可快速聚焦输入框" clearable v-model="searchQuery" @input="() => {}"  @keydown.enter.prevent="handleEnterKey" id="searchInput"/>
       <div class="right">
         <i class="iconfont icon-md-search" @click="doSearch"></i>
       </div>

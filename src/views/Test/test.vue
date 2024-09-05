@@ -6,7 +6,7 @@ import Login from "@/components/login/Login.vue";
   <Login></Login>
 </template> -->
 <template>
-  <div id="app">
+  <div id="test">
      <h1>WebSocket Test</h1>
      <input v-model="message" placeholder="Enter message" />
      <button @click="sendMessage">Send Message</button>
@@ -30,7 +30,7 @@ import Login from "@/components/login/Login.vue";
        }
      };
      onMounted(() => {
-       socket.value = io('http://localhost:3001/chat');
+       socket.value = io('https://bbb.heiyu.fun/chat');
        socket.value.on('connect', () => {
          console.log('Connected to WebSocket server');
        });
@@ -46,8 +46,8 @@ import Login from "@/components/login/Login.vue";
 
  </script>
 
- <style>
- #app {
+ <style scoped>
+ #test {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

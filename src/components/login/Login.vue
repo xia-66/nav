@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" style="margin-left: 16px" @click="drawer = true" >
+  <el-button type="primary" style="margin-left: 16px" @click="getData" >
     open
   </el-button>
 
@@ -13,7 +13,6 @@ import { ref } from 'vue';
 import { GetProgramAvatar } from '@/apis';
 const imageSrc= ref(null)
 const drawer = ref(false)
-
 const bufferToBlob = (buffer, mimeType) => {
   // 创建一个包含Buffer数据的Uint8Array
   const uint8Array = new Uint8Array(buffer);
@@ -24,8 +23,10 @@ const bufferToBlob = (buffer, mimeType) => {
 // 指定MIME类型
 const mimeType = 'image/png';
 const buffer = ref([])
+const getData = () => {
+  drawer.value = true
 // 调用方法转换Buffer为Blob
-GetProgramAvatar().then(res => {
+ GetProgramAvatar().then(res => {
 if(res.code === 200) {
   buffer.value = res.qrcode.data
   console.log(buffer.value);
@@ -35,8 +36,7 @@ if(res.code === 200) {
   // 将Blob转换为URL
   imageSrc.value = URL.createObjectURL(blob);
 }
-})
-
+})}
 
 
 </script>

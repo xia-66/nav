@@ -1,11 +1,5 @@
 <script setup>
-import { GetProgramAvatar } from "@/apis";
 import Login from "@/components/login/Login.vue";
-GetProgramAvatar().then(res => {
-  console.log(res);
-}).catch(err => {
-})
-
 </script>
 
 <template>

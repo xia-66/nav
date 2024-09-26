@@ -26,7 +26,7 @@ export const GetCategories = () => {
 
 export const GetProgramAvatar = () => {
   return request({
-    url: `/program/programavatar`,
+    url: `/program/getAvatar`,
     method: "GET",
   })
 }

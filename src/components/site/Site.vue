@@ -7,20 +7,19 @@
           <a class="category-title" :name="category.name">{{ category.name }}</a>
         </header>
         <main>
-          <ul >
-            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index"
-              @click="openUrl(item.url)">
+          <ul>
+            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
               <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                 <div class="img-group">
                   <img v-lazy :src="`${Favicon}${item.url}`" />
                 </div>
                 <div class="text-group">
-                  <div class="name text">{{item.name }}</div>
+                  <div class="name text">{{ item.name }}</div>
                   <div class="name text describe">{{ item.description }}</div>
                 </div>
               </div>
             </a>
-            <i style="width: 200px;" v-for="i in 6" :key="i.indx"></i>          
+            <i style="width: 200px" v-for="i in 6" :key="i.indx"></i>
           </ul>
         </main>
       </div>
@@ -29,89 +28,91 @@
 </template>
 
 <script setup>
-import { useMainStore } from '@/store';
-import { Favicon } from '@/config';
+import { useMainStore } from '@/store'
+import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
-import unloadImg from "@/assets/img/error/image-error.png"
-import loadImg from '@/assets/img/loading/3.gif';
-import {GetData,GetCategories} from "@/apis"
-import {ref} from "vue"
+import unloadImg from '@/assets/img/error/image-error.png'
+import loadImg from '@/assets/img/loading/3.gif'
+import { GetData, GetCategories } from '@/apis'
+import { ref } from 'vue'
 const store = useMainStore()
-const dataValue = ref([]); // 创建一个数组来存储最终的对象
+const dataValue = ref([]) // 创建一个数组来存储最终的对象
 let categories = {}
 
-GetCategories().then((res) => {
-categories = transformData(res);
-GetData().then((res) => {
-// console.log(res);
-if (Array.isArray(res) && res.length > 0) {
-const arrays = {}; // 创建一个对象来存储每个category_id对应的数组
-Object.keys(categories).forEach(key => {
-  arrays[key] = []; // 初始化每个category_id对应的空数组
-});
+GetCategories().then(res => {
+  categories = transformData(res)
+  GetData().then(res => {
+    // console.log(res);
+    if (Array.isArray(res) && res.length > 0) {
+      const arrays = {} // 创建一个对象来存储每个category_id对应的数组
+      Object.keys(categories).forEach(key => {
+        arrays[key] = [] // 初始化每个category_id对应的空数组
+      })
 
-res.forEach((item) => {
-  if (item.category_id && categories[item.category_id]) {
-    arrays[item.category_id].push(item); // 直接使用category_id作为键来push到对应的数组
-  }
-});
+      res.forEach(item => {
+        if (item.category_id && categories[item.category_id]) {
+          arrays[item.category_id].push(item) // 直接使用category_id作为键来push到对应的数组
+        }
+      })
 
-Object.keys(categories).forEach(key => {
-  const obj = {}; // 创建一个新对象
-  obj.name = categories[key]; // 设置name属性
-  obj.content = arrays[key]; // 设置content属性
-  dataValue.value.push(obj); // 将对象push到数组中
-});
-store.$state.site = dataValue.value
-  }
+      Object.keys(categories).forEach(key => {
+        const obj = {} // 创建一个新对象
+        obj.name = categories[key] // 设置name属性
+        obj.content = arrays[key] // 设置content属性
+        dataValue.value.push(obj) // 将对象push到数组中
+      })
+      store.$state.site = dataValue.value
+      console.log(dataValue.value);
+      
+    }
+  })
 })
-} )
 //转换分类的返回数据
 function transformData(arr) {
-    return arr.reduce((acc, item) => {
-        acc[item.id] = item.name;
-        return acc;
-    }, {});
+  return arr.reduce((acc, item) => {
+    acc[item.id] = item.name
+    return acc
+  }, {})
 }
 
-
-
 const vLazy = {
-    // 在绑定元素插入到 DOM 中时调用
-    mounted(el, binding) {
-    handleLazy(el, binding);
+  // 在绑定元素插入到 DOM 中时调用
+  mounted(el, binding) {
+    handleLazy(el, binding)
   },
   // 当绑定元素的 VNode 更新时调用
   updated(el, binding) {
-    handleLazy(el, binding);
+    handleLazy(el, binding)
   }
 }
 function handleLazy(el, binding) {
-  let url = el.src;
+  let url = el.src
   // 清空加载资源
-  el.src = loadImg; // Vue 3 中使用空字符串代替 loadImg 占位符
-  let { unload = unloadImg } = binding.value || {}; // 假设 unloadImg 是一个 URL 字符串
+  el.src = loadImg // Vue 3 中使用空字符串代替 loadImg 占位符
+  let { unload = unloadImg } = binding.value || {} // 假设 unloadImg 是一个 URL 字符串
   // 元素进入离开可视区域触发回调
-  let observe = new IntersectionObserver(([{ isIntersecting }]) => {
-    if (isIntersecting) {
-      el.src = url;
-      el.onload = function() {
-        observe.unobserve(el);
-      };
-      el.onerror = function() {
-        // 加载失败时
-        el.src = unload;
-        observe.unobserve(el);
-      };
+  let observe = new IntersectionObserver(
+    ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        el.src = url
+        el.onload = function () {
+          observe.unobserve(el)
+        }
+        el.onerror = function () {
+          // 加载失败时
+          el.src = unload
+          observe.unobserve(el)
+        }
+      }
+    },
+    {
+      root: null, // 可选，指定 IntersectionObserver 的根
+      rootMargin: '0px', // 可选，指定 IntersectionObserver 的根边缘
+      threshold: 0.1 // 可选，指定 IntersectionObserver 的触发阈值
     }
-  }, {
-    root: null, // 可选，指定 IntersectionObserver 的根
-    rootMargin: '0px', // 可选，指定 IntersectionObserver 的根边缘
-    threshold: 0.1 // 可选，指定 IntersectionObserver 的触发阈值
-  });
-  observe.observe(el);
+  )
+  observe.observe(el)
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -216,9 +217,6 @@ function handleLazy(el, binding) {
                 .describe {
                   color: #9ca3af;
                   font-size: 12px;
-      
-
-
                 }
               }
             }

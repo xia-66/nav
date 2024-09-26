@@ -1,11 +1,17 @@
-<!-- <script setup>
+<script setup>
+import { GetProgramAvatar } from "@/apis";
 import Login from "@/components/login/Login.vue";
+GetProgramAvatar().then(res => {
+  console.log(res);
+}).catch(err => {
+})
+
 </script>
 
 <template>
   <Login></Login>
-</template> -->
-<template>
+</template>
+<!-- <template>
   <div id="test">
     <h1>即时聊天 Test</h1>
     <h1 style="font-size: 20px;">当前在线人数 999</h1>
@@ -22,6 +28,7 @@ import Login from "@/components/login/Login.vue";
 <script setup>
 import { ref, onMounted } from 'vue'
 import { io } from 'socket.io-client'
+
 const socket = ref(null)
 const message = ref('')
 const messages = ref([])
@@ -33,7 +40,7 @@ const sendMessage = () => {
   }
 }
 onMounted(() => {
-  socket.value = io('https://bbb.heiyu.fun/chat')
+  socket.value = io(import.meta.env.VITE_WebSocket_API)
   socket.value.on('connect', () => {
     console.log('Connected to WebSocket server')
   })
@@ -79,4 +86,4 @@ button {
   margin-left: 10px;
   border-radius: 5px;
 }
-</style>
+</style> -->

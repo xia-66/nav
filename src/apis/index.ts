@@ -30,3 +30,12 @@ export const GetProgramAvatar = () => {
     method: "GET",
   })
 }
+export const checkScanStatus = (scene: string) => {
+  return request({
+    url: `/program/checkScanStatus`,
+    method: "GET",
+    params: {
+      scene: scene,
+    },
+  })
+}

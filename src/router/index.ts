@@ -1,18 +1,16 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Index from "@/views/Index/index.vue";
-import Test from "@/views/Test/test.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "Index",
-    component: Index,
+    component: () => import("@/views/Index/index.vue"),
     meta: { title: "黑羽导航" },
   },
   {
     path: "/test",
     name: "Test",
-    component: Test,
-    meta: { title: "黑羽导航" },
+    component: () => import("@/views/Test/test.vue"),
+    meta: { title: "测试页面" },
   },
 ];
 const router = createRouter({

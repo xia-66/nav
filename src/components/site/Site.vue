@@ -40,16 +40,17 @@ const dataValue = ref([]) // 创建一个数组来存储最终的对象
 let categories = {}
 
 GetCategories().then(res => {
-  categories = transformData(res)
+  categories = transformData(res.data)
   GetData().then(res => {
     // console.log(res);
-    if (Array.isArray(res) && res.length > 0) {
+    let data = res.data
+    if (Array.isArray(data) && data.length > 0) {
       const arrays = {} // 创建一个对象来存储每个category_id对应的数组
       Object.keys(categories).forEach(key => {
         arrays[key] = [] // 初始化每个category_id对应的空数组
       })
 
-      res.forEach(item => {
+      data.forEach(item => {
         if (item.category_id && categories[item.category_id]) {
           arrays[item.category_id].push(item) // 直接使用category_id作为键来push到对应的数组
         }

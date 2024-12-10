@@ -7,10 +7,10 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: "黑羽导航" },
   },
   {
-    path: "/test",
-    name: "Test",
-    component: () => import("@/views/Test/test.vue"),
-    meta: { title: "测试页面" },
+    path: "/chat",
+    name: "Chat",
+    component: () => import("@/views/Chat/chat.vue"),
+    meta: { title: "Chat Room" },
   },
 ];
 const router = createRouter({

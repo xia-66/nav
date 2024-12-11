@@ -55,38 +55,66 @@ import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { io } from 'socket.io-client'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
+// 常量
+const MIN_WIDTH = 400
+const MIN_HEIGHT = 300
+const MAX_MESSAGES = 100
+let reconnectAttempts = 0
+const MAX_RECONNECT_ATTEMPTS = 5
+
 // 生成用户ID的函数
 const generateUserId = async () => {
-  const savedUserId = localStorage.getItem('chatUserId')
-  if (savedUserId) {
-    return savedUserId
-  }
-
+  console.group('User ID Generation')
   try {
-    const fp = await FingerprintJS.load()
-    const result = await fp.get()
-
-    const deviceInfo = {
-      platform: navigator.platform,
-      userAgent: navigator.userAgent,
-      fingerprint: result.visitorId,
-      timestamp: new Date().getTime()
+    const savedUserId = localStorage.getItem('chatUserId')
+    if (savedUserId && validateUserId(savedUserId)) {
+      console.log('Using saved user ID:', savedUserId)
+      console.groupEnd()
+      return savedUserId
     }
 
-    const userId = `User_${btoa(JSON.stringify(deviceInfo)).slice(0, 8)}`
+    const fp = await FingerprintJS.load()
+    const { visitorId } = await fp.get()
+
+    const deviceInfo = {
+      screen: `${window.screen.width}x${window.screen.height}`,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      language: navigator.language,
+      platform: navigator.platform
+    }
+
+    const combinedInfo = `${visitorId}-${JSON.stringify(deviceInfo)}`
+    const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(combinedInfo))
+    const hashArray = Array.from(new Uint8Array(hashBuffer))
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+
+    const userId = `User_${hashHex.slice(0, 8)}`
     localStorage.setItem('chatUserId', userId)
+    console.log('Generated new user ID:', userId)
+    console.groupEnd()
     return userId
   } catch (error) {
     console.error('Error generating user ID:', error)
-    return `User_${Math.floor(Math.random() * 1000)}`
+    console.groupEnd()
+    const fallbackId = `User_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 4)}`
+    localStorage.setItem('chatUserId', fallbackId)
+    return fallbackId
   }
+}
+
+// 验证用户ID
+const validateUserId = userId => {
+  if (!userId || typeof userId !== 'string') return false
+  if (!userId.startsWith('User_')) return false
+  if (userId.length < 8) return false
+  return true
 }
 
 // Socket 连接
 const socket = io(import.meta.env.VITE_WebSocket_API, {
   transports: ['websocket'],
   reconnection: true,
-  reconnectionAttempts: 5,
+  reconnectionAttempts: MAX_RECONNECT_ATTEMPTS,
   reconnectionDelay: 1000
 })
 
@@ -98,21 +126,13 @@ const isConnected = ref(false)
 const currentUser = ref('')
 const onlineCount = ref(0)
 const isMobileDevice = ref(false)
-
-// 拖动状态
 const chatContainer = ref(null)
 const position = ref({ x: 20, y: 20 })
 const isDragging = ref(false)
 const dragOffset = ref({ x: 0, y: 0 })
-
-// 大小调整状态
 const size = ref({ width: 800, height: 600 })
 const isResizing = ref(false)
 const resizeStart = ref({ x: 0, y: 0, width: 0, height: 0 })
-
-// 常量
-const MIN_WIDTH = 400
-const MIN_HEIGHT = 300
 
 // 检测是否为移动设备
 const checkMobileDevice = () => {
@@ -134,8 +154,30 @@ const saveState = () => {
   }
 }
 
+// 加载本地消息
+const loadLocalMessages = async () => {
+  try {
+    const savedMessages = localStorage.getItem('chatMessages')
+    if (savedMessages) {
+      messages.value = JSON.parse(savedMessages)
+      await scrollToBottom() // 添加这行
+    }
+  } catch (error) {
+    console.error('Error loading messages from localStorage:', error)
+  }
+}
+
 // 加载状态
-const loadState = () => {
+const loadState = async () => {
+  // 验证并加载用户ID
+  const savedUserId = localStorage.getItem('chatUserId')
+  if (savedUserId && validateUserId(savedUserId)) {
+    currentUser.value = savedUserId
+  } else {
+    currentUser.value = await generateUserId()
+  }
+
+  // 加载窗口状态
   if (checkMobileDevice()) {
     position.value = { x: 0, y: 0 }
     size.value = {
@@ -150,6 +192,9 @@ const loadState = () => {
       size.value = state.size
     }
   }
+
+  // 加载本地消息
+  loadLocalMessages()
 }
 
 // 窗口大小变化处理
@@ -163,7 +208,23 @@ const handleResize = () => {
   }
 }
 
-// ... 继续下一部分
+// 重连处理
+const handleReconnect = () => {
+  console.log('Attempting to reconnect...')
+  reconnectAttempts++
+
+  if (reconnectAttempts <= MAX_RECONNECT_ATTEMPTS) {
+    socket.emit('getHistory')
+  }
+}
+
+// 页面可见性变化处理
+const handleVisibilityChange = () => {
+  if (document.visibilityState === 'visible' && socket.connected) {
+    socket.emit('getHistory')
+  }
+}
+
 // 拖动相关方法
 const startDrag = e => {
   if (isMobileDevice.value) return
@@ -206,17 +267,14 @@ const startResize = e => {
     width: size.value.width,
     height: size.value.height
   }
-
   document.addEventListener('mousemove', onResize)
   document.addEventListener('mouseup', stopResize)
 }
 
 const onResize = e => {
   if (!isResizing.value) return
-
   const newWidth = Math.max(MIN_WIDTH, resizeStart.value.width + (e.clientX - resizeStart.value.x))
   const newHeight = Math.max(MIN_HEIGHT, resizeStart.value.height + (e.clientY - resizeStart.value.y))
-
   const maxWidth = window.innerWidth - position.value.x
   const maxHeight = window.innerHeight - position.value.y
 
@@ -243,7 +301,10 @@ const resetSize = () => {
 const scrollToBottom = async () => {
   await nextTick()
   if (messageContainer.value) {
+    // 添加一个小延时确保 DOM 完全更新
+    // setTimeout(() => {
     messageContainer.value.scrollTop = messageContainer.value.scrollHeight
+    // }, 100)
   }
 }
 
@@ -258,10 +319,20 @@ const getAvatarUrl = username => {
 }
 
 const addMessage = messageData => {
-  messages.value.push({
+  const newMessage = {
     ...messageData,
     timestamp: messageData.timestamp || new Date().toISOString()
-  })
+  }
+  messages.value.push(newMessage)
+
+  // 保存到 localStorage
+  try {
+    const savedMessages = messages.value.slice(-MAX_MESSAGES)
+    localStorage.setItem('chatMessages', JSON.stringify(savedMessages))
+  } catch (error) {
+    console.error('Error saving messages to localStorage:', error)
+  }
+
   scrollToBottom()
 }
 
@@ -272,85 +343,103 @@ const sendMessage = () => {
       text: newMessage.value,
       timestamp: new Date().toISOString()
     }
-
     socket.emit('message', messageData)
     newMessage.value = ''
   }
 }
 
 // 初始化历史消息
-const initializeHistory = historyMessages => {
-  messages.value = []
+const initializeHistory = async historyMessages => {
+  console.log('Initializing history messages:', historyMessages)
+  const existingMessageIds = new Set(messages.value.map(m => m.timestamp))
   historyMessages.forEach(message => {
-    addMessage(message)
+    if (!existingMessageIds.has(message.timestamp)) {
+      addMessage(message)
+    }
   })
+  await scrollToBottom() // 添加这行
 }
 
 // 生命周期钩子
 onMounted(async () => {
-  // 初始化用户ID
-  currentUser.value = await generateUserId()
+  try {
+    await loadState()
+    await scrollToBottom() // 添加这行
+    window.addEventListener('resize', handleResize)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
-  // 检查设备类型并加载状态
-  checkMobileDevice()
-  loadState()
+    // Socket 事件监听
+    socket.on('connect', () => {
+      console.log('Connected to server with user ID:', currentUser.value)
+      isConnected.value = true
+      reconnectAttempts = 0
+      socket.emit('identify', { userId: currentUser.value })
+      socket.emit('getHistory')
+    })
 
-  // 添加窗口大小变化监听
-  window.addEventListener('resize', handleResize)
+    socket.on('reconnect', () => {
+      console.log('Reconnected to server')
+      handleReconnect()
+    })
 
-  // Socket 事件监听
-  socket.on('connect', () => {
-    console.log('Connected to server')
-    isConnected.value = true
-    socket.emit('getHistory')
-  })
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server')
+      isConnected.value = false
+    })
 
-  socket.on('disconnect', () => {
-    console.log('Disconnected from server')
-    isConnected.value = false
-  })
+    socket.on('connect_error', error => {
+      console.error('Connection error:', error)
+      isConnected.value = false
+    })
 
-  socket.on('connect_error', error => {
-    console.error('Connection error:', error)
-    isConnected.value = false
-  })
+    socket.on('history', historyMessages => {
+      console.log('Received history messages:', historyMessages)
+      initializeHistory(historyMessages)
+    })
 
-  socket.on('history', historyMessages => {
-    initializeHistory(historyMessages)
-  })
+    socket.on('message', message => {
+      console.log('Received message:', message)
+      const messageExists = messages.value.some(m => m.timestamp === message.timestamp && m.user === message.user)
+      if (!messageExists) {
+        addMessage(message)
+      }
+    })
 
-  socket.on('message', message => {
-    addMessage(message)
-  })
+    socket.on('userCount', count => {
+      console.log('Online users:', count)
+      onlineCount.value = count
+    })
 
-  socket.on('userCount', count => {
-    onlineCount.value = count
-  })
+    socket.on('duplicate-connection', () => {
+      console.warn('Duplicate connection detected')
+    })
 
-  socket.on('error', error => {
-    console.error('Socket error:', error)
-  })
+    socket.on('error', error => {
+      console.error('Socket error:', error)
+    })
+  } catch (error) {
+    console.error('Error during initialization:', error)
+  }
 })
 
 onUnmounted(() => {
-  // 清理事件监听器
   window.removeEventListener('resize', handleResize)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 
-  // 清理 socket 事件
   socket.off('connect')
   socket.off('disconnect')
   socket.off('connect_error')
   socket.off('message')
   socket.off('history')
   socket.off('userCount')
+  socket.off('duplicate-connection')
   socket.off('error')
 
-  // 断开连接
   socket.disconnect()
 })
 </script>
-
 <style scoped>
+/* 基础样式 */
 .chat-container {
   position: fixed;
   min-width: 400px;
@@ -361,6 +450,7 @@ onUnmounted(() => {
   flex-direction: column;
   background: #fff;
   transition: all 0.1s ease;
+  z-index: 1000;
 }
 
 .chat-container.dragging,
@@ -402,79 +492,6 @@ onUnmounted(() => {
   transition: all 0.3s ease;
 }
 
-.resize-handle {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 15px;
-  height: 15px;
-  cursor: se-resize;
-  z-index: 1000;
-}
-
-.resize-handle::after {
-  content: '';
-  position: absolute;
-  right: 4px;
-  bottom: 4px;
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid #666;
-  border-bottom: 2px solid #666;
-}
-
-/* 移动端样式 */
-@media (max-width: 768px) {
-  .chat-container {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-width: unset;
-    min-height: unset;
-    border-radius: 0;
-    margin: 0;
-  }
-
-  .chat-header {
-    border-radius: 0;
-    padding: 10px 15px;
-  }
-
-  .header-left h2 {
-    font-size: 16px;
-  }
-
-  .online-count {
-    font-size: 11px;
-  }
-
-  .resize-handle {
-    display: none;
-  }
-}
-
-/* 适配刘海屏 */
-@supports (padding-top: env(safe-area-inset-top)) {
-  @media (max-width: 768px) {
-    .chat-container {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .chat-header {
-      padding-top: calc(10px + env(safe-area-inset-top));
-    }
-
-    .chat-input {
-      padding-bottom: calc(10px + env(safe-area-inset-bottom));
-    }
-  }
-}
-
 .online-status {
   display: flex;
   align-items: center;
@@ -492,7 +509,7 @@ onUnmounted(() => {
 .status-dot.online {
   background: #2ecc71;
 }
-
+/* 消息区域样式 */
 .chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -568,6 +585,7 @@ onUnmounted(() => {
   line-height: 1.4;
 }
 
+/* 输入区域样式 */
 .chat-input {
   padding: 15px;
   background: white;
@@ -609,6 +627,29 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* 调整大小手柄 */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 15px;
+  height: 15px;
+  cursor: se-resize;
+  z-index: 1000;
+}
+
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+}
+
+/* 滚动条样式 */
 .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
@@ -626,35 +667,97 @@ button:disabled {
   background: #555;
 }
 
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .chat-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: unset;
+    min-height: unset;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .chat-header {
+    border-radius: 0;
+    padding: 10px 15px;
+  }
+
+  .header-left h2 {
+    font-size: 16px;
+  }
+
+  .online-count {
+    font-size: 11px;
+  }
+
+  .resize-handle {
+    display: none;
+  }
+
+  .message {
+    max-width: 85%;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .chat-input {
+    padding: 10px;
+  }
+
+  input {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  button {
+    padding: 8px 15px;
+  }
+}
+
+/* 适配刘海屏 */
+@supports (padding-top: env(safe-area-inset-top)) {
+  @media (max-width: 768px) {
+    .chat-container {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .chat-header {
+      padding-top: calc(10px + env(safe-area-inset-top));
+    }
+
+    .chat-input {
+      padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
 /* 横屏模式优化 */
 @media (max-width: 768px) and (orientation: landscape) {
   .chat-header {
     padding: 5px 15px;
   }
-  
+
   .chat-messages {
     padding: 10px;
   }
-  
+
   .message-wrapper {
     margin-bottom: 10px;
   }
-  
+
   .avatar {
     width: 28px;
     height: 28px;
-  }
-  
-  .chat-input {
-    padding: 8px;
-  }
-  
-  input {
-    padding: 6px 10px;
-  }
-  
-  button {
-    padding: 6px 15px;
   }
 }
 
@@ -663,38 +766,33 @@ button:disabled {
   .chat-container {
     background: #1a1a1a;
   }
-  
+
   .chat-messages {
     background: #2a2a2a;
   }
-  
+
   .message {
     background: #333;
     color: #fff;
   }
-  
+
   .my-message .message {
     background: #4a90e2;
   }
-  
+
   .time {
     color: #aaa;
   }
-  
+
   input {
     background: #333;
     color: #fff;
     border-color: #444;
   }
-  
-  input:focus {
-    border-color: #4a90e2;
-  }
-  
+
   .chat-input {
     background: #1a1a1a;
     border-top-color: #333;
   }
 }
-
 </style>

@@ -46,14 +46,43 @@
       <button @click="sendMessage" :disabled="!isConnected">Send</button>
     </div>
 
-    <div class="resize-handle" @mousedown.stop="startResize" @dblclick="resetSize"></div>
+    <div class="resize-handle" @mousedown.stop="startResize" @dblclick="resetSize" v-if="!isMobileDevice"></div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { io } from 'socket.io-client'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
+// 生成用户ID的函数
+const generateUserId = async () => {
+  const savedUserId = localStorage.getItem('chatUserId')
+  if (savedUserId) {
+    return savedUserId
+  }
+
+  try {
+    const fp = await FingerprintJS.load()
+    const result = await fp.get()
+
+    const deviceInfo = {
+      platform: navigator.platform,
+      userAgent: navigator.userAgent,
+      fingerprint: result.visitorId,
+      timestamp: new Date().getTime()
+    }
+
+    const userId = `User_${btoa(JSON.stringify(deviceInfo)).slice(0, 8)}`
+    localStorage.setItem('chatUserId', userId)
+    return userId
+  } catch (error) {
+    console.error('Error generating user ID:', error)
+    return `User_${Math.floor(Math.random() * 1000)}`
+  }
+}
+
+// Socket 连接
 const socket = io(import.meta.env.VITE_WebSocket_API, {
   transports: ['websocket'],
   reconnection: true,
@@ -61,38 +90,89 @@ const socket = io(import.meta.env.VITE_WebSocket_API, {
   reconnectionDelay: 1000
 })
 
-// 聊天相关的状态
+// 状态管理
 const messages = ref([])
 const newMessage = ref('')
 const messageContainer = ref(null)
 const isConnected = ref(false)
-const currentUser = ref(`User_${Math.floor(Math.random() * 1000)}`)
+const currentUser = ref('')
 const onlineCount = ref(0)
+const isMobileDevice = ref(false)
 
-// 拖动相关的状态
+// 拖动状态
 const chatContainer = ref(null)
 const position = ref({ x: 20, y: 20 })
 const isDragging = ref(false)
 const dragOffset = ref({ x: 0, y: 0 })
 
-// 调整大小相关的状态
+// 大小调整状态
 const size = ref({ width: 800, height: 600 })
 const isResizing = ref(false)
 const resizeStart = ref({ x: 0, y: 0, width: 0, height: 0 })
 
-// 最小尺寸限制
+// 常量
 const MIN_WIDTH = 400
 const MIN_HEIGHT = 300
 
-// 拖动相关的方法
+// 检测是否为移动设备
+const checkMobileDevice = () => {
+  const isMobile = window.innerWidth <= 768
+  isMobileDevice.value = isMobile
+  return isMobile
+}
+
+// 保存状态
+const saveState = () => {
+  if (!isMobileDevice.value) {
+    localStorage.setItem(
+      'chatWindowState',
+      JSON.stringify({
+        position: position.value,
+        size: size.value
+      })
+    )
+  }
+}
+
+// 加载状态
+const loadState = () => {
+  if (checkMobileDevice()) {
+    position.value = { x: 0, y: 0 }
+    size.value = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+  } else {
+    const savedState = localStorage.getItem('chatWindowState')
+    if (savedState) {
+      const state = JSON.parse(savedState)
+      position.value = state.position
+      size.value = state.size
+    }
+  }
+}
+
+// 窗口大小变化处理
+const handleResize = () => {
+  if (checkMobileDevice()) {
+    position.value = { x: 0, y: 0 }
+    size.value = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+  }
+}
+
+// ... 继续下一部分
+// 拖动相关方法
 const startDrag = e => {
+  if (isMobileDevice.value) return
   isDragging.value = true
   const rect = chatContainer.value.getBoundingClientRect()
   dragOffset.value = {
     x: e.clientX - rect.left,
     y: e.clientY - rect.top
   }
-  // 添加全局事件监听
   document.addEventListener('mousemove', onDrag)
   document.addEventListener('mouseup', stopDrag)
 }
@@ -112,13 +192,13 @@ const onDrag = e => {
 
 const stopDrag = () => {
   isDragging.value = false
-  // 移除全局事件监听
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
 }
 
-// 调整大小相关的方法
+// 调整大小相关方法
 const startResize = e => {
+  if (isMobileDevice.value) return
   isResizing.value = true
   resizeStart.value = {
     x: e.clientX,
@@ -134,11 +214,9 @@ const startResize = e => {
 const onResize = e => {
   if (!isResizing.value) return
 
-  // 计算新的宽度和高度
   const newWidth = Math.max(MIN_WIDTH, resizeStart.value.width + (e.clientX - resizeStart.value.x))
   const newHeight = Math.max(MIN_HEIGHT, resizeStart.value.height + (e.clientY - resizeStart.value.y))
 
-  // 确保不会超出窗口边界
   const maxWidth = window.innerWidth - position.value.x
   const maxHeight = window.innerHeight - position.value.y
 
@@ -156,31 +234,12 @@ const stopResize = () => {
 }
 
 const resetSize = () => {
+  if (isMobileDevice.value) return
   size.value = { width: 800, height: 600 }
   saveState()
 }
 
-// 保存和恢复状态
-const saveState = () => {
-  localStorage.setItem(
-    'chatWindowState',
-    JSON.stringify({
-      position: position.value,
-      size: size.value
-    })
-  )
-}
-
-const loadState = () => {
-  const savedState = localStorage.getItem('chatWindowState')
-  if (savedState) {
-    const state = JSON.parse(savedState)
-    position.value = state.position
-    size.value = state.size
-  }
-}
-
-// 聊天相关的方法
+// 聊天相关方法
 const scrollToBottom = async () => {
   await nextTick()
   if (messageContainer.value) {
@@ -220,24 +279,29 @@ const sendMessage = () => {
 }
 
 // 初始化历史消息
-const initializeHistory = (historyMessages) => {
-  console.log('Initializing history messages:', historyMessages)
-  messages.value = [] // 清空现有消息
+const initializeHistory = historyMessages => {
+  messages.value = []
   historyMessages.forEach(message => {
     addMessage(message)
   })
 }
 
 // 生命周期钩子
-onMounted(() => {
-  // 加载保存的状态
+onMounted(async () => {
+  // 初始化用户ID
+  currentUser.value = await generateUserId()
+
+  // 检查设备类型并加载状态
+  checkMobileDevice()
   loadState()
+
+  // 添加窗口大小变化监听
+  window.addEventListener('resize', handleResize)
 
   // Socket 事件监听
   socket.on('connect', () => {
     console.log('Connected to server')
     isConnected.value = true
-    // 连接成功后请求历史消息
     socket.emit('getHistory')
   })
 
@@ -251,31 +315,28 @@ onMounted(() => {
     isConnected.value = false
   })
 
-  // 监听历史消息
-  socket.on('history', (historyMessages) => {
-    console.log('Received history messages:', historyMessages)
+  socket.on('history', historyMessages => {
     initializeHistory(historyMessages)
   })
 
   socket.on('message', message => {
-    console.log('Received message:', message)
     addMessage(message)
   })
 
-  // 监听在线人数更新
   socket.on('userCount', count => {
-    console.log('Online users:', count)
     onlineCount.value = count
   })
 
-  // 错误处理
   socket.on('error', error => {
     console.error('Socket error:', error)
   })
 })
 
 onUnmounted(() => {
-  // 清理所有事件监听器
+  // 清理事件监听器
+  window.removeEventListener('resize', handleResize)
+
+  // 清理 socket 事件
   socket.off('connect')
   socket.off('disconnect')
   socket.off('connect_error')
@@ -283,6 +344,7 @@ onUnmounted(() => {
   socket.off('history')
   socket.off('userCount')
   socket.off('error')
+
   // 断开连接
   socket.disconnect()
 })
@@ -361,6 +423,58 @@ onUnmounted(() => {
   border-bottom: 2px solid #666;
 }
 
+/* 移动端样式 */
+@media (max-width: 768px) {
+  .chat-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: unset;
+    min-height: unset;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .chat-header {
+    border-radius: 0;
+    padding: 10px 15px;
+  }
+
+  .header-left h2 {
+    font-size: 16px;
+  }
+
+  .online-count {
+    font-size: 11px;
+  }
+
+  .resize-handle {
+    display: none;
+  }
+}
+
+/* 适配刘海屏 */
+@supports (padding-top: env(safe-area-inset-top)) {
+  @media (max-width: 768px) {
+    .chat-container {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .chat-header {
+      padding-top: calc(10px + env(safe-area-inset-top));
+    }
+
+    .chat-input {
+      padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+  }
+}
+
 .online-status {
   display: flex;
   align-items: center;
@@ -385,6 +499,7 @@ onUnmounted(() => {
   padding: 20px;
   background: #f5f5f5;
   min-height: 200px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .message-wrapper {
@@ -510,4 +625,76 @@ button:disabled {
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .chat-header {
+    padding: 5px 15px;
+  }
+  
+  .chat-messages {
+    padding: 10px;
+  }
+  
+  .message-wrapper {
+    margin-bottom: 10px;
+  }
+  
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .chat-input {
+    padding: 8px;
+  }
+  
+  input {
+    padding: 6px 10px;
+  }
+  
+  button {
+    padding: 6px 15px;
+  }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .chat-container {
+    background: #1a1a1a;
+  }
+  
+  .chat-messages {
+    background: #2a2a2a;
+  }
+  
+  .message {
+    background: #333;
+    color: #fff;
+  }
+  
+  .my-message .message {
+    background: #4a90e2;
+  }
+  
+  .time {
+    color: #aaa;
+  }
+  
+  input {
+    background: #333;
+    color: #fff;
+    border-color: #444;
+  }
+  
+  input:focus {
+    border-color: #4a90e2;
+  }
+  
+  .chat-input {
+    background: #1a1a1a;
+    border-top-color: #333;
+  }
+}
+
 </style>

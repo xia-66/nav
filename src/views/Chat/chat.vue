@@ -153,20 +153,6 @@ const saveState = () => {
     )
   }
 }
-
-// 加载本地消息
-const loadLocalMessages = async () => {
-  try {
-    const savedMessages = localStorage.getItem('chatMessages')
-    if (savedMessages) {
-      messages.value = JSON.parse(savedMessages)
-      await scrollToBottom() // 添加这行
-    }
-  } catch (error) {
-    console.error('Error loading messages from localStorage:', error)
-  }
-}
-
 // 加载状态
 const loadState = async () => {
   // 验证并加载用户ID
@@ -192,9 +178,6 @@ const loadState = async () => {
       size.value = state.size
     }
   }
-
-  // 加载本地消息
-  loadLocalMessages()
 }
 
 // 窗口大小变化处理
@@ -301,10 +284,7 @@ const resetSize = () => {
 const scrollToBottom = async () => {
   await nextTick()
   if (messageContainer.value) {
-    // 添加一个小延时确保 DOM 完全更新
-    // setTimeout(() => {
     messageContainer.value.scrollTop = messageContainer.value.scrollHeight
-    // }, 100)
   }
 }
 
@@ -324,14 +304,6 @@ const addMessage = messageData => {
     timestamp: messageData.timestamp || new Date().toISOString()
   }
   messages.value.push(newMessage)
-
-  // 保存到 localStorage
-  try {
-    const savedMessages = messages.value.slice(-MAX_MESSAGES)
-    localStorage.setItem('chatMessages', JSON.stringify(savedMessages))
-  } catch (error) {
-    console.error('Error saving messages to localStorage:', error)
-  }
 
   scrollToBottom()
 }

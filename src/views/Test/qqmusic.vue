@@ -753,4 +753,216 @@ input[type='range'] {
   background: #31c27c;
   border-radius: 3px;
 }
+
+
+/* 修改响应式设计部分 */
+@media (max-width: 768px) {
+  .music-player {
+    padding: 10px;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+  }
+
+  .search-section {
+    margin-bottom: 10px;
+    padding: 0 5px;
+  }
+
+  .search-input-wrapper {
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .search-input-wrapper input {
+    height: 40px;
+  }
+
+  .search-btn {
+    width: auto;
+    padding: 0 15px;
+    height: 40px;
+    white-space: nowrap;
+  }
+
+  .player-container {
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .left-section {
+    min-width: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cover-section {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .info-section {
+    padding: 10px 5px;
+  }
+
+  .song-info {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .song-info h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .song-info p {
+    font-size: 12px;
+  }
+
+  .controls {
+    margin: 10px 0;
+    gap: 12px;
+  }
+
+  .control-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .play-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .lyrics-container {
+    height: 150px;
+    padding: 10px;
+    margin-top: 10px;
+    flex-shrink: 0;
+  }
+
+  .lyric-line {
+    padding: 6px 0;
+    font-size: 14px;
+  }
+
+  .lyric-line.active {
+    font-size: 16px;
+  }
+
+  .progress-bar {
+    margin: 10px 0;
+  }
+
+  .time {
+    font-size: 10px;
+  }
+
+  /* 优化触摸区域 */
+  input[type='range'] {
+    height: 20px;
+    top: -8px;
+  }
+
+  .control-btn:active {
+    transform: scale(0.9);
+  }
+}
+
+/* 针对更小屏幕的优化 */
+@media (max-width: 320px) {
+  .cover-section {
+    width: 150px;
+    height: 150px;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .control-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .play-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lyrics-container {
+    height: 120px;
+  }
+}
+
+/* 针对横屏模式的优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .music-player {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .player-container {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .cover-section {
+    width: 150px;
+    height: 150px;
+  }
+
+  .left-section {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+
+  .lyrics-container {
+    height: 300px;
+    margin-top: 0;
+  }
+}
+
+/* 优化暗色模式 */
+@media (prefers-color-scheme: dark) {
+  .lyrics-container {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .lyric-line {
+    color: #888;
+  }
+
+  .lyric-line.active {
+    color: #31c27c;
+  }
+
+  .search-input-wrapper input {
+    color: #fff;
+    background: #2a2a2a;
+  }
+
+  .search-icon {
+    color: #666;
+  }
+}
+
+/* 优化触摸反馈 */
+@media (hover: none) {
+  .control-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .search-btn:hover {
+    transform: none;
+  }
+}
 </style>

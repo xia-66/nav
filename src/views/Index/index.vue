@@ -6,7 +6,12 @@ import Anchor from "@/components/anchor/Anchor.vue";
 import Site from "@/components/site/Site.vue";
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import Footer from "@/components/footer/Footer.vue";
-
+import router from "@/router";
+if (true) {
+  router.push({
+    query: { origin: "Index" },
+  });
+}
 </script>
 
 <template>

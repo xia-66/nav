@@ -40,10 +40,12 @@ const dataValue = ref([]) // 创建一个数组来存储最终的对象
 let categories = {}
 
 GetCategories().then(res => {
+  console.log(res.data);
+
   categories = transformData(res.data)
   GetData().then(res => {
     // console.log(res);
-    let data = res.data
+    let data = res.data.filter(item => item.status !== 0)
     if (Array.isArray(data) && data.length > 0) {
       const arrays = {} // 创建一个对象来存储每个category_id对应的数组
       Object.keys(categories).forEach(key => {
@@ -71,7 +73,9 @@ GetCategories().then(res => {
 //转换分类的返回数据
 function transformData(arr) {
   return arr.reduce((acc, item) => {
-    acc[item.id] = item.name
+    if (item.status !== 0) {
+      acc[item.id] = item.name
+    }
     return acc
   }, {})
 }

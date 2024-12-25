@@ -1,16 +1,38 @@
 <script setup lang="ts">
-import Head from "@/components/head/Head.vue";
-import Background from "@/components/background/Background.vue";
-import Search from "@/components/search/Search.vue";
-import Anchor from "@/components/anchor/Anchor.vue";
-import Site from "@/components/site/Site.vue";
-import Sidebar from "@/components/sidebar/Sidebar.vue";
-import Footer from "@/components/footer/Footer.vue";
-import router from "@/router";
-if (true) {
-  router.push({
-    query: { origin: "Index" },
-  });
+import router from '@/router'
+import { serilizeUrl } from '@/utils'
+import { GetUserInfo } from '@/apis'
+import Head from '@/components/head/Head.vue'
+import Background from '@/components/background/Background.vue'
+import Search from '@/components/search/Search.vue'
+import Anchor from '@/components/anchor/Anchor.vue'
+import Site from '@/components/site/Site.vue'
+import Sidebar from '@/components/sidebar/Sidebar.vue'
+import Footer from '@/components/footer/Footer.vue'
+
+const redirDatas = serilizeUrl(window.location.href)
+
+// 检查是否是首次访问
+const hasVisited = sessionStorage.getItem('hasVisited')
+
+if (!hasVisited) {
+  // 设置访问标记
+  sessionStorage.setItem('hasVisited', 'true')
+  if (redirDatas === null) {
+    // 跳转到认证页面
+    router.push({
+      name: 'Auth',
+      query: { origin: 'Index' }
+    })
+  } else {
+    GetUserInfo(redirDatas.code).then(res => {
+      console.log(res)
+      if (res.statusCode === 200) {
+        console.log(res)
+      }
+    })
+    // console.log(redirDatas.code)
+  }
 }
 </script>
 
@@ -31,7 +53,6 @@ if (true) {
       </main>
     </section>
   </div>
-
 </template>
 <style lang="scss" scoped>
 .home {

@@ -2,6 +2,10 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    redirect: '/index'
+  },
+  {
+    path: '/index',
     name: 'Index',
     component: () => import('@/views/Index/index.vue'),
     meta: { title: '黑羽导航' }
@@ -11,6 +15,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Chat',
     component: () => import('@/views/Chat/chat.vue'),
     meta: { title: 'Chat Room' }
+  },
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: () => import('@/views/Auth/auth.vue'),
+    meta: { title: 'Auth' }
   },
   {
     path: '/test',

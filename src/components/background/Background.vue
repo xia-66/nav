@@ -5,9 +5,6 @@
     <div class="bg-fiiter" ></div>
   </div>
 </template>
-<script>
-
-</script>
 
 <style lang="scss" scoped>
 .home-wallpaper {

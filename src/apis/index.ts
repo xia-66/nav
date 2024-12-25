@@ -1,13 +1,12 @@
 import request from "@/utils/request.ts";
 
 // 微服务对接统一授权
-export const WfwGetUserInfo = (code: string, state: string) => {
+export const GetUserInfo = (code: string) => {
   return request({
-    url: `/WfwGetUserInfo`,
+    url: `/login`,
     method: "GET",
     params: {
-      code: code,
-      state: state,
+      code: code
     },
   });
 };

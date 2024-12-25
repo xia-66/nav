@@ -33,7 +33,7 @@
         class="message-wrapper"
         :class="{
           'my-message': message.from === selectedUser,
-          'unread': !message.isRead && message.to === selectedUser
+          unread: !message.isRead && message.to === selectedUser
         }"
       >
         <div class="message-time" v-if="showMessageDate(index, message)">
@@ -59,19 +59,8 @@
 
     <!-- 输入区域 -->
     <div class="chat-input">
-      <input 
-        v-model="newMessage" 
-        @keyup.enter="sendMessage" 
-        @input="handleTyping" 
-        placeholder="输入消息..." 
-        :disabled="!isConnected" 
-      />
-      <button 
-        @click="sendMessage" 
-        :disabled="!isConnected || !newMessage.trim()"
-      >
-        发送
-      </button>
+      <input v-model="newMessage" @keyup.enter="sendMessage" @input="handleTyping" placeholder="输入消息..." :disabled="!isConnected" />
+      <button @click="sendMessage" :disabled="!isConnected || !newMessage.trim()">发送</button>
     </div>
   </div>
 </template>
@@ -127,7 +116,7 @@ const initializeChat = async () => {
   if (!socket.connected) {
     socket.connect()
   }
-  
+
   socket.emit('join', selectedUser.value, response => {
     if (response.status === 'joined') {
       isConnected.value = true
@@ -148,14 +137,12 @@ const loadMessages = async () => {
     response => {
       if (response && response.messages) {
         messages.value = response.messages
-        
+
         // 计算实际的未读消息数量
-        const unreadMessagesCount = messages.value.filter(
-          msg => !msg.isRead && msg.to === selectedUser.value
-        ).length
-        
+        const unreadMessagesCount = messages.value.filter(msg => !msg.isRead && msg.to === selectedUser.value).length
+
         unreadCount.value = unreadMessagesCount
-        
+
         // 如果有未读消息，立即标记为已读
         if (unreadMessagesCount > 0) {
           socket.emit('markAsRead', {
@@ -282,7 +269,7 @@ onMounted(() => {
       messages.value = []
     }
     messages.value.push(message)
-    
+
     // 只有当消息是发给当前用户且未读时才增加未读计数
     if (message.to === selectedUser.value && !message.isRead) {
       unreadCount.value++
@@ -327,12 +314,12 @@ onMounted(() => {
   })
 
   // 用户上线事件
-  socket.on('userConnected', (userId) => {
+  socket.on('userConnected', userId => {
     onlineUsers.value.add(userId)
   })
 
   // 用户下线事件
-  socket.on('userDisconnected', (userId) => {
+  socket.on('userDisconnected', userId => {
     onlineUsers.value.delete(userId)
   })
 })
@@ -340,16 +327,16 @@ onMounted(() => {
 onUnmounted(() => {
   // 移除页面关闭事件监听
   window.removeEventListener('beforeunload', handleBeforeUnload)
-  
+
   if (typingTimeout.value) {
     clearTimeout(typingTimeout.value)
   }
-  
+
   // 确保在组件卸载时断开连接
   if (selectedUser.value) {
     socket.emit('leave')
   }
-  
+
   socket.off('connect')
   socket.off('disconnect')
   socket.off('private-message')
@@ -364,17 +351,15 @@ onUnmounted(() => {
 // 监听消息变化，处理未读状态
 watch(
   () => messages.value,
-  (newMessages) => {
+  newMessages => {
     if (!Array.isArray(newMessages)) return
-    
+
     // 计算当前未读消息数量
-    const unreadMessages = newMessages.filter(
-      msg => msg && !msg.isRead && msg.to === selectedUser.value
-    )
-    
+    const unreadMessages = newMessages.filter(msg => msg && !msg.isRead && msg.to === selectedUser.value)
+
     // 更新未读计数
     unreadCount.value = unreadMessages.length
-    
+
     // 如果有未读消息，标记为已读
     if (unreadMessages.length > 0) {
       socket.emit('markAsRead', {
@@ -390,8 +375,12 @@ watch(
 <style scoped>
 /* 登录容器样式 */
 .login-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
   max-width: 400px;
-  margin: 50px auto;
   padding: 20px;
   text-align: center;
   background: white;
@@ -423,14 +412,14 @@ watch(
 
 /* 聊天容器样式 */
 .chat-container {
-  max-width: 800px;
-  height: 600px;
-  margin: 20px auto;
+  max-width: none;
+  height: 100vh;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 

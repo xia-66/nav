@@ -40,7 +40,7 @@ const dataValue = ref([]) // 创建一个数组来存储最终的对象
 let categories = {}
 
 GetCategories().then(res => {
-  console.log(res.data);
+  // console.log(res.data);
 
   categories = transformData(res.data)
   GetData().then(res => {
@@ -65,7 +65,7 @@ GetCategories().then(res => {
         dataValue.value.push(obj) // 将对象push到数组中
       })
       store.$state.site = dataValue.value
-      console.log(dataValue.value);
+      // console.log(dataValue.value);
       
     }
   })

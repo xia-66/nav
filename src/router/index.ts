@@ -29,9 +29,9 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: '测试' }
   },
   {
-    path: '/qqmusic',
-    name: 'QQMusic',
-    component: () => import('@/views/Test/qqmusic.vue'),
+    path: '/des',
+    name: 'Des',
+    component: () => import('@/views/Test/des.vue'),
     meta: { title: '测试1' }
   }
 ]

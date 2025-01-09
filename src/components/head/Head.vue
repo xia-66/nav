@@ -31,7 +31,7 @@ const showDrawer = () => {
   store.$state.isShowDrawer = true
 }
 const login = () => {
-  window.open('https:navb.heiyu.fun', '_blank')
+  window.open('https://navb.heiyu.fun', '_blank')
 }
 const handleScroll = () => {
   // 直接使用 window.scrollY 获取当前滚动高度

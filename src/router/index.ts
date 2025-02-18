@@ -23,17 +23,11 @@ const routes: Array<RouteRecordRaw> = [
     meta: { title: 'Auth' }
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('@/views/Test/test.vue'),
-    meta: { title: '测试' }
+    path: '/private',
+    name: 'Private',
+    component: () => import('@/views/Chat/privateChat.vue'),
+    meta: { title: '私人聊天' }
   },
-  {
-    path: '/des',
-    name: 'Des',
-    component: () => import('@/views/Test/des.vue'),
-    meta: { title: '测试1' }
-  }
 ]
 const router = createRouter({
   history: createWebHashHistory(),

@@ -12,7 +12,7 @@
     <Clock></Clock>
     <div class="flex-grow" />
     <ul class="my">
-      <li style="overflow: hidden;">默认订阅</li>
+      <li style="overflow: hidden;" @click="chat">默认订阅</li>
       <li style="margin-left: 60px;overflow: hidden; cursor: pointer;" @click="login">登录</li>
     </ul>
   </div>
@@ -26,16 +26,22 @@ import { useMainStore } from '@/store';
 const change = ref(false)
 const store = useMainStore()
 const scrollHeight = ref(0);
+import { useRouter } from 'vue-router'; // 添加这行
 
+const router = useRouter(); // 添加这行
 const showDrawer = () => {
   store.$state.isShowDrawer = true
 }
 const login = () => {
   window.open('https://navb.heiyu.fun', '_blank')
 }
+const chat = () => {
+  router.push('/private')
+}
 const handleScroll = () => {
   // 直接使用 window.scrollY 获取当前滚动高度
   scrollHeight.value = window.scrollY;
+
   // console.log(scrollHeight.value);
   if (scrollHeight.value > 30) {
     change.value = true;

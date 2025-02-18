@@ -2,8 +2,8 @@
   <div v-if="!selectedUser" class="login-container">
     <h2>选择用户</h2>
     <div class="user-buttons">
-      <button @click="selectUser('user1')" :class="{ active: selectedUser === 'user1' }">用户1</button>
-      <button @click="selectUser('user2')" :class="{ active: selectedUser === 'user2' }">用户2</button>
+      <button @click="selectUser('user3')" :class="{ active: selectedUser === 'user3' }">用户1</button>
+      <button @click="selectUser('user4')" :class="{ active: selectedUser === 'user4' }">用户2</button>
     </div>
   </div>
 
@@ -39,10 +39,24 @@
           </div>
         </div>
       </div>
+      <!-- 添加个人信息区域 -->
+      <div class="user-profile" @click="showUserProfile = true">
+        <div class="profile-avatar">
+          <img :src="getAvatarUrl(selectedUser)" :alt="selectedUser" />
+        </div>
+        <div class="profile-info">
+          <div class="profile-name">{{ selectedUser }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 根据是否有选择的聊天来显示不同的内容 -->
+    <div v-if="!targetUserId" class="empty-chat-container">
+      <div class="empty-chat-hint">选择一个聊天或开始新的对话</div>
     </div>
 
     <!-- 聊天区域 -->
-    <div class="chat-container" ref="chatContainer">
+    <div v-else class="chat-container" ref="chatContainer">
       <!-- 聊天头部 -->
       <div class="chat-header">
         <div class="header-left">
@@ -68,37 +82,32 @@
           class="message-wrapper"
           :class="{
             'my-message': message.from === selectedUser,
-            'system-message': isSystemMessage(message),
-            unread: !message.isRead && message.to === selectedUser
+            'system-message': isSystemMessage(message)
           }"
         >
+          <!-- 消息日期显示 -->
           <div class="message-time" v-if="showMessageDate(index, message)">
             {{ formatMessageDate(message.timestamp) }}
           </div>
 
-          <div class="message-content" :class="{ 'system-content': isSystemMessage(message) }">
-            <template v-if="!isSystemMessage(message)">
-              <div class="avatar">
-                <img :src="getAvatarUrl(message.from)" :alt="message.from" />
+          <!-- 系统消息显示在日期下方 -->
+          <div v-if="isSystemMessage(message)" class="system-message-wrapper">
+            <div class="system-message-bubble">
+              {{ message.message }}
+            </div>
+          </div>
+
+          <!-- 普通消息内容 -->
+          <div v-else class="message-content">
+            <div class="avatar">
+              <img :src="getAvatarUrl(message.from)" :alt="message.from" />
+            </div>
+            <div class="message-bubble">
+              <div class="message-text">{{ message.message }}</div>
+              <div class="message-meta">
+                <span class="time">{{ formatTime(message.timestamp) }}</span>
               </div>
-              <div class="message-bubble">
-                <div class="message-text">{{ message.message }}</div>
-                <div class="message-meta">
-                  <span class="time">{{ formatTime(message.timestamp) }}</span>
-                  <span v-if="message.from === selectedUser" class="status">
-                    {{ message.isRead ? '已读' : '未读' }}
-                  </span>
-                </div>
-              </div>
-            </template>
-            <template v-else>
-              <div class="system-message-bubble">
-                <div class="message-text">{{ message.message }}</div>
-                <div class="message-meta">
-                  <span class="time">{{ formatTime(message.timestamp) }}</span>
-                </div>
-              </div>
-            </template>
+            </div>
           </div>
         </div>
       </div>
@@ -122,6 +131,34 @@
       </div>
     </div>
   </div>
+
+  <!-- 添加个人信息弹出框 -->
+  <div v-if="showUserProfile" class="dialog-overlay" @click="showUserProfile = false">
+    <div class="profile-dialog" @click.stop>
+      <h3>个人信息</h3>
+      <div class="profile-content">
+        <div class="profile-avatar-large">
+          <img :src="getAvatarUrl(selectedUser)" :alt="selectedUser" />
+        </div>
+        <div class="profile-details">
+          <div class="profile-item">
+            <label>用户ID</label>
+            <div>{{ selectedUser }}</div>
+          </div>
+          <div class="profile-item">
+            <label>状态</label>
+            <div class="status-text">
+              <span class="status-dot" :class="{ online: isConnected }"></span>
+              {{ isConnected ? '在线' : '离线' }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-buttons">
+        <button @click="showUserProfile = false">关闭</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -129,7 +166,9 @@ import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
 import { io } from 'socket.io-client'
 import { format, isToday, isYesterday, isSameDay } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
-
+import router from '@/router'
+import { serilizeUrl } from '@/utils'
+import { GetUserInfo } from '@/apis'
 // 状态管理
 const selectedUser = ref('')
 const messages = ref([])
@@ -183,24 +222,8 @@ const socket = io('http://localhost:3002', {
 })
 // 用户选择
 const selectUser = async userId => {
-  // 检查用户是否在聊天列表中
-  const existingChat = chatList.value.find(chat => chat.userId === userId)
-  if (!existingChat) {
-    // 如果不在列表中，添加到聊天列表
-    chatList.value.push({
-      userId,
-      lastMessage: '',
-      unreadCount: 0,
-      active: true
-    })
-  } else {
-    // 如果已存在，将其设为活跃
-    chatList.value.forEach(chat => {
-      chat.active = chat.userId === userId
-    })
-  }
-
   selectedUser.value = userId
+  chatList.value = [] // 初始化为空列表
   await initializeChat()
 }
 
@@ -231,8 +254,8 @@ const initializeChat = async () => {
         socket.emit(
           'initializeChat',
           {
-            user1: selectedUser.value,
-            user2: targetUserId.value
+            user3: selectedUser.value,
+            user4: targetUserId.value
           },
           response => {
             if (response.status === 'success') {
@@ -253,21 +276,16 @@ const loadMessages = async () => {
   socket.emit(
     'getHistory',
     {
-      user1: selectedUser.value,
-      user2: targetUserId.value
+      user3: selectedUser.value,
+      user4: targetUserId.value
     },
     response => {
       if (response && response.messages) {
-        messages.value = response.messages
+        // 不要直接覆盖 messages，而是追加新消息
+        const historyMessages = response.messages
+        console.log('History messages:', historyMessages) // 添加日志
+        messages.value = [...messages.value, ...historyMessages]
         unreadCount.value = response.unreadCount || 0
-
-        // 如果有未读消息，立即标记为已读
-        if (unreadCount.value > 0) {
-          socket.emit('markAsRead', {
-            from: selectedUser.value,
-            to: targetUserId.value
-          })
-        }
       }
       scrollToBottom()
     }
@@ -372,6 +390,30 @@ const scrollToBottom = async () => {
 
 // 生命周期钩子
 onMounted(() => {
+  const redirDatas = serilizeUrl(window.location.href)
+
+// 检查是否是首次访问
+const hasVisited = sessionStorage.getItem('hasVisited')
+
+if (!hasVisited) {
+  // 设置访问标记
+  sessionStorage.setItem('hasVisited', 'true')
+  if (redirDatas === null) {
+    // 跳转到认证页面
+    router.push({
+      name: 'Auth',
+      query: { origin: 'PrivateChat' }
+    })
+  } else {
+    GetUserInfo(redirDatas.code).then(res => {
+      console.log(res)
+      if (res.statusCode === 200) {
+        console.log(res)
+      }
+    })
+    // console.log(redirDatas.code)
+  }
+}
   // 添加页面关闭事件监听
   window.addEventListener('beforeunload', handleBeforeUnload)
 
@@ -398,11 +440,6 @@ onMounted(() => {
     scrollToBottom()
   })
 
-  // 消息已读状态更新
-  socket.on('messagesRead', ({ from, to }) => {
-    handleMessagesRead(from, to)
-  })
-
   // 输入状态
   socket.on('typing', data => {
     if (data.from === targetUserId.value) {
@@ -416,20 +453,33 @@ onMounted(() => {
     }
   })
 
-  // 用户上线事件
+  // 用户上线事件 - 添加系统消息
   socket.on('userConnected', userId => {
     onlineUsers.value.add(userId)
+    // 添加系统消息
+    messages.value.push({
+      type: 'system',
+      message: `${userId} 已连接`,
+      timestamp: new Date().toISOString()
+    })
+    scrollToBottom()
   })
 
-  // 用户下线事件
+  // 用户下线事件 - 添加系统消息
   socket.on('userDisconnected', userId => {
     onlineUsers.value.delete(userId)
+    // 添加系统消息
+    messages.value.push({
+      type: 'system',
+      message: `${userId} 已断开连接`,
+      timestamp: new Date().toISOString()
+    })
+    scrollToBottom()
   })
 
   // 监听命名空间清理事件
   socket.on('namespaceCleanup', namespace => {
     console.log('Namespace cleaned up:', namespace)
-    // 可以在这里处理命名空间被清理的情况
   })
 })
 
@@ -449,7 +499,6 @@ onUnmounted(() => {
   socket.off('connect')
   socket.off('disconnect')
   socket.off('private-message')
-  socket.off('messagesRead')
   socket.off('typing')
   socket.off('stopTyping')
   socket.off('userConnected')
@@ -495,8 +544,8 @@ const switchChat = async userId => {
   socket.emit(
     'initializeChat',
     {
-      user1: selectedUser.value,
-      user2: userId
+      user3: selectedUser.value,
+      user4: userId
     },
     response => {
       if (response.status === 'success') {
@@ -525,18 +574,25 @@ watch(
   { deep: true }
 )
 
-// 创建新的聊天
-const createNewChat = () => {
+// 修改创建新的聊天
+const createNewChat = async () => {
   const userId = newChatUserId.value.trim()
-  if (!userId || userId === selectedUser.value) {
-    console.warn('Cannot chat with yourself')
+  if (!userId) return
+
+  // 不允许和自己对话
+  if (userId === selectedUser.value) {
+    alert('不能和自己对话')
+    newChatUserId.value = ''
+    showNewChatDialog.value = false
     return
   }
 
   // 检查是否已存在该聊天
   const existingChat = chatList.value.find(chat => chat.userId === userId)
+  console.log('Existing chat:', existingChat) // 添加日志
+
   if (!existingChat) {
-    // 取消所有天的活跃状态
+    // 取消所有聊天的活跃状态
     chatList.value.forEach(chat => (chat.active = false))
 
     // 添加新的聊天
@@ -553,20 +609,40 @@ const createNewChat = () => {
     })
   }
 
-  // 更新选中用户
-  selectedUser.value = userId
+  // 初始化消息数组
+  messages.value = []
+
+  // 等待 DOM 更新
+  await nextTick()
+
+  const systemMessage = {
+    type: 'system',
+    message: existingChat ? '连接通道已存在' : '连接通道创建成功',
+    timestamp: new Date().toISOString()
+  }
+  console.log('Adding system message:', systemMessage) // 添加日志
+
+  messages.value = [systemMessage] // 直接赋值而不是 push
+
+  // 等待系统消息添加完成
+  await nextTick()
+  console.log('Current messages:', messages.value) // 添加日志
 
   // 初始化新的聊天
   socket.emit(
     'initializeChat',
     {
-      user1: selectedUser.value,
-      user2: userId
+      user3: selectedUser.value,
+      user4: userId
     },
-    response => {
+    async response => {
       if (response.status === 'success') {
         console.log('New chat initialized:', response.namespace)
-        loadMessages() // 加载消息历史
+        // 加载历史消息时保留系统消息
+        const currentMessages = [...messages.value]
+        await loadMessages()
+        messages.value = [...currentMessages, ...messages.value]
+        await scrollToBottom()
       }
     }
   )
@@ -583,41 +659,28 @@ const updateChatStatus = message => {
   if (chatItem) {
     chatItem.lastMessage = message.message
     // 只有当这条消息不是当前用户发送的，且是发给当前用户的未读消息时才更新计数
-    if (message.from !== selectedUser.value && message.to === selectedUser.value && !message.isRead) {
-      chatItem.unreadCount = (chatItem.unreadCount || 0) + 1
+    // if (message.from !== selectedUser.value && message.to === selectedUser.value && !message.isRead) {
+    //   chatItem.unreadCount = (chatItem.unreadCount || 0) + 1
 
-      // 如果是当前活跃的聊天，立即标记为已读
-      if (chatItem.active) {
-        socket.emit('markAsRead', {
-          from: selectedUser.value,
-          to: message.from
-        })
-      }
-    }
+    //   // 如果是当前活跃的聊天，立即标记为已读
+    //   if (chatItem.active) {
+    //     socket.emit('markAsRead', {
+    //       from: selectedUser.value,
+    //       to: message.from
+    //     })
+    //   }
+    // }
   }
 }
 
-// 添加一个新的函数来处理消息已读状态
-const handleMessagesRead = (from, to) => {
-  // 更新消息列表中的已读状态
-  messages.value = messages.value.map(msg => {
-    if (msg.from === from && msg.to === to && !msg.isRead) {
-      return { ...msg, isRead: true }
-    }
-    return msg
-  })
-
-  // 更新聊天列表中的未读计数
-  const chatItem = chatList.value.find(chat => chat.userId === from)
-  if (chatItem) {
-    chatItem.unreadCount = 0
-  }
-}
-
-// 添加一个计算属性来判断是否为系统消息
+// 修改系统消息判断逻辑
 const isSystemMessage = message => {
-  return message.type === 'system' || message.message.includes('Chat session created')
+  console.log('Checking system message:', message) // 添加日志
+  return message && message.type === 'system'
 }
+
+// 添加个人信息相关的状态
+const showUserProfile = ref(false)
 </script>
 
 <style scoped>
@@ -656,6 +719,20 @@ const isSystemMessage = message => {
 .user-buttons button.active {
   background: #4a90e2;
   color: white;
+}
+.empty-chat-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  height: 100vh;
+}
+
+.empty-chat-hint {
+  color: #666;
+  font-size: 16px;
+  text-align: center;
 }
 
 /* 聊天容器样式 */
@@ -761,14 +838,14 @@ const isSystemMessage = message => {
   margin-bottom: 20px;
 }
 
-.message-wrapper.unread .message-bubble {
+/* .message-wrapper.unread .message-bubble {
   border-left: 3px solid #4a90e2;
   background-color: #f8f9fa;
-}
+} */
 
 .message-time {
   text-align: center;
-  margin: 20px 0;
+  margin: 20px 0 8px 0;
   color: #666;
   font-size: 12px;
 }
@@ -803,16 +880,16 @@ const isSystemMessage = message => {
   background: white;
   padding: 10px 15px;
   border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
   position: relative;
   min-width: 100px;
 }
 
 .my-message .message-bubble {
-  background: white;
+  background: skyblue;
   color: #333;
   border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); */
 }
 
 /* 我方消息的文本和元数据样式 */
@@ -832,10 +909,10 @@ const isSystemMessage = message => {
   color: #666;
 }
 
-.my-message.unread .message-bubble {
+/* .my-message.unread .message-bubble {
   border-left: none;
   box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
-}
+} */
 
 .message-meta {
   font-size: 12px;
@@ -1117,8 +1194,25 @@ const isSystemMessage = message => {
   color: #666;
 }
 
-/* 添加系统消息的样式 */
-.system-message {
+/* 修改系统消息样式 */
+.system-message-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.system-message-bubble {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #666;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* 移除或注释掉旧的系统消息样式 */
+/*.system-message {
   display: flex;
   justify-content: center;
   margin: 10px 0;
@@ -1137,18 +1231,7 @@ const isSystemMessage = message => {
   color: #666;
   max-width: 80%;
   margin: 0 auto;
-}
-
-.system-message-bubble .message-text {
-  font-size: 14px;
-}
-
-.system-message-bubble .message-meta {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #999;
-  justify-content: center;
-}
+}*/
 
 /* 消息文本样式 */
 .message-text {
@@ -1157,8 +1240,114 @@ const isSystemMessage = message => {
   margin-bottom: 2px;
 }
 
-/* 未读消息样式 */
-.unread .message-bubble {
-  border-left: 3px solid #4a90e2;
+/* 个人信息区域样式 */
+.user-profile {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-profile:hover {
+  background: #f0f0f0;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 12px;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-name {
+  font-weight: 500;
+  color: #333;
+}
+
+/* 个人信息弹出框样式 */
+.profile-dialog {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  max-width: 90vw;
+}
+
+.profile-dialog h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  text-align: center;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-avatar-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-details {
+  width: 100%;
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-item:last-child {
+  border-bottom: none;
+}
+
+.profile-item label {
+  color: #666;
+}
+
+.status-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.status-dot.online {
+  background: #2ecc71;
 }
 </style>

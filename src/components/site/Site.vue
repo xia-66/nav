@@ -1,29 +1,35 @@
 <template>
   <div id="js-home-site" class="home-site">
-    <section v-for="category in dataValue" :key="category.index" :id="`site-anchor-${category.name}`">
-      <div class="site-item">
-        <header :id="category.name">
-          <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
-          <a class="category-title" :name="category.name">{{ category.name }}</a>
-        </header>
-        <main>
-          <ul>
-            <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
-              <div class="site-card inherit-text text w-px-180 sm:w-px-150">
-                <div class="img-group">
-                  <img v-lazy :src="`${Favicon}${item.url}`" />
+    <div v-if="loading || dataValue.length === 0" class="site-container">
+      <el-skeleton v-if="loading" :rows="5" animated />
+      <el-empty v-else description="暂无数据" />
+    </div>
+    <template v-else>
+      <section v-for="category in dataValue" :key="category.index" :id="`site-anchor-${category.name}`">
+        <div class="site-item">
+          <header :id="category.name">
+            <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
+            <a class="category-title" :name="category.name">{{ category.name }}</a>
+          </header>
+          <main>
+            <ul>
+              <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
+                <div class="site-card inherit-text text w-px-180 sm:w-px-150">
+                  <div class="img-group">
+                    <img v-lazy :src="`${Favicon}${item.url}`" />
+                  </div>
+                  <div class="text-group">
+                    <div class="name text">{{ item.name }}</div>
+                    <div class="name text describe">{{ item.description }}</div>
+                  </div>
                 </div>
-                <div class="text-group">
-                  <div class="name text">{{ item.name }}</div>
-                  <div class="name text describe">{{ item.description }}</div>
-                </div>
-              </div>
-            </a>
-            <i style="width: 200px" v-for="i in 6" :key="i.indx"></i>
-          </ul>
-        </main>
-      </div>
-    </section>
+              </a>
+              <i style="width: 200px" v-for="i in 6" :key="i.indx"></i>
+            </ul>
+          </main>
+        </div>
+      </section>
+    </template>
   </div>
 </template>
 
@@ -35,40 +41,53 @@ import unloadImg from '@/assets/img/error/image-error.png'
 import loadImg from '@/assets/img/loading/3.gif'
 import { GetData, GetCategories } from '@/apis'
 import { ref } from 'vue'
+
 const store = useMainStore()
 const dataValue = ref([]) // 创建一个数组来存储最终的对象
+const loading = ref(true) // 添加加载状态
 let categories = {}
 
-GetCategories().then(res => {
-  // console.log(res.data);
+GetCategories()
+  .then(res => {
+    // console.log(res.data);
 
-  categories = transformData(res.data)
-  GetData().then(res => {
-    // console.log(res);
-    let data = res.data.filter(item => item.status !== 0)
-    if (Array.isArray(data) && data.length > 0) {
-      const arrays = {} // 创建一个对象来存储每个category_id对应的数组
-      Object.keys(categories).forEach(key => {
-        arrays[key] = [] // 初始化每个category_id对应的空数组
-      })
+    categories = transformData(res.data)
+    GetData()
+      .then(res => {
+        // console.log(res);
+        let data = res.data.filter(item => item.status !== 0)
+        if (Array.isArray(data) && data.length > 0) {
+          const arrays = {} // 创建一个对象来存储每个category_id对应的数组
+          Object.keys(categories).forEach(key => {
+            arrays[key] = [] // 初始化每个category_id对应的空数组
+          })
 
-      data.forEach(item => {
-        if (item.category_id && categories[item.category_id]) {
-          arrays[item.category_id].push(item) // 直接使用category_id作为键来push到对应的数组
+          data.forEach(item => {
+            if (item.category_id && categories[item.category_id]) {
+              arrays[item.category_id].push(item) // 直接使用category_id作为键来push到对应的数组
+            }
+          })
+
+          Object.keys(categories).forEach(key => {
+            const obj = {} // 创建一个新对象
+            obj.name = categories[key] // 设置name属性
+            obj.content = arrays[key] // 设置content属性
+            dataValue.value.push(obj) // 将对象push到数组中
+          })
+          store.$state.site = dataValue.value
+          // console.log(dataValue.value);
         }
+        loading.value = false // 数据加载完成，设置loading为false
       })
-
-      Object.keys(categories).forEach(key => {
-        const obj = {} // 创建一个新对象
-        obj.name = categories[key] // 设置name属性
-        obj.content = arrays[key] // 设置content属性
-        dataValue.value.push(obj) // 将对象push到数组中
+      .catch(err => {
+        console.error('获取数据失败', err)
+        loading.value = false // 即使出错也要设置loading为false
       })
-      store.$state.site = dataValue.value
-      // console.log(dataValue.value);
-    }
   })
-})
+  .catch(err => {
+    console.error('获取分类失败', err)
+    loading.value = false // 即使出错也要设置loading为false
+  })
 //转换分类的返回数据
 function transformData(arr) {
   return arr.reduce((acc, item) => {
@@ -127,6 +146,15 @@ function handleLazy(el, binding) {
   // margin-top: 40vh;
   background-color: #f9fafb;
   z-index: 1;
+
+  .site-container {
+    width: calc(100% - 20px);
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 2px;
+    padding: 10px;
+  }
+
   section {
     width: calc(100% - 20px);
     margin: 10px auto 0 auto;
@@ -249,5 +277,12 @@ function handleLazy(el, binding) {
       }
     }
   }
+}
+.el-empty {
+  // margin: 20px 0;
+  padding: 40px;
+  // padding-bottom: 40px;
+  border-radius: 8px;
+  background-color: #fff;
 }
 </style>

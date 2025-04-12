@@ -10,24 +10,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Index/index.vue'),
     meta: { title: '黑羽导航' }
   },
-  {
-    path: '/chat',
-    name: 'Chat',
-    component: () => import('@/views/Chat/chat.vue'),
-    meta: { title: 'Chat Room' }
-  },
-  {
-    path: '/auth',
-    name: 'Auth',
-    component: () => import('@/views/Auth/auth.vue'),
-    meta: { title: 'Auth' }
-  },
-  {
-    path: '/private',
-    name: 'Private',
-    component: () => import('@/views/Chat/privateChat.vue'),
-    meta: { title: '私人聊天' }
-  },
 ]
 const router = createRouter({
   history: createWebHashHistory(),

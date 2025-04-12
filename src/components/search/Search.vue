@@ -14,7 +14,6 @@
               <el-card class="site-card" shadow="never">
                 <div class="img-group">
                   <el-avatar :size="42" :src="`${Favicon}${item.url}`">
-                    <el-icon><Link /></el-icon>
                   </el-avatar>
                 </div>
                 <div class="text-group">
@@ -30,7 +29,6 @@
       <div v-if="loading && isActive" class="loading search-results-container">
         <el-skeleton :rows="3" animated />
       </div>
-      <el-backtop :right="50" :bottom="50" />
     </div>
   </div>
 </template>
@@ -40,7 +38,7 @@ import { ref } from 'vue'
 import { searchItemData } from '@/apis/index'
 import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
-import { Link, Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 
 // 定义搜索结果项的接口
 interface SearchResultItem {

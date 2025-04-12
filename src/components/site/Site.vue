@@ -66,7 +66,6 @@ GetCategories().then(res => {
       })
       store.$state.site = dataValue.value
       // console.log(dataValue.value);
-      
     }
   })
 })
@@ -178,9 +177,6 @@ function handleLazy(el, binding) {
               transition: transform 0.3s ease;
             }
             .site-card {
-              @media screen and (max-width: 768px) {
-                width: 160px;
-              }
               position: relative;
               width: 200px;
               height: 50px;
@@ -193,6 +189,9 @@ function handleLazy(el, binding) {
               box-shadow: 0px 0px 20px -5px rgba(158, 158, 158, 0.2);
               transition: box-shadow 0.3s ease;
               transition: transform 0.3s ease;
+              @media screen and (max-width: 768px) {
+                width: 160px;
+              }
               .img-group {
                 position: absolute;
                 left: 10px;

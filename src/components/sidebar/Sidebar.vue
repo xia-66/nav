@@ -10,8 +10,8 @@
       <li class="shadow">
         <i class="iconfont icon-github" @click="goStorage"> </i>
       </li>
-      <li class="shadow" @click="readHelp">
-        <i class="iconfont icon-md-help-circle"></i>
+      <li class="shadow">
+        <i class="iconfont icon-md-help-circle" @click="readHelp"></i>
       </li>
     </ul>
   </div>
@@ -33,6 +33,12 @@ const handleScroll = () => {
     isVisible.value = false;
   }
 };
+const goStorage = () => {
+  window.open('https://github.com/xia-66', '_blank')
+}
+const readHelp = () => {
+  window.open('https://blog.heiyu.fun/index.php/5.html', '_blank')
+}
 // 回到顶部的函数
 const scrollToTop = () => {
   window.scrollTo({

@@ -13,4 +13,10 @@ export const GetCategories = () => {
     method: "GET",
   })
 }
-
+export const searchItemData = (params: any) => {
+  return request({
+    url: `/item/search`,
+    method: "GET",
+    params,
+  })
+}

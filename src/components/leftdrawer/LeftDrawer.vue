@@ -38,6 +38,7 @@ const changeAnchorPosition = (name) => {
 .text {
   font-size: 14px;
   text-align: center;
+  cursor: pointer;
 }
 .el-drawer__header {
   margin: 0 auto;

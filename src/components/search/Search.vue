@@ -1,245 +1,347 @@
 <template>
-  <div class="home-search xl:w-px-600 lg:w-px-400 sm:w-px-340 h-px-40">
-    <ul class="menu" style="color: #fff;">
-      <li v-for=" (item,index) in store.$state.searchs" :key="item.key" @click="selectEngine(index)"
-        class="xl:text-base" :class="{ active: activeSearchIndex === index }">{{ item.name }}</li>
-    </ul>
-    <form>
-      <div class="left">
-        <i :class="currentSearch.iconClass"></i>
+  <div class="search-container">
+    <div class="search-input-wrapper">
+      <el-input v-model="searchText" placeholder="请输入搜索内容" clearable @input="handleInputChange" @clear="clearSearch" @focus="handleFocus" @blur="handleBlur">
+        <template #prefix>
+          <el-icon><Search /></el-icon>
+        </template>
+      </el-input>
+      <div class="search-results-container" v-if="hasSearched && !loading && isActive">
+        <el-empty v-if="searchResults.length === 0" description="未找到相关结果" />
+        <div class="search-results" v-else>
+          <ul>
+            <a class="relative site inherit-text" target="_blank" v-for="item in searchResults" :key="item.id" @click="handleItemClick(item.url)">
+              <el-card class="site-card" shadow="never">
+                <div class="img-group">
+                  <el-avatar :size="42" :src="`${Favicon}${item.url}`">
+                    <el-icon><Link /></el-icon>
+                  </el-avatar>
+                </div>
+                <div class="text-group">
+                  <div class="name text">{{ item.name }}</div>
+                  <div class="name text describe">{{ item.description }}</div>
+                </div>
+              </el-card>
+            </a>
+            <i style="width: 200px" v-for="i in 6" :key="i"></i>
+          </ul>
+        </div>
       </div>
-      <el-input placeholder="按下/可快速聚焦输入框" clearable v-model="searchQuery" @input="() => {}"  @keydown.enter.prevent="handleEnterKey" id="searchInput"/>
-      <div class="right">
-        <i class="iconfont icon-md-search" @click="doSearch"></i>
+      <div v-if="loading && isActive" class="loading search-results-container">
+        <el-skeleton :rows="3" animated />
       </div>
-    </form>
+      <el-backtop :right="50" :bottom="50" />
+    </div>
   </div>
-
 </template>
 
-<script setup>
-import { useMainStore } from '@/store';
-import { ref, watch,onMounted,onBeforeUnmount } from 'vue';
-import { openUrl } from '@/utils';
-const store = useMainStore()
+<script setup lang="ts">
+import { ref } from 'vue'
+import { searchItemData } from '@/apis/index'
+import { Favicon } from '@/config'
+import { openUrl } from '@/utils'
+import { Link, Search } from '@element-plus/icons-vue'
 
-const searchQuery = ref('');
-const activeSearchIndex = ref(0)
-const currentSearch = ref({})
-
-const handleEnterKey = () => {
-  doSearch()
+// 定义搜索结果项的接口
+interface SearchResultItem {
+  id: number
+  name: string
+  description: string
+  url: string
+  category_id: number
+  status: number
+  createTime: string
+  [key: string]: any
 }
 
-// 选择搜索引擎
-const selectEngine = (index) => {
-  // 搜索输入框获得光标
-  activeSearchIndex.value = index;
-}
-watch(    // 选中的建议索引
-  activeSearchIndex, (newV, oldV) => {
-    currentSearch.value = store.$state.searchs[newV];
-  },
-  {
-    deep: true,
-    immediate: true,
+interface SearchResponse {
+  data: {
+    items: SearchResultItem[]
+    total: number
   }
-)
-const doSearch =() => {
-  if (searchQuery.value) {
-        const searchUrl = `${currentSearch.value.url}?${currentSearch.value.key}=${searchQuery.value}`;
-        // window.location.href = searchUrl; 
-        openUrl(searchUrl)
-    }
+  message: string
+  statusCode: number
+  timestamp: string
 }
 
-const focusSearchInput = (event) => {
-      if (event.key === '/') {
-        event.preventDefault(); // 阻止默认行为
-        const searchInput = document.querySelector('#searchInput')
-        if (searchInput) {
-          searchInput.focus();
-        }
-      }
-    };
+const searchText = ref('')
+const searchResults = ref<SearchResultItem[]>([])
+const total = ref(0)
+const pageNum = ref(1)
+const pageSize = ref(10)
+const hasSearched = ref(false)
+const loading = ref(false)
+const debounceTimeout = ref<number | null>(null)
+const isActive = ref(false)
 
-    onMounted(() => {
-      window.addEventListener('keydown', focusSearchInput);
-    });
+// 处理聚焦事件
+const handleFocus = () => {
+  isActive.value = true
+}
 
-    onBeforeUnmount(() => {
-      window.removeEventListener('keydown', focusSearchInput);
-    });
+// 处理失焦事件
+const handleBlur = (e: FocusEvent) => {
+  // 获取点击的元素
+  const target = e.relatedTarget as HTMLElement
+
+  // 只有当点击到搜索区域外才关闭结果
+  if (!target || !document.querySelector('.search-container')?.contains(target)) {
+    setTimeout(() => {
+      isActive.value = false
+    }, 200)
+  }
+}
+
+// 处理输入变化的函数
+const handleInputChange = () => {
+  // 如果已有等待执行的搜索，则取消它
+  if (debounceTimeout.value !== null) {
+    clearTimeout(debounceTimeout.value)
+  }
+
+  // 如果搜索框为空，则清空结果
+  if (!searchText.value.trim()) {
+    searchResults.value = []
+    hasSearched.value = false
+    return
+  }
+
+  // 确保搜索结果显示
+  isActive.value = true
+
+  // 设置300ms的防抖延迟
+  debounceTimeout.value = setTimeout(() => {
+    performSearch()
+  }, 300) as unknown as number
+}
+
+// 清空搜索
+const clearSearch = () => {
+  searchText.value = ''
+  searchResults.value = []
+  hasSearched.value = false
+}
+
+// 执行搜索的函数
+const performSearch = async () => {
+  if (!searchText.value.trim()) {
+    return
+  }
+
+  loading.value = true
+  hasSearched.value = true
+
+  try {
+    const params = {
+      name: searchText.value,
+      pageNum: pageNum.value,
+      pageSize: pageSize.value
+    }
+
+    const res = (await searchItemData(params)) as SearchResponse
+
+    if (res.statusCode == 200) {
+      searchResults.value = res.data.items
+      total.value = res.data.total
+    } else {
+      searchResults.value = []
+      total.value = 0
+    }
+  } catch (error) {
+    console.error('搜索出错:', error)
+    searchResults.value = []
+    total.value = 0
+  } finally {
+    loading.value = false
+  }
+}
+
+// 处理点击项目
+const handleItemClick = (url: string) => {
+  // 保存最后一次点击
+  setTimeout(() => {
+    isActive.value = false
+  }, 100)
+  openUrl(url)
+}
 </script>
 
-
 <style lang="scss" scoped>
-.el-input {
-  --el-input-focus-border-color: none;
-}
-::v-deep(.el-input__wrapper) {
-  box-shadow: none;
-}
-.home-search {
+.search-container {
   position: absolute;
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
-  form {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-self: center;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 25px;
-    opacity: 0.7;
-    .left {
-      position: relative;
-      width: 50px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      i {
-        font-size: 24px;
-        font-weight: 500;
-        cursor: pointer;
-      }
-      .left-placeholder {
-        position: absolute;
-        left: 65px;
-        width: 140px;
-        height: 20px;
-        color: var(--gray-500);
-        .left-placeholder-unfocus {
-          display: flex;
-          align-items: center;
-          .focus-icon {
-            width: 14px;
-            height: 18px;
-            margin: 0 4px;
-            border-radius: 2px;
-            border: 1px solid var(--gray-500);
-            text-align: center;
-            line-height: 18px;
-          }
-        }
-      }
-    }
-    .center {
-      width: calc(100% - 100px);
-      height: 100%;
-      ::v-deep(.el-input__inner) {
-        border: none;
-        border-radius: 0;
-        background: transparent;
-        &::placeholder {
-          color: var(--gray-600);
-        }
-      }
-      ::v-deep(.el-input__suffix) {
-        i {
-          font-size: 16px;
-          font-weight: 500;
-          color: var(--gray-600);
-        }
-      }
-    }
-    .right {
-      width: 50px;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      i {
-        font-size: 24px;
-        font-weight: 500;
-      }
-    }
-    .idea {
-      position: absolute;
-      top: 50px;
-      left: 0;
-      right: 0;
-      max-height: 180px;
-      border-radius: 4px;
-      overflow-y: auto;
-      li {
-        padding: 5px 10px;
-        border-radius: 3px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-all;
-        cursor: pointer;
-        &:hover {
-          color: var(--gray-700);
-          background-color: var(--gray-o3);
-        }
-        .instation-idea {
-          .name {
-            font-weight: 600;
-            color: var(--gray-700);
-          }
-          .describe {
-            font-size: 12px;
-            color: var(--gray-500);
-          }
-          ::v-deep(.idea-highlight) {
-            color: var(--red-400);
-          }
-        }
-      }
-      .active {
-        color: var(--gray-700);
-        background-color: var(--gray-o3);
-        cursor: pointer;
-      }
-    }
-  }
-  .menu {
-    position: absolute;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    color: var(--gray-50);
-    li {
-      position: relative;
-      height: 32px;
-      margin-top: 5px;
-      cursor: pointer;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+  z-index: 99;
+}
 
-      &:first-child {
-        margin-left: 0;
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.loading {
+  margin-top: 20px;
+}
+
+.search-results-container {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  max-height: 70vh;
+  overflow-y: auto;
+  background-color: var(--el-bg-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  z-index: 9999;
+  transition: all 0.3s ease;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--el-border-color-lighter);
+    border-radius: 3px;
+  }
+}
+
+.search-results {
+  width: 100%;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+
+    .site {
+      margin-top: 0;
+      text-decoration: none;
+      width: calc(33.333% - 11px);
+      transition: transform 0.2s ease;
+
+      @media screen and (max-width: 768px) {
+        width: calc(50% - 8px);
+      }
+
+      @media screen and (max-width: 480px) {
+        width: 100%;
+      }
+
+      &:hover {
+        transform: translateY(-3px);
+
+        .site-card {
+          border-color: var(--el-color-primary-light-5);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+      }
+
+      .site-card {
+        position: relative;
+        width: 100%;
+        height: 70px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        color: var(--el-text-color-primary);
+        transition: all 0.3s;
+        border: 1px solid var(--el-border-color-lighter);
+
+        .img-group {
+          position: absolute;
+          left: 14px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          overflow: hidden;
+          z-index: 2;
+        }
+
+        .text-group {
+          width: calc(100% - 60px);
+          display: block;
+          margin-left: 66px;
+          padding-right: 10px;
+
+          .name {
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 1.4;
+          }
+
+          .describe {
+            color: var(--el-text-color-secondary);
+            font-size: 12px;
+            margin-top: 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+        }
       }
     }
-    .active {
-      &::after {
-        content: "";
-        position: absolute;
-        bottom: 0px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: block;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: #34d399;
-      }
+
+    i {
+      height: 0;
     }
   }
-  // 毛玻璃效果
-  .gross-glass {
-    background-color: var(--gray-o5);
-    backdrop-filter: blur(8px);
+}
+
+.text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:deep(.el-input__wrapper) {
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+  height: 46px;
+  border-radius: 23px;
+  border: 1px solid var(--el-border-color-lighter);
+
+  &:focus-within {
+    box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
+    border-color: var(--el-color-primary);
   }
+}
+
+:deep(.el-input__inner) {
+  height: 46px;
+  line-height: 46px;
+  font-size: 15px;
+}
+
+:deep(.el-input__prefix) {
+  padding-left: 8px;
+}
+
+:deep(.el-input__suffix) {
+  padding-right: 8px;
+}
+
+:deep(.el-card__body) {
+  padding: 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.el-empty {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 8px;
 }
 </style>

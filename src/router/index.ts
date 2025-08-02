@@ -10,6 +10,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/index/index.vue'),
     meta: { title: '黑羽导航' }
   },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('@/views/admin/index.vue'),
+   
+  }
 ]
 const router = createRouter({
   history: createWebHashHistory(),

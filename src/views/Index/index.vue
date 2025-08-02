@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import Head from '@/components/head/Head.vue'
-import Background from '@/components/background/Background.vue'
-import Search from '@/components/search/Search.vue'
-import Anchor from '@/components/anchor/Anchor.vue'
-import Site from '@/components/site/Site.vue'
-import Sidebar from '@/components/sidebar/Sidebar.vue'
-import Footer from '@/components/footer/Footer.vue'
+import Head from '@/components/index/Head.vue'
+import Background from '@/components/index/Background.vue'
+import Search from '@/components/index/Search.vue'
+import Anchor from '@/components/index/Anchor.vue'
+import Site from '@/components/index/Site.vue'
+import Sidebar from '@/components/index/Sidebar.vue'
+import Footer from '@/components/index/Footer.vue'
 
 </script>
 

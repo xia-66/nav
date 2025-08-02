@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/index',
     name: 'Index',
-    component: () => import('@/views/Index/index.vue'),
+    component: () => import('@/views/index/index.vue'),
     meta: { title: '黑羽导航' }
   },
 ]

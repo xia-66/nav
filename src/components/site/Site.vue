@@ -39,7 +39,7 @@ import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
 import unloadImg from '@/assets/img/error/image-error.png'
 import loadImg from '@/assets/img/loading/3.gif'
-import { GetData, GetCategories } from '@/apis'
+import { GetData, GetCategories } from '@/apis/index/index'
 import { ref } from 'vue'
 
 const store = useMainStore()

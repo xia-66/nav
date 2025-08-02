@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { searchItemData } from '@/apis/index'
+import { searchItemData } from '@/apis/index/index'
 import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
 import { Search } from '@element-plus/icons-vue'

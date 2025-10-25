@@ -13,8 +13,7 @@
             <a class="relative site inherit-text" target="_blank" v-for="item in searchResults" :key="item.id" @click="handleItemClick(item.url)">
               <el-card class="site-card" shadow="never">
                 <div class="img-group">
-                  <el-avatar :size="42" :src="`${Favicon}${item.url}`">
-                  </el-avatar>
+                  <el-avatar :size="42" :src="`${Favicon}${item.url}`"> </el-avatar>
                 </div>
                 <div class="text-group">
                   <div class="name text">{{ item.name }}</div>
@@ -35,10 +34,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { searchItemData } from '@/apis/index/index'
 import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
 import { Search } from '@element-plus/icons-vue'
+// 导入本地数据
+import * as localData from '@/data.json'
 
 // 定义搜索结果项的接口
 interface SearchResultItem {
@@ -46,20 +46,9 @@ interface SearchResultItem {
   name: string
   description: string
   url: string
-  category_id: number
-  status: number
-  createTime: string
+  categoryId: number
+  createTime?: string
   [key: string]: any
-}
-
-interface SearchResponse {
-  data: {
-    items: SearchResultItem[]
-    total: number
-  }
-  message: string
-  statusCode: number
-  timestamp: string
 }
 
 const searchText = ref('')
@@ -120,7 +109,7 @@ const clearSearch = () => {
   hasSearched.value = false
 }
 
-// 执行搜索的函数
+// 执行搜索的函数（使用本地数据）
 const performSearch = async () => {
   if (!searchText.value.trim()) {
     return
@@ -130,21 +119,20 @@ const performSearch = async () => {
   hasSearched.value = true
 
   try {
-    const params = {
-      name: searchText.value,
-      pageNum: pageNum.value,
-      pageSize: pageSize.value
-    }
+    // 模拟异步延迟
+    await new Promise(resolve => setTimeout(resolve, 200))
 
-    const res = (await searchItemData(params)) as SearchResponse
+    // 在本地数据中搜索
+    const keyword = searchText.value.toLowerCase()
+    const filteredItems = localData.items.filter((item: SearchResultItem) => {
+      return item.name.toLowerCase().includes(keyword) || item.description.toLowerCase().includes(keyword)
+    })
 
-    if (res.statusCode == 200) {
-      searchResults.value = res.data.items
-      total.value = res.data.total
-    } else {
-      searchResults.value = []
-      total.value = 0
-    }
+    // 分页处理
+    const startIndex = (pageNum.value - 1) * pageSize.value
+    const endIndex = startIndex + pageSize.value
+    searchResults.value = filteredItems.slice(startIndex, endIndex)
+    total.value = filteredItems.length
   } catch (error) {
     console.error('搜索出错:', error)
     searchResults.value = []

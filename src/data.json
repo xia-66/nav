@@ -1,457 +1,595 @@
 {
-  "category1": {
-    "name": "常用推荐",
-    "content": [
-      {
-        "name": "Kimi",
-        "url": "https://kimi.moonshot.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Gmail",
-        "url": "https://www.google.com.hk/int I/zh-HK_hk/gmail/about/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "AI排行榜",
-        "url": "https://aigcrank.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "游戏下载",
-        "url": "https://www.gamer520.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "APP喵",
-        "url": "https://www.appmiu.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "微服务",
-        "url": "https://microservices.heiyu.fun/henauwfw/#/index",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Gitee",
-        "url": "https://gitee.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "ChatGPT",
-        "url": "https://chat.openai.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "QQ邮箱",
-        "url": "https://mail.qq.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "农大Gitlab",
-        "url": "https://git.henau.edu.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "阿里云控制台",
-        "url": "https://account.aliyun.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "哔哩哔哩",
-        "url": "https://www.bilibili.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "洛克王国",
-        "url": "https://17roco.qq.com/",
-        "discribe": "一个自用的导航网"
-      },
-    ]
-  },
-  "category2": {
-    "name": "实用工具",
-    "content": [
-      {
-        "name": "致美化",
-        "url": "https://zhutix.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "FreeReNamer",
-        "url": "https://renamer.cyhuajuan.site/profile/vabsBDra",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "萤火虫",
-        "url": "https://firefly.libertynlp.com/#/ docConvert",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "性格测试",
-        "url": "https://www.16personalities.com/ch",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "一键激活",
-        "url": "https://kms.cx/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "PPT超级市场",
-        "url": "https://www.pptsupermarket.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "百度网盘解析",
-        "url": "https://jx.os3.top/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Bilidown",
-        "url": "https://zhouql.vip/bilibili/pc/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "uTools",
-        "url": "https://u.tools/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Real-ESRGAN-GUI",
-        "url": "https://github.com/tsukumijima/Real-ESRGAN-GUI",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "qBittorrent",
-        "url": "https://www.qbittorrent.org/download",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "GitHub Desktop",
-        "url": "https://desktop.github.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "文件转换器",
-        "url": "https://convertio.co/zh/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "草料二维码",
-        "url": "https://cli.im/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Adobe全家桶",
-        "url": "https://www.superso.top/Adobe/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "LocalSend",
-        "url": "https://localsend.org/#/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Greasy Fork",
-        "url": "https://greasyfork.org/zh-CN",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "爬虫工具",
-        "url": "https://spiderbox.cn/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category3": {
-    "name": "日漫专区",
-    "content": [
-      {
-        "name": "Anime Garden",
-        "url": "https://garden.onekuma.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Mikan",
-        "url": "https://mikanani.hacgn.fun/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "5dm.one",
-        "url": "https://www.5dm.link/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "风车动漫",
-        "url": "https://www.dm302.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Omofun",
-        "url": "https://omofun.link/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category4": {
-    "name": "在线翻译",
-    "content": [
-      {
-        "name": "沪江小D",
-        "url": "https://dict.hjenglish.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "有道翻译",
-        "url": "https://fanyi.youdao.com/inde x.html#/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category5": {
-    "name": "站长工具",
-    "content": [
-      {
-        "name": "HTMLrev",
-        "url": "https://htmlrev.com",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "获取Favicon图标",
-        "url": "https://favicon.vwood.xyz/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "生成短链接",
-        "url": "https://zws.im/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Web API",
-        "url": "https://api.vvhan.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "教书先生API",
-        "url": "https://api.oioweb.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "帧率测试",
-        "url": "https://www.testufo.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "CDN加速",
-        "url": "https://www.bootcdn.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "域名检测",
-        "url": "https://tool.chinaz.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "测速网站",
-        "url": "https://test.ustc.edu.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "IPv6测试",
-        "url": "https://www.test-ipv6.com/index.html.zh_CN",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "宝塔面板",
-        "url": "https://www.bt.cn/new/index.html?btwaf=35186210",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "IT Tools",
-        "url": "https://it-tools.tech/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "检测IP端口",
-        "url": "http://coolaf.com/zh/tool/port",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "IPChecking",
-        "url": "https://ipcheck.ing/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "图床",
-        "url": "https://www.freeimg.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Vercel",
-        "url": "https://vercel.com/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category6": {
-    "name": "网盘搜索",
-    "content": [
-      {
-        "name": "PikPak",
-        "url": "https://mypikpak.com/zh-CN",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "阿里云盘",
-        "url": "https://www.aliyundrive.com/sign/in",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "123云盘",
-        "url": "https://www.123pan.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "易搜",
-        "url": "https://yiso.work/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "蓝奏云网盘",
-        "url": "https://up.woozooo.com/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category7": {
-    "name": "临时邮箱",
-    "content": [
-      {
-        "name": "Vmail",
-        "url": "https://vmail.dev/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "tempmail",
-        "url": "https://tempmail.io/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Amz123邮箱",
-        "url": "https://www.amz123.com/tools-mail",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category8": {
-    "name": "清理工具",
-    "content": [
-      {
-        "name": "SpaceSniffer(磁盘空间分析工具)",
-        "url": "https://soft.3dmgame.com/down/200352.html",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Geek",
-        "url": "https://geekuninstaller.com/",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  },
-  "category9": {
-    "name": "官方文档",
-    "content": [
-      {
-        "name": "NestJS",
-        "url": "https://nest.nodejs.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "TDesign",
-        "url": "https://tdesign.tencent.com/TDesign",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "wangEditor",
-        "url": "https://www.wangeditor.com/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Layui-Vue",
-        "url": "http://www.layui-vue.com/zh-CN/index",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Koa中文网",
-        "url": "https://koa.nodejs.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "koa2",
-        "url": "https://chenshenhai.com/koa2-note/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Electron",
-        "url": "https://www.electronjs.org/zh/docs/latest/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "AList文档",
-        "url": "https://alist.nn.ci/zh/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "ts粒子",
-        "url": "https://particles.js.org/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Flutter实战",
-        "url": "https://book.flutterchina.club/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Flutter中文网",
-        "url": "https://flutter.cn/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "SQL文档",
-        "url": "https://www.runoob.com/sql/sql-tutorial.html",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "docsifyl中文文档",
-        "url": "https://jingping-ye.github.io/docsify-docs-zh/#/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/%E5%BC%80%E5%A7%8B",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "ThinkPHP文档",
-        "url": "https://www.thinkphp.cn/doc",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "PHP文档",
-        "url": "https://www.php.net/manual/zh/index.php",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "CSS文档",
-        "url": "https://developer.mozilla.org/zh-CN/docs/Web/CSS",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "微信官方文档微信官方文档",
-        "url": "https://developers.weixin.qq.com/doc/",
-        "discribe": "一个自用的导航网"
-      },
-      {
-        "name": "Vant 4",
-        "url": "https://vant-contrib.gitee.io/vant/#/zh-CN",
-        "discribe": "一个自用的导航网"
-      }
-    ]
-  }
+  "categories": [
+    {
+      "id": 1,
+      "name": "常用推荐"
+    },
+    {
+      "id": 2,
+      "name": "实用工具"
+    },
+    {
+      "id": 3,
+      "name": "日漫专区"
+    },
+    {
+      "id": 4,
+      "name": "在线翻译"
+    },
+    {
+      "id": 5,
+      "name": "站长工具"
+    },
+    {
+      "id": 8,
+      "name": "清理工具"
+    },
+    {
+      "id": 10,
+      "name": "我的收藏"
+    },
+    {
+      "id": 11,
+      "name": "国外服务"
+    },
+    {
+      "id": 12,
+      "name": "开发工具"
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "Kimi",
+      "url": "https://kimi.moonshot.cn/",
+      "description": "月之暗面AI助手",
+      "categoryId": 1
+    },
+    {
+      "id": 2,
+      "name": "Gmail",
+      "url": "https://www.google.com.hk/intl/zh-HK_hk/gmail/about/",
+      "description": "谷歌免费邮箱服务",
+      "categoryId": 11
+    },
+    {
+      "id": 4,
+      "name": "游戏下载",
+      "url": "https://www.gamer520.com/",
+      "description": "游戏资源下载站",
+      "categoryId": 1
+    },
+    {
+      "id": 8,
+      "name": "ChatGPT",
+      "url": "https://chat.openai.com/",
+      "description": "OpenAI聊天机器人",
+      "categoryId": 11
+    },
+    {
+      "id": 9,
+      "name": "QQ邮箱",
+      "url": "https://mail.qq.com/",
+      "description": "腾讯免费邮箱服务",
+      "categoryId": 1
+    },
+    {
+      "id": 10,
+      "name": "农大Gitlab",
+      "url": "https://git.henau.edu.cn/",
+      "description": "河南农业大学代码托管平台",
+      "categoryId": 1
+    },
+    {
+      "id": 11,
+      "name": "阿里云控制台",
+      "url": "https://account.aliyun.com/",
+      "description": "阿里云服务管理平台",
+      "categoryId": 1
+    },
+    {
+      "id": 12,
+      "name": "哔哩哔哩",
+      "url": "https://www.bilibili.com/",
+      "description": "年轻人的视频社区",
+      "categoryId": 1
+    },
+    {
+      "id": 14,
+      "name": "致美化",
+      "url": "https://zhutix.com/",
+      "description": "Windows美化主题资源",
+      "categoryId": 2
+    },
+    {
+      "id": 17,
+      "name": "性格测试",
+      "url": "https://www.16personalities.com/ch",
+      "description": "MBTI性格测试",
+      "categoryId": 2
+    },
+    {
+      "id": 18,
+      "name": "一键激活",
+      "url": "https://kms.cx/",
+      "description": "Windows系统激活工具",
+      "categoryId": 2
+    },
+    {
+      "id": 19,
+      "name": "PPT超级市场",
+      "url": "https://www.pptsupermarket.com/",
+      "description": "PPT模板免费下载",
+      "categoryId": 2
+    },
+    {
+      "id": 22,
+      "name": "uTools",
+      "url": "https://u.tools/",
+      "description": "新一代效率工具平台",
+      "categoryId": 2
+    },
+    {
+      "id": 23,
+      "name": "Real-ESRGAN-GUI",
+      "url": "https://github.com/tsukumijima/Real-ESRGAN-GUI",
+      "description": "AI图片超分辨率工具",
+      "categoryId": 10
+    },
+    {
+      "id": 25,
+      "name": "GitHub Desktop",
+      "url": "https://desktop.github.com/",
+      "description": "GitHub官方桌面客户端",
+      "categoryId": 10
+    },
+    {
+      "id": 26,
+      "name": "文件转换器",
+      "url": "https://convertio.co/zh/",
+      "description": "在线文件格式转换工具",
+      "categoryId": 2
+    },
+    {
+      "id": 27,
+      "name": "草料二维码",
+      "url": "https://cli.im/",
+      "description": "二维码生成与解码",
+      "categoryId": 2
+    },
+    {
+      "id": 28,
+      "name": "Adobe全家桶",
+      "url": "https://www.superso.top/Adobe/",
+      "description": "Adobe软件下载",
+      "categoryId": 2
+    },
+    {
+      "id": 29,
+      "name": "LocalSend",
+      "url": "https://localsend.org/#/",
+      "description": "跨平台局域网文件传输",
+      "categoryId": 2
+    },
+    {
+      "id": 30,
+      "name": "Greasy Fork",
+      "url": "https://greasyfork.org/zh-CN",
+      "description": "用户脚本分享平台",
+      "categoryId": 2
+    },
+    {
+      "id": 32,
+      "name": "Anime Garden",
+      "url": "https://garden.onekuma.cn/",
+      "description": "动漫花园资源站",
+      "categoryId": 3
+    },
+    {
+      "id": 35,
+      "name": "风车动漫",
+      "url": "https://www.dm302.com/",
+      "description": "免费动漫在线观看",
+      "categoryId": 3
+    },
+    {
+      "id": 36,
+      "name": "Omofun",
+      "url": "https://omofun.link/",
+      "description": "动漫追番网站",
+      "categoryId": 3
+    },
+    {
+      "id": 37,
+      "name": "沪江小D",
+      "url": "https://dict.hjenglish.com/",
+      "description": "多语种在线词典",
+      "categoryId": 4
+    },
+    {
+      "id": 38,
+      "name": "有道翻译",
+      "url": "https://fanyi.youdao.com/index.html#/",
+      "description": "网易有道在线翻译",
+      "categoryId": 4
+    },
+    {
+      "id": 40,
+      "name": "获取Favicon图标",
+      "url": "https://favicon.vwood.xyz/",
+      "description": "网站图标提取工具",
+      "categoryId": 12
+    },
+    {
+      "id": 42,
+      "name": "Web API",
+      "url": "https://api.vvhan.com/",
+      "description": "免费API接口服务",
+      "categoryId": 12
+    },
+    {
+      "id": 44,
+      "name": "帧率测试",
+      "url": "https://www.testufo.com/",
+      "description": "显示器刷新率测试",
+      "categoryId": 5
+    },
+    {
+      "id": 45,
+      "name": "CDN加速",
+      "url": "https://www.bootcdn.cn/",
+      "description": "前端开源库CDN加速",
+      "categoryId": 5
+    },
+    {
+      "id": 47,
+      "name": "测速网站",
+      "url": "https://test.ustc.edu.cn/",
+      "description": "中科大网络测速",
+      "categoryId": 5
+    },
+    {
+      "id": 48,
+      "name": "IPv6测试",
+      "url": "https://www.test-ipv6.com/index.html.zh_CN",
+      "description": "IPv6连通性测试",
+      "categoryId": 5
+    },
+    {
+      "id": 49,
+      "name": "宝塔面板",
+      "url": "https://www.bt.cn/new/index.html?btwaf=35186210",
+      "description": "Linux服务器管理面板",
+      "categoryId": 5
+    },
+    {
+      "id": 50,
+      "name": "IT Tools",
+      "url": "https://it-tools.tech/",
+      "description": "程序员工具集合",
+      "categoryId": 12
+    },
+    {
+      "id": 51,
+      "name": "检测IP端口",
+      "url": "https://coding.tools/cn/port-checker",
+      "description": "在线端口检测工具",
+      "categoryId": 5
+    },
+    {
+      "id": 52,
+      "name": "IPChecking",
+      "url": "https://ipcheck.ing/",
+      "description": "IP地址信息查询",
+      "categoryId": 5
+    },
+    {
+      "id": 54,
+      "name": "Vercel",
+      "url": "https://vercel.com/",
+      "description": "前端应用部署平台",
+      "categoryId": 11
+    },
+    {
+      "id": 63,
+      "name": "SpaceSniffer(磁盘空间分析工具)",
+      "url": "https://www.spacesniffer.com.cn",
+      "description": "磁盘空间可视化分析",
+      "categoryId": 8
+    },
+    {
+      "id": 64,
+      "name": "Geek",
+      "url": "https://geekuninstaller.com/",
+      "description": "极客卸载工具",
+      "categoryId": 8
+    },
+    {
+      "id": 88,
+      "name": "V2EX",
+      "url": "https://global.v2ex.co/",
+      "description": "创意工作者社区",
+      "categoryId": 1
+    },
+    {
+      "id": 89,
+      "name": "LINUX DO",
+      "url": "https://linux.do/",
+      "description": "Linux技术社区",
+      "categoryId": 1
+    },
+    {
+      "id": 91,
+      "name": "机场测速",
+      "url": "https://www.duyaoss.com/",
+      "description": "代理节点测速工具",
+      "categoryId": 10
+    },
+    {
+      "id": 92,
+      "name": "Clash Verge",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev/releases",
+      "description": "Clash代理客户端",
+      "categoryId": 10
+    },
+    {
+      "id": 93,
+      "name": "异次元发卡",
+      "url": "https://github.com/lizhipay/acg-faka",
+      "description": "开源自动发卡系统",
+      "categoryId": 10
+    },
+    {
+      "id": 95,
+      "name": "老默分享",
+      "url": "https://www.laomoss.com/",
+      "description": "WordPress主题插件资源",
+      "categoryId": 10
+    },
+    {
+      "id": 98,
+      "name": "GitHub",
+      "url": "https://github.com/",
+      "description": "全球最大开源社区",
+      "categoryId": 11
+    },
+    {
+      "id": 101,
+      "name": "腾讯元宝",
+      "url": "https://yuanbao.tencent.com/chat",
+      "description": "腾讯AI智能助手",
+      "categoryId": 1
+    },
+    {
+      "id": 104,
+      "name": "VUE后台模板",
+      "url": "http://vue.easydo.work/",
+      "description": "Vue后台管理系统模板",
+      "categoryId": 12
+    },
+    {
+      "id": 107,
+      "name": "小码短链接",
+      "url": "https://xiaomark.com/",
+      "description": "短网址生成工具",
+      "categoryId": 2
+    },
+    {
+      "id": 109,
+      "name": "FOFA",
+      "url": "https://fofa.info/",
+      "description": "网络资产搜索引擎",
+      "categoryId": 12
+    },
+    {
+      "id": 110,
+      "name": "Ping",
+      "url": "https://www.itdog.cn/ping/",
+      "description": "全国多地Ping测试",
+      "categoryId": 5
+    },
+    {
+      "id": 113,
+      "name": "IP纯净度",
+      "url": "https://ping0.cc/",
+      "description": "IP信誉检测工具",
+      "categoryId": 5
+    },
+    {
+      "id": 119,
+      "name": "网络面板",
+      "url": "https://traffic.heiyu.fun",
+      "description": "流量消耗测试工具",
+      "categoryId": 5
+    },
+    {
+      "id": 121,
+      "name": "宝可梦",
+      "url": "https://web2.52pokemon.cc/dashboard",
+      "description": "代理服务订阅",
+      "categoryId": 10
+    },
+    {
+      "id": 122,
+      "name": "临时邮箱",
+      "url": "https://mail.heiyu.fun",
+      "description": "临时邮箱服务",
+      "categoryId": 2
+    },
+    {
+      "id": 123,
+      "name": "宝塔纯净版",
+      "url": "https://www.hostcli.com/",
+      "description": "宝塔面板纯净版",
+      "categoryId": 10
+    },
+    {
+      "id": 132,
+      "name": "icon",
+      "url": "https://www.flaticon.com/",
+      "description": "免费图标资源库",
+      "categoryId": 12
+    },
+    {
+      "id": 133,
+      "name": "腾讯云控制台",
+      "url": "https://cloud.tencent.com/login",
+      "description": "腾讯云服务管理",
+      "categoryId": 1
+    },
+    {
+      "id": 134,
+      "name": "随机身份信息",
+      "url": "https://id.dcode.top/",
+      "description": "随机身份信息生成",
+      "categoryId": 12
+    },
+    {
+      "id": 136,
+      "name": "Claude",
+      "url": "https://claude.ai/login",
+      "description": "Anthropic AI助手",
+      "categoryId": 11
+    },
+    {
+      "id": 137,
+      "name": "Grok",
+      "url": "https://grok.com/",
+      "description": "xAI聊天机器人",
+      "categoryId": 11
+    },
+    {
+      "id": 138,
+      "name": "Gemini",
+      "url": "https://deepmind.google/technologies/gemini/",
+      "description": "Google AI助手",
+      "categoryId": 11
+    },
+    {
+      "id": 141,
+      "name": "FIclash",
+      "url": "https://github.com/chen08209/FlClash",
+      "description": "Flutter Clash客户端",
+      "categoryId": 10
+    },
+    {
+      "id": 143,
+      "name": "Cloudflare",
+      "url": "https://www.cloudflare-cn.com/enterprise/",
+      "description": "CDN与网络安全服务",
+      "categoryId": 11
+    },
+    {
+      "id": 144,
+      "name": "YouTube",
+      "url": "https://www.youtube.com/",
+      "description": "全球视频分享平台",
+      "categoryId": 11
+    },
+    {
+      "id": 146,
+      "name": "CSDN解锁",
+      "url": "https://csdn.zeroai.chat/",
+      "description": "CSDN内容免费查看",
+      "categoryId": 2
+    },
+    {
+      "id": 148,
+      "name": "lanerc",
+      "url": "https://lanerc.app/",
+      "description": "动漫追番应用",
+      "categoryId": 3
+    },
+    {
+      "id": 149,
+      "name": "spaceship",
+      "url": "https://www.spaceship.com/",
+      "description": "域名注册服务商",
+      "categoryId": 11
+    },
+    {
+      "id": 150,
+      "name": "whois",
+      "url": "https://whois.heiyu.fun/",
+      "description": "域名信息查询",
+      "categoryId": 5
+    },
+    {
+      "id": 152,
+      "name": "NodeSeek",
+      "url": "https://www.nodeseek.com/",
+      "description": "VPS交流社区",
+      "categoryId": 1
+    },
+    {
+      "id": 153,
+      "name": "VPS测评",
+      "url": "https://digvps.com/",
+      "description": "VPS性能评测",
+      "categoryId": 10
+    },
+    {
+      "id": 154,
+      "name": "VPS指南",
+      "url": "https://vpsls.com/docs/%E9%A6%96%E9%A1%B5/",
+      "description": "VPS选购使用指南",
+      "categoryId": 10
+    },
+    {
+      "id": 156,
+      "name": "文叔叔",
+      "url": "https://www.wenshushu.cn/",
+      "description": "大文件传输工具",
+      "categoryId": 2
+    },
+    {
+      "id": 157,
+      "name": "TV",
+      "url": "https://tvplus.588235.xyz/",
+      "description": "在线视频聚合",
+      "categoryId": 3
+    },
+    {
+      "id": 159,
+      "name": "v2rayNG",
+      "url": "https://github.com/2dust/v2rayNG/releases",
+      "description": "Android代理客户端",
+      "categoryId": 10
+    },
+    {
+      "id": 160,
+      "name": "华为云",
+      "url": "https://www.huaweicloud.com/intl/zh-cn/",
+      "description": "华为云服务平台",
+      "categoryId": 1
+    },
+    {
+      "id": 161,
+      "name": "Everything",
+      "url": "https://www.voidtools.com/zh-cn/support/everything/",
+      "description": "文件快速搜索工具",
+      "categoryId": 2
+    },
+    {
+      "id": 162,
+      "name": "PixPin",
+      "url": "https://pixpin.cn/",
+      "description": "功能强大的截图工具",
+      "categoryId": 2
+    },
+    {
+      "id": 163,
+      "name": "Cherry Studio",
+      "url": "https://www.cherry-ai.com/",
+      "description": "多AI模型桌面客户端",
+      "categoryId": 2
+    },
+    {
+      "id": 164,
+      "name": "Umi-OCR",
+      "url": "https://github.com/hiroi-sora/Umi-OCR",
+      "description": "离线OCR文字识别",
+      "categoryId": 10
+    }
+  ]
 }

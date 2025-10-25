@@ -11,29 +11,21 @@
     </ul>
     <Clock></Clock>
     <div class="flex-grow" />
-    <ul class="my">
-      <li style="overflow: hidden;" >默认订阅</li>
-      <li style="margin-left: 60px;overflow: hidden; cursor: pointer;" @click.stop="login">登录</li>
-    </ul>
   </div>
   <LeftDrawer></LeftDrawer>
 </template>
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Clock from './Clock.vue';
 import LeftDrawer from './LeftDrawer.vue'
 import { useMainStore } from '@/store';
+
 const change = ref(false)
 const store = useMainStore()
 const scrollHeight = ref(0);
-import { useRouter } from 'vue-router'; // 添加这行
 
-const router = useRouter(); // 添加这行
 const showDrawer = () => {
   store.$state.isShowDrawer = true
-}
-const login = () => {
-  router.push('/admin')
 }
 const handleScroll = () => {
   // 直接使用 window.scrollY 获取当前滚动高度

@@ -39,61 +39,58 @@ import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
 import unloadImg from '@/assets/img/error/image-error.png'
 import loadImg from '@/assets/img/loading/3.gif'
-import { GetData, GetCategories } from '@/apis/index/index'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+// 导入本地数据
+import localData from '@/data.json'
 
 const store = useMainStore()
 const dataValue = ref([]) // 创建一个数组来存储最终的对象
 const loading = ref(true) // 添加加载状态
 let categories = {}
 
-GetCategories()
-  .then(res => {
-    // console.log(res.data);
+// 使用本地数据替代API调用
+onMounted(() => {
+  // 模拟加载延迟，使体验更真实
+  setTimeout(() => {
+    try {
+      // 处理分类数据
+      categories = transformData(localData.categories)
 
-    categories = transformData(res.data)
-    GetData()
-      .then(res => {
-        // console.log(res);
-        let data = res.data.filter(item => item.status !== 0)
-        if (Array.isArray(data) && data.length > 0) {
-          const arrays = {} // 创建一个对象来存储每个category_id对应的数组
-          Object.keys(categories).forEach(key => {
-            arrays[key] = [] // 初始化每个category_id对应的空数组
-          })
+      // 处理项目数据
+      let data = localData.items
+      if (Array.isArray(data) && data.length > 0) {
+        const arrays = {} // 创建一个对象来存储每个categoryId对应的数组
+        Object.keys(categories).forEach(key => {
+          arrays[key] = [] // 初始化每个categoryId对应的空数组
+        })
 
-          data.forEach(item => {
-            if (item.category_id && categories[item.category_id]) {
-              arrays[item.category_id].push(item) // 直接使用category_id作为键来push到对应的数组
-            }
-          })
+        data.forEach(item => {
+          if (item.categoryId && categories[item.categoryId]) {
+            arrays[item.categoryId].push(item) // 直接使用categoryId作为键来push到对应的数组
+          }
+        })
 
-          Object.keys(categories).forEach(key => {
-            const obj = {} // 创建一个新对象
-            obj.name = categories[key] // 设置name属性
-            obj.content = arrays[key] // 设置content属性
-            dataValue.value.push(obj) // 将对象push到数组中
-          })
-          store.$state.site = dataValue.value
-          // console.log(dataValue.value);
-        }
-        loading.value = false // 数据加载完成，设置loading为false
-      })
-      .catch(err => {
-        console.error('获取数据失败', err)
-        loading.value = false // 即使出错也要设置loading为false
-      })
-  })
-  .catch(err => {
-    console.error('获取分类失败', err)
-    loading.value = false // 即使出错也要设置loading为false
-  })
+        Object.keys(categories).forEach(key => {
+          const obj = {} // 创建一个新对象
+          obj.name = categories[key] // 设置name属性
+          obj.content = arrays[key] // 设置content属性
+          dataValue.value.push(obj) // 将对象push到数组中
+        })
+        store.$state.site = dataValue.value
+        // console.log(dataValue.value);
+      }
+      loading.value = false // 数据加载完成，设置loading为false
+    } catch (err) {
+      console.error('加载本地数据失败', err)
+      loading.value = false // 即使出错也要设置loading为false
+    }
+  }, 300) // 模拟300ms的加载时间
+})
+
 //转换分类的返回数据
 function transformData(arr) {
   return arr.reduce((acc, item) => {
-    if (item.status !== 0) {
-      acc[item.id] = item.name
-    }
+    acc[item.id] = item.name
     return acc
   }, {})
 }

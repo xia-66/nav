@@ -14,7 +14,7 @@
 <script setup>
 import { useMainStore } from '@/store'
 import { ref } from 'vue'
-import { GetCategories } from '@/apis/index/index'
+
 const store = useMainStore()
 const changeAnchorPosition = name => {
   let target = document.getElementById(`site-anchor-${name}`)

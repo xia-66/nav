@@ -1,11 +1,26 @@
-# 黑羽导航 v2.0.0
+# 黑羽导航 v2.1.0
 
 > 一个简洁、美观、易用的个人导航网站
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/yourusername/heiyu-nav-web)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/yourusername/heiyu-nav)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Vue](https://img.shields.io/badge/vue-3.4.29-brightgreen.svg)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/vite-5.3.1-646cff.svg)](https://vitejs.dev/)
+
+## 🚀 一键部署到 Vercel
+
+点击下方按钮即可一键部署到 Vercel，几分钟内拥有你的专属导航网站：
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/heiyu-nav)
+
+### 部署步骤
+
+1. **Fork 本仓库** - 点击右上角 Fork 按钮，将项目复制到你的 GitHub 账号
+2. **修改配置** - 根据你的需求修改以下配置文件：
+   - `src/config/data.json` - 网站数据（分类和网址）
+   - `src/config/index.ts` - 网站基本信息（标题、描述、备案号等）
+3. **一键部署** - 点击上方 Deploy 按钮，选择你 Fork 的仓库
+4. **完成** - 等待几分钟，即可获得你的专属导航网站
 
 ## ✨ 特性
 
@@ -64,7 +79,7 @@ npm run preview
 ## 📂 项目结构
 
 ```
-heiyu-nav-web/
+heiyu-nav/
 ├── src/
 │   ├── assets/          # 静态资源
 │   │   ├── css/        # 样式文件
@@ -76,10 +91,13 @@ heiyu-nav-web/
 │   ├── router/         # 路由配置
 │   ├── store/          # 状态管理
 │   ├── utils/          # 工具函数
-│   ├── config/         # 配置文件
-│   ├── data.json       # 本地数据
+│   ├── config/         # ⭐ 配置文件（需要修改）
+│   │   ├── data.json   # ⭐ 网站数据
+│   │   └── index.ts    # ⭐ 网站信息
 │   ├── App.vue         # 根组件
 │   └── main.ts         # 入口文件
+├── api/                # Serverless API
+│   └── favicon.ts      # 网站图标获取
 ├── public/             # 公共资源
 ├── index.html          # HTML 模板
 ├── vite.config.ts      # Vite 配置
@@ -89,73 +107,55 @@ heiyu-nav-web/
 └── package.json        # 项目配置
 ```
 
-## 📝 数据管理
 
-### 数据文件位置
+## 📝 配置说明
 
-`src/data.json`
+### 必改配置项
 
-### 添加新网站
+#### 1. 网站数据 (`src/config/data.json`)
 
-在 `items` 数组中添加：
-
-```json
-{
-  "id": 80,
-  "name": "网站名称",
-  "url": "https://example.com",
-  "description": "网站描述",
-  "categoryId": 1
-}
-```
-
-### 添加新分类
-
-在 `categories` 数组中添加：
+包含所有网站分类和链接：
 
 ```json
 {
-  "id": 13,
-  "name": "新分类"
+  "categories": [
+    {
+      "id": 1,
+      "name": "分类名称"
+    }
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "网站名称",
+      "url": "https://example.com",
+      "description": "网站描述",
+      "categoryId": 1
+    }
+  ]
 }
 ```
 
-### 修改网站信息
+#### 2. 网站信息 (`src/config/index.ts`)
 
-直接编辑 `data.json` 文件中对应的对象即可。
+配置项说明：
 
-## 🌐 部署
+```typescript
+// 网站名称
+export const SITE_NAME = '黑羽导航'
 
-### 部署到 Vercel（推荐）
+// 备案号（如果没有可以留空或删除）
+export const ICP_NUMBER = '豫ICP备2023030596号'
 
-#### 方法一：CLI 部署
-
-```bash
-# 安装 Vercel CLI
-npm install -g vercel
-
-# 登录
-vercel login
-
-# 部署
-vercel --prod
+// 网站图标API（无需修改）
+export const Favicon = '/api/favicon?url='
 ```
 
-#### 方法二：Git 部署
+### 可选配置
 
-1. 推送代码到 GitHub
-2. 访问 [Vercel](https://vercel.com/)
-3. 导入 GitHub 仓库
-4. 自动部署完成
-
-详细步骤请查看 [Vercel 部署指南.md](./Vercel部署指南.md)
-
-### 其他部署方式
-
-- **Netlify**: 支持
-- **GitHub Pages**: 支持
-- **Cloudflare Pages**: 支持
-- **任何静态托管**: 支持
+- **自定义域名**：在 Vercel Dashboard 中配置
+- **环境变量**：在 Vercel 项目设置中添加
+- **构建配置**：`vercel.json` 已预配置，一般无需修改
 
 ## 📊 网站分类
 
@@ -193,6 +193,13 @@ vercel --prod
 
 ## 📖 版本历史
 
+### v2.1.0 (2025-10-31)
+
+- 🚀 优化部署流程，支持 Vercel 一键部署
+- ✅ 简化配置文件管理
+- ✅ 更新文档说明
+- ✅ 优化项目结构
+
 ### v2.0.0 (2025-10-25)
 
 - 🎉 重大更新：纯前端化架构
@@ -201,12 +208,6 @@ vercel --prod
 - ✅ 优化所有网站描述
 - ✅ 删除无用代码和文件
 - ✅ 精简项目结构
-
-### v1.0.7 (之前版本)
-
-- 使用后端 API
-- 包含后台管理功能
-- 需要数据库支持
 
 ## 🤝 贡献
 
@@ -231,8 +232,8 @@ vercel --prod
 
 ## 📮 联系方式
 
-- 项目主页: [GitHub](https://github.com/yourusername/heiyu-nav-web)
-- 问题反馈: [Issues](https://github.com/yourusername/heiyu-nav-web/issues)
+- 项目主页: [GitHub](https://github.com/xia-66/nav)
+- 问题反馈: [Issues](https://github.com/xia-66/nav/issues)
 
 ---
 

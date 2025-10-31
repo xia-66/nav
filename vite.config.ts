@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import faviconApiPlugin from './vite-plugin-favicon-api'
+import pkg from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), faviconApiPlugin()],
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   // 配置根路径
   resolve: {
     // ↓路径别名，主要是这部分
@@ -26,15 +31,5 @@ export default defineConfig({
     // 配置host，局域网可访问
     host: '0.0.0.0',
     port: 8080
-    // 配置代理
-    // proxy: {
-    //   "/api": {
-    //     target: "http://127.0.0.1:3000",
-    //     changeOrigin: true,
-    //     // 若有https证书，即可将secure设为true
-    //     secure: false,
-    //     rewrite: (path) => path.replace("/api", ""),
-    //   },
-    // },
   }
 })

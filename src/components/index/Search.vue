@@ -38,7 +38,7 @@ import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
 import { Search } from '@element-plus/icons-vue'
 // 导入本地数据
-import * as localData from '@/data.json'
+import * as localData from '@/config/data.json'
 
 // 定义搜索结果项的接口
 interface SearchResultItem {

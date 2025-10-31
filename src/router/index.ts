@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { SITE_NAME } from '@/config'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/index',
     name: 'Index',
     component: () => import('@/views/Index/index.vue'),
-    meta: { title: '黑羽导航' }
+    meta: { title: SITE_NAME }
   }
 ]
 

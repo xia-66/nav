@@ -2,7 +2,7 @@
   <div class="footer px-5">
     <div class="footer-copy">
       <span>&copy; {{ copyrightYears }} All rights reserved. </span>
-      <a target="_blank" href="https://beian.miit.gov.cn/">豫ICP备2023030596号</a>
+      <a target="_blank" href="https://beian.miit.gov.cn/">{{ ICP_NUMBER }}</a>
     </div>
     <div class="footer-powered">
       <span>Powered by &nbsp;</span>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { RELEASE } from '@/config'
+import { RELEASE, ICP_NUMBER } from '@/config'
 import { computed } from 'vue'
 
 const START_YEAR = 2024

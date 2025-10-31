@@ -41,7 +41,7 @@ import unloadImg from '@/assets/img/error/image-error.png'
 import loadImg from '@/assets/img/loading/3.gif'
 import { ref, onMounted } from 'vue'
 // 导入本地数据
-import localData from '@/data.json'
+import localData from '@/config/data.json'
 
 const store = useMainStore()
 const dataValue = ref([]) // 创建一个数组来存储最终的对象

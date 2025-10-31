@@ -34,10 +34,10 @@ const handleScroll = () => {
   }
 };
 const goStorage = () => {
-  window.open('https://github.com/xia-66', '_blank')
+  window.open('https://github.com/xia-66/nav', '_blank')
 }
 const readHelp = () => {
-  window.open('https://blog.heiyu.fun/index.php/5.html', '_blank')
+  window.open('https://github.com/xia-66/nav/issues', '_blank')
 }
 // 回到顶部的函数
 const scrollToTop = () => {

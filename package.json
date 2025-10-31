@@ -1,7 +1,7 @@
 {
   "name": "heiyu-nav",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev --open",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
+    "@vercel/node": "^5.5.3",
     "@vitejs/plugin-vue": "^5.0.5",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",

@@ -2,7 +2,7 @@
 
 > 一个简洁、美观、易用的个人导航网站
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/yourusername/heiyu-nav)
+[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/xia-66/nav)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Vue](https://img.shields.io/badge/vue-3.4.29-brightgreen.svg)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/vite-5.3.1-646cff.svg)](https://vitejs.dev/)
@@ -11,7 +11,7 @@
 
 点击下方按钮即可一键部署到 Vercel，几分钟内拥有你的专属导航网站：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/heiyu-nav)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/xia-66/nav)
 
 ### 部署步骤
 

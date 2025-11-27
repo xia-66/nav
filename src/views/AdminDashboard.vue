@@ -164,6 +164,7 @@
       v-model="categoryDialogVisible" 
       :title="categoryForm.id ? '编辑分类' : '添加分类'"
       width="500px"
+      class="mobile-dialog"
     >
       <el-form :model="categoryForm" label-width="100px">
         <el-form-item label="分类 ID">
@@ -188,6 +189,7 @@
       v-model="itemDialogVisible" 
       :title="itemForm.id ? '编辑网站' : '添加网站'"
       width="600px"
+      class="mobile-dialog"
     >
       <el-form :model="itemForm" label-width="100px">
         <el-form-item label="网站 ID">
@@ -577,11 +579,15 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 768px) {
+      width: 100%;
+      justify-content: space-between;
       gap: 6px;
       
       .el-button {
-        font-size: 13px;
-        padding: 7px 12px;
+        flex: 1;
+        font-size: 12px;
+        padding: 8px 6px;
+        min-width: 0;
         
         // 在移动端隐藏部分按钮文字，只保留图标
         span:not(.el-icon) {
@@ -592,11 +598,15 @@ onMounted(() => {
           margin-right: 0 !important;
         }
       }
+      
+      .el-dropdown {
+        flex: 0 0 auto;
+      }
     }
 
     @media screen and (max-width: 480px) {
       .el-button {
-        padding: 6px 10px;
+        padding: 6px 4px;
       }
     }
 
@@ -710,23 +720,27 @@ onMounted(() => {
   @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
 
     .header-actions {
       width: 100%;
+      flex-wrap: wrap;
       
       .el-input {
-        flex: 1;
+        flex: 1 1 100%;
         min-width: 150px;
-        width: 100%;
+        margin-right: 0;
+        margin-bottom: 8px;
       }
       
       .el-select {
-        flex: 1;
+        flex: 1 1 auto;
         min-width: 120px;
       }
       
       .el-button {
-        flex: 0 0 auto;
+        flex: 1 1 auto;
+        min-width: 100px;
       }
     }
   }
@@ -742,6 +756,7 @@ onMounted(() => {
       .el-select,
       .el-button {
         width: 100%;
+        flex: 1 1 100%;
       }
     }
   }
@@ -750,6 +765,7 @@ onMounted(() => {
 // 表格容器 - 添加横向滚动
 :deep(.el-card__body) {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; // iOS 平滑滚动
   
   .el-table {
     min-width: 800px; // 确保表格有最小宽度
@@ -760,55 +776,96 @@ onMounted(() => {
 @media screen and (max-width: 768px) {
   :deep(.el-table) {
     font-size: 13px;
+    min-width: 700px;
     
     .el-table__header th,
     .el-table__body td {
-      padding: 8px 0;
+      padding: 10px 8px;
     }
     
     .el-button {
       font-size: 12px;
-      padding: 5px 10px;
+      padding: 5px 8px;
+      margin: 2px;
     }
+    
+    .el-table__fixed-right {
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  // 优化卡片内边距
+  :deep(.el-card__body) {
+    padding: 10px;
   }
 }
 
 @media screen and (max-width: 480px) {
   :deep(.el-table) {
     font-size: 12px;
+    min-width: 600px;
     
     .el-table__header th,
     .el-table__body td {
-      padding: 6px 0;
+      padding: 8px 4px;
+      font-size: 12px;
     }
+    
+    .el-button {
+      font-size: 11px;
+      padding: 4px 6px;
+    }
+  }
+  
+  :deep(.el-card__body) {
+    padding: 8px;
   }
 }
 
 // 对话框响应式
-:deep(.el-dialog) {
-  @media screen and (max-width: 768px) {
-    width: 90% !important;
-    max-width: 600px;
-    margin: 0 auto;
-  }
+.mobile-dialog {
+  :deep(.el-dialog) {
+    @media screen and (max-width: 768px) {
+      width: 90% !important;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-  @media screen and (max-width: 480px) {
-    width: 95% !important;
-    
-    .el-dialog__header {
-      padding: 16px;
-    }
-    
-    .el-dialog__body {
-      padding: 16px;
-    }
-    
-    .el-dialog__footer {
-      padding: 12px 16px;
-    }
-    
-    .el-form-item__label {
-      font-size: 13px;
+    @media screen and (max-width: 480px) {
+      width: 95% !important;
+      margin: 5vh auto;
+      
+      .el-dialog__header {
+        padding: 16px;
+      }
+      
+      .el-dialog__body {
+        padding: 16px;
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+      
+      .el-dialog__footer {
+        padding: 12px 16px;
+      }
+      
+      .el-form {
+        .el-form-item {
+          margin-bottom: 16px;
+          
+          .el-form-item__label {
+            font-size: 13px;
+            padding-bottom: 6px;
+          }
+          
+          .el-input,
+          .el-input-number,
+          .el-select,
+          .el-textarea {
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }

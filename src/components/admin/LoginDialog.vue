@@ -6,7 +6,7 @@
     :close-on-press-escape="true"
     :show-close="false"
     center
-    class="login-dialog"
+    class="login-dialog mobile-login-dialog"
   >
     <!-- <template #header>
       <div class="dialog-header">
@@ -111,6 +111,26 @@ const handleLogin = () => {
   }
 }
 
+// 移动端适配
+.mobile-login-dialog {
+  :deep(.el-dialog) {
+    @media screen and (max-width: 768px) {
+      width: 85% !important;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    @media screen and (max-width: 480px) {
+      width: 90% !important;
+      margin: 0 auto;
+      
+      .el-dialog__body {
+        padding: 0 24px 24px;
+      }
+    }
+  }
+}
+
 .dialog-header {
   text-align: center;
   padding: 40px 40px 30px;
@@ -191,6 +211,31 @@ const handleLogin = () => {
     gap: 6px;
     background: #f5f7fa;
     border-radius: 6px;
+  }
+
+  // 移动端适配
+  @media screen and (max-width: 480px) {
+    padding-top: 20px;
+    
+    .feature-list {
+      margin-bottom: 20px;
+      
+      .feature-item {
+        font-size: 13px;
+        padding: 8px 0;
+      }
+    }
+    
+    .login-btn {
+      height: 44px;
+      font-size: 15px;
+    }
+    
+    .notice {
+      margin-top: 16px;
+      padding: 10px;
+      font-size: 11px;
+    }
   }
 }
 </style>

@@ -12,7 +12,8 @@
     <Clock></Clock>
     <div class="flex-grow" />
     <div class="admin-menu-item" @click="goToAdmin">
-      <i class="iconfont icon-md-lock" style="margin-right: 5px;"></i>后台登录
+      <i class="iconfont icon-md-lock"></i>
+      <span class="admin-text">后台登录</span>
     </div>
   </div>
   <LeftDrawer></LeftDrawer>
@@ -105,10 +106,78 @@ onUnmounted(() => {
     overflow: hidden;
     height: 75px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    
+    .iconfont {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+    
+    .admin-text {
+      margin-left: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+    }
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      
+      .iconfont {
+        transform: scale(1.1);
+      }
+    }
+  }
+  
+  // 移动端优化
+  @media screen and (max-width: 768px) {
+    padding: 0 20px;
+    
+    .admin-menu-item {
+      margin-right: 0;
+      padding: 0 12px;
+      
+      .admin-text {
+        font-size: 13px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    padding: 0 12px;
+    
+    .admin-menu-item {
+      padding: 0 8px;
+      margin-right: 0;
+      
+      .iconfont {
+        font-size: 20px;
+      }
+      
+      .admin-text {
+        display: none; // 小屏幕只显示图标
+      }
+    }
+  }
+  
+  @media screen and (max-width: 375px) {
+    padding: 0 8px;
   }
 }
 .headsp {
   background-color: #fff;
   color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  
+  .admin-menu-item {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
 }
 </style>

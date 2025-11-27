@@ -74,6 +74,7 @@ onUnmounted(() => {
   position: fixed;
   left: 0;
   top: 0;
+  right: 0;
   width: 100%;
   display: flex;
   height: 75px;
@@ -82,6 +83,8 @@ onUnmounted(() => {
   background-color: transparent;
   z-index: 999;
   color: #fff;
+  -webkit-backface-visibility: hidden; // 优化移动端固定定位
+  backface-visibility: hidden;
   .menu {
     display: flex;
   }
@@ -90,6 +93,8 @@ onUnmounted(() => {
     display: flex;
   }
   @media screen and (max-width: 414px) {
+    position: relative; // 只在需要绝对定位子元素时设置
+    
     .menu {
       display: none;
     }
@@ -154,7 +159,6 @@ onUnmounted(() => {
   // 移动端优化
   @media screen and (max-width: 768px) {
     padding: 0 20px;
-    position: relative;
     
     .admin-menu-item {
       margin-right: 0;

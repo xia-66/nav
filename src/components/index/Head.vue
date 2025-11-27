@@ -93,7 +93,7 @@ onUnmounted(() => {
     display: flex;
   }
   @media screen and (max-width: 414px) {
-    position: relative; // 只在需要绝对定位子元素时设置
+    justify-content: space-between;
     
     .menu {
       display: none;
@@ -102,11 +102,19 @@ onUnmounted(() => {
       display: none;
     }
     
+    // 左侧菜单图标容器
+    > div:first-child {
+      order: 1;
+      flex: 0 0 auto;
+    }
+    
     .clock-component {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
+      order: 2;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      max-width: 140px;
+      margin: 0 auto;
     }
     
     .flex-grow {
@@ -114,9 +122,10 @@ onUnmounted(() => {
     }
     
     .admin-menu-item {
-      position: relative;
-      z-index: 2;
-      margin-left: auto;
+      order: 3;
+      flex: 0 0 auto;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
   .flex-grow {

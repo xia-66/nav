@@ -10,15 +10,16 @@
           type="default" 
           @click="goToIndex"
           class="home-btn"
+          title="返回首页"
         >
-          <el-icon style="margin-right: 4px;"><HomeFilled /></el-icon>
-          返回首页
+          <el-icon><HomeFilled /></el-icon>
+          <span class="btn-text">返回首页</span>
         </el-button>
-        <el-button type="primary" :icon="RefreshIcon" @click="loadData" :loading="loading">
-          刷新数据
+        <el-button type="primary" :icon="RefreshIcon" @click="loadData" :loading="loading" title="刷新数据">
+          <span class="btn-text">刷新数据</span>
         </el-button>
-        <el-button type="success" :icon="UploadIcon" @click="handleSave" :loading="saving">
-          保存并提交到 GitHub
+        <el-button type="success" :icon="UploadIcon" @click="handleSave" :loading="saving" title="保存并提交到 GitHub">
+          <span class="btn-text">保存并提交到 GitHub</span>
         </el-button>
         <el-dropdown @command="handleCommand">
           <span class="user-info">
@@ -94,9 +95,10 @@
                 <div class="header-actions">
                   <el-input
                     v-model="searchKeyword"
-                    placeholder="搜索网站名称、URL或描述"
+                    :placeholder="isMobile ? '搜索' : '搜索网站名称、URL或描述'"
                     clearable
                     style="width: 250px;"
+                    class="search-input"
                   >
                     <template #prefix>
                       <el-icon><Search /></el-icon>
@@ -107,6 +109,7 @@
                     placeholder="筛选分类" 
                     clearable
                     style="width: 200px; margin-right: 10px;"
+                    class="filter-select"
                   >
                     <el-option label="全部分类" :value="0" />
                     <el-option 
@@ -233,7 +236,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAdminStore } from '@/store/admin';
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -271,6 +274,21 @@ const router = useRouter();
 const adminStore = useAdminStore();
 
 const activeTab = ref('categories');
+
+// 检测是否为移动端
+const isMobile = ref(false);
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768;
+};
+
+onMounted(() => {
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile);
+});
 const loading = ref(false);
 const saving = ref(false);
 
@@ -564,9 +582,19 @@ onMounted(() => {
     gap: 12px;
     flex-wrap: wrap;
 
+    .el-button {
+      .btn-text {
+        margin-left: 4px;
+      }
+    }
+
     .home-btn {
       display: flex;
       align-items: center;
+      
+      .el-icon {
+        margin-right: 4px;
+      }
     }
     
     @media screen and (max-width: 1200px) {
@@ -586,14 +614,21 @@ onMounted(() => {
       .el-button {
         flex: 1;
         font-size: 12px;
-        padding: 8px 6px;
-        min-width: 0;
+        padding: 10px 8px;
+        min-width: 40px;
         
-        // 在移动端隐藏部分按钮文字，只保留图标
-        span:not(.el-icon) {
+        // 在移动端隐藏按钮文字，只保留图标
+        .btn-text {
           display: none;
         }
         
+        .el-icon {
+          margin-right: 0 !important;
+          font-size: 18px;
+        }
+      }
+      
+      .home-btn {
         .el-icon {
           margin-right: 0 !important;
         }
@@ -605,8 +640,15 @@ onMounted(() => {
     }
 
     @media screen and (max-width: 480px) {
+      gap: 4px;
+      
       .el-button {
-        padding: 6px 4px;
+        padding: 8px 6px;
+        min-width: 36px;
+        
+        .el-icon {
+          font-size: 16px;
+        }
       }
     }
 
@@ -725,22 +767,25 @@ onMounted(() => {
     .header-actions {
       width: 100%;
       flex-wrap: wrap;
+      gap: 8px;
       
-      .el-input {
-        flex: 1 1 100%;
-        min-width: 150px;
+      .search-input {
+        flex: 1 1 auto;
+        min-width: 140px;
+        width: auto !important;
         margin-right: 0;
-        margin-bottom: 8px;
       }
       
-      .el-select {
+      .filter-select {
         flex: 1 1 auto;
-        min-width: 120px;
+        min-width: 110px;
+        width: auto !important;
+        margin-right: 0 !important;
       }
       
       .el-button {
-        flex: 1 1 auto;
-        min-width: 100px;
+        width: 100%;
+        margin-top: 8px;
       }
     }
   }
@@ -749,14 +794,52 @@ onMounted(() => {
     gap: 8px;
     
     .header-actions {
-      gap: 8px;
-      flex-direction: column;
+      gap: 6px;
       
-      .el-input,
-      .el-select,
+      .search-input {
+        flex: 1 1 auto;
+        min-width: 110px;
+        width: auto !important;
+        
+        :deep(.el-input__inner) {
+          font-size: 13px;
+        }
+        
+        :deep(.el-input__wrapper) {
+          padding: 1px 8px;
+        }
+      }
+      
+      .filter-select {
+        flex: 1 1 auto;
+        min-width: 95px;
+        width: auto !important;
+        
+        :deep(.el-input__inner) {
+          font-size: 13px;
+        }
+        
+        :deep(.el-input__wrapper) {
+          padding: 1px 8px;
+        }
+      }
+      
       .el-button {
         width: 100%;
-        flex: 1 1 100%;
+        margin-top: 6px;
+        font-size: 14px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 375px) {
+    .header-actions {
+      .search-input {
+        min-width: 100px;
+      }
+      
+      .filter-select {
+        min-width: 85px;
       }
     }
   }

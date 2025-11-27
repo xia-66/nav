@@ -15,10 +15,12 @@
           <el-icon><HomeFilled /></el-icon>
           <span class="btn-text">返回首页</span>
         </el-button>
-        <el-button type="primary" :icon="RefreshIcon" @click="loadData" :loading="loading" title="刷新数据">
+        <el-button type="primary" @click="loadData" :loading="loading" title="刷新数据" class="action-btn">
+          <el-icon><Refresh /></el-icon>
           <span class="btn-text">刷新数据</span>
         </el-button>
-        <el-button type="success" :icon="UploadIcon" @click="handleSave" :loading="saving" title="保存并提交到 GitHub">
+        <el-button type="success" @click="handleSave" :loading="saving" title="保存并提交到 GitHub" class="action-btn">
+          <el-icon><Upload /></el-icon>
           <span class="btn-text">保存并提交到 GitHub</span>
         </el-button>
         <el-dropdown @command="handleCommand">
@@ -251,8 +253,6 @@ import {
 } from '@element-plus/icons-vue';
 
 // 图标组件
-const RefreshIcon = Refresh;
-const UploadIcon = Upload;
 const PlusIcon = Plus;
 const EditIcon = Edit;
 const DeleteIcon = Delete;
@@ -574,6 +574,10 @@ onMounted(() => {
       color: #333;
       margin: 0;
     }
+    
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
   }
 
   .header-right {
@@ -583,14 +587,20 @@ onMounted(() => {
     flex-wrap: wrap;
 
     .el-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
       .btn-text {
         margin-left: 4px;
       }
     }
 
-    .home-btn {
+    .home-btn,
+    .action-btn {
       display: flex;
       align-items: center;
+      justify-content: center;
       
       .el-icon {
         margin-right: 4px;
@@ -697,19 +707,16 @@ onMounted(() => {
   @media screen and (max-width: 768px) {
     padding: 10px 16px;
     min-height: 56px;
+    justify-content: center;
     
-    .header-left h1 {
-      font-size: 18px;
+    .header-right {
+      width: 100%;
     }
   }
 
   @media screen and (max-width: 480px) {
     padding: 8px 12px;
     min-height: 52px;
-    
-    .header-left h1 {
-      font-size: 16px;
-    }
   }
 }
 
@@ -770,15 +777,15 @@ onMounted(() => {
       gap: 8px;
       
       .search-input {
-        flex: 1 1 auto;
-        min-width: 140px;
+        flex: 1 1 50%;
+        min-width: 0;
         width: auto !important;
         margin-right: 0;
       }
       
       .filter-select {
-        flex: 1 1 auto;
-        min-width: 110px;
+        flex: 1 1 50%;
+        min-width: 0;
         width: auto !important;
         margin-right: 0 !important;
       }
@@ -797,8 +804,8 @@ onMounted(() => {
       gap: 6px;
       
       .search-input {
-        flex: 1 1 auto;
-        min-width: 110px;
+        flex: 1 1 50%;
+        min-width: 0;
         width: auto !important;
         
         :deep(.el-input__inner) {
@@ -811,8 +818,8 @@ onMounted(() => {
       }
       
       .filter-select {
-        flex: 1 1 auto;
-        min-width: 95px;
+        flex: 1 1 50%;
+        min-width: 0;
         width: auto !important;
         
         :deep(.el-input__inner) {
@@ -835,11 +842,13 @@ onMounted(() => {
   @media screen and (max-width: 375px) {
     .header-actions {
       .search-input {
-        min-width: 100px;
+        flex: 1 1 50%;
+        min-width: 0;
       }
       
       .filter-select {
-        min-width: 85px;
+        flex: 1 1 50%;
+        min-width: 0;
       }
     }
   }

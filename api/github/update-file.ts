@@ -1,5 +1,20 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
+interface GitHubUser {
+  login: string;
+}
+
+interface GitHubErrorResponse {
+  message?: string;
+}
+
+interface GitHubUpdateResponse {
+  commit: {
+    sha: string;
+    url: string;
+  };
+}
+
 const REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'xia-66';
 const REPO_NAME = process.env.GITHUB_REPO_NAME || 'nav';
 const FILE_PATH = 'src/config/data.json';
@@ -25,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
-    const userData = await userResponse.json();
+    const userData = await userResponse.json() as GitHubUser;
 
     if (!ALLOWED_USERS.includes(userData.login)) {
       return res.status(403).json({ error: `无权限修改，仅允许以下用户: ${ALLOWED_USERS.join(', ')}` });
@@ -50,11 +65,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
     if (!updateResponse.ok) {
-      const errorData = await updateResponse.json();
+      const errorData = await updateResponse.json() as GitHubErrorResponse;
       throw new Error(errorData.message || '更新文件失败');
     }
 
-    const result = await updateResponse.json();
+    const result = await updateResponse.json() as GitHubUpdateResponse;
 
     return res.status(200).json({
       success: true,

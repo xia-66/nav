@@ -1,5 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
+interface GitHubFileResponse {
+  content: string;
+  sha: string;
+}
+
 const REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'xia-66';
 const REPO_NAME = process.env.GITHUB_REPO_NAME || 'nav';
 const FILE_PATH = 'src/config/data.json';
@@ -27,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new Error('获取文件失败');
     }
 
-    const data = await response.json();
+    const data = await response.json() as GitHubFileResponse;
     
     // 解码 Base64 内容
     const content = Buffer.from(data.content, 'base64').toString('utf-8');

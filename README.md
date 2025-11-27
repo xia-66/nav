@@ -1,8 +1,8 @@
-# 黑羽导航 v2.1.0
+# 黑羽导航 v2.2.0
 
 > 一个简洁、美观、易用的个人导航网站
 
-[![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/xia-66/nav)
+[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/xia-66/nav)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Vue](https://img.shields.io/badge/vue-3.4.29-brightgreen.svg)](https://vuejs.org/)
 [![Vite](https://img.shields.io/badge/vite-5.3.1-646cff.svg)](https://vitejs.dev/)
@@ -29,8 +29,9 @@
 - 📱 **移动优先** - 完美支持移动端和桌面端
 - 🎯 **分类管理** - 9 大分类，79 个精选网站
 - 🔍 **智能搜索** - 支持按名称和描述搜索
-- ⚡ **纯前端** - 无需后端，一键部署
-- 💾 **本地数据** - 数据存储在 JSON 文件中
+- 🔐 **后台管理** - GitHub OAuth 登录，在线编辑数据
+- ⚡ **一键部署** - 支持 Vercel 一键部署
+- 💾 **GitHub 同步** - 数据自动同步到 GitHub 仓库
 - 🌐 **全球 CDN** - 支持 Vercel 等平台部署
 
 ## 📦 技术栈
@@ -86,10 +87,16 @@ heiyu-nav/
 │   │   ├── font/       # 字体图标
 │   │   └── img/        # 图片资源
 │   ├── components/      # 组件
-│   │   └── index/      # 前台组件
+│   │   ├── index/      # 前台组件
+│   │   └── admin/      # 后台组件
 │   ├── views/          # 视图页面
+│   │   ├── Index/      # 前台页面
+│   │   ├── AdminCallback.vue    # OAuth 回调页面
+│   │   └── AdminDashboard.vue   # 后台管理页面
 │   ├── router/         # 路由配置
 │   ├── store/          # 状态管理
+│   │   ├── index.ts    # 主 store
+│   │   └── admin.ts    # 后台 store
 │   ├── utils/          # 工具函数
 │   ├── config/         # ⭐ 配置文件（需要修改）
 │   │   ├── data.json   # ⭐ 网站数据
@@ -97,6 +104,12 @@ heiyu-nav/
 │   ├── App.vue         # 根组件
 │   └── main.ts         # 入口文件
 ├── api/                # Serverless API
+│   ├── auth/           # OAuth 认证
+│   │   ├── github.ts   # GitHub OAuth 处理
+│   │   └── callback.ts # OAuth 回调处理
+│   ├── github/         # GitHub API
+│   │   ├── get-file.ts    # 获取文件
+│   │   └── update-file.ts # 更新文件
 │   └── favicon.ts      # 网站图标获取
 ├── public/             # 公共资源
 ├── index.html          # HTML 模板
@@ -168,12 +181,16 @@ export const Favicon = '/api/favicon?url='
 
 在 Vercel Dashboard → Settings → Environment Variables 添加：
 
-```
-VITE_GITHUB_CLIENT_ID=你的_client_id
-GITHUB_CLIENT_SECRET=你的_client_secret
-GITHUB_REPO_OWNER=你的_github_用户名
-GITHUB_REPO_NAME=nav
-GITHUB_ALLOWED_USERS=你的_github_用户名
+```bash
+# 必需的环境变量
+GITHUB_CLIENT_ID=你的_client_id           # 后端 API 使用
+GITHUB_CLIENT_SECRET=你的_client_secret   # 后端 API 使用
+VITE_GITHUB_CLIENT_ID=你的_client_id      # 前端使用（与上面相同）
+
+# 可选的环境变量（有默认值）
+GITHUB_REPO_OWNER=你的_github_用户名      # 默认: xia-66
+GITHUB_REPO_NAME=nav                      # 默认: nav
+GITHUB_ALLOWED_USERS=你的_github_用户名   # 默认: xia-66
 ```
 
 3. **访问后台** - `https://你的域名.com/#/admin/login`
@@ -198,6 +215,7 @@ GITHUB_ALLOWED_USERS=你的_github_用户名
 
 ### 主要功能
 
+**前台功能**
 - ✅ 网站展示 - 按分类展示所有导航网站
 - ✅ 实时搜索 - 支持搜索网站名称和描述
 - ✅ 锚点导航 - 快速跳转到指定分类
@@ -206,6 +224,13 @@ GITHUB_ALLOWED_USERS=你的_github_用户名
 - ✅ 侧边栏 - 移动端友好的抽屉菜单
 - ✅ 时钟显示 - 实时显示当前时间
 - ✅ 背景效果 - 精美的背景图片
+
+**后台管理**
+- ✅ GitHub OAuth - 安全的第三方登录
+- ✅ 在线编辑 - 可视化编辑导航数据
+- ✅ 实时预览 - 修改后即时查看效果
+- ✅ 自动同步 - 一键提交到 GitHub 仓库
+- ✅ 权限控制 - 仅允许授权用户访问
 
 ### 交互体验
 
@@ -216,14 +241,25 @@ GITHUB_ALLOWED_USERS=你的_github_用户名
 
 ## 📖 版本历史
 
-### v2.1.0 (2025-10-31)
+### v2.2.0 (2024-11-27)
+
+- 🎨 优化后台登录对话框组件，简化样式
+- ✅ 修复 Vercel 部署环境变量配置问题
+- ✅ 替换用户头像为 `el-avatar` 组件
+- ✅ 移除登录加载页面，改为静默处理
+- ✅ 修复图标字体问题（icon-lock → icon-md-lock）
+- ✅ 移除按钮悬浮样式
+- ✅ 优化弹窗关闭逻辑
+- 📝 完善环境变量配置文档
+
+### v2.1.0 (2024-10-31)
 
 - 🚀 优化部署流程，支持 Vercel 一键部署
 - ✅ 简化配置文件管理
 - ✅ 更新文档说明
 - ✅ 优化项目结构
 
-### v2.0.0 (2025-10-25)
+### v2.0.0 (2024-10-25)
 
 - 🎉 重大更新：纯前端化架构
 - ✅ 删除所有后台代码和依赖

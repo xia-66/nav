@@ -105,16 +105,15 @@ onUnmounted(() => {
     // 左侧菜单图标容器
     > div:first-child {
       order: 1;
-      flex: 0 0 auto;
+      flex: 1;
+      min-width: 0;
     }
     
     .clock-component {
       order: 2;
-      flex: 1;
+      flex: 0 0 140px;
       display: flex;
       justify-content: center;
-      max-width: 140px;
-      margin: 0 auto;
     }
     
     .flex-grow {
@@ -123,9 +122,12 @@ onUnmounted(() => {
     
     .admin-menu-item {
       order: 3;
-      flex: 0 0 auto;
+      flex: 1;
+      min-width: 0;
       margin-left: 0;
       margin-right: 0;
+      display: flex;
+      justify-content: flex-end;
     }
   }
   .flex-grow {

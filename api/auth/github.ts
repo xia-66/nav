@@ -1,5 +1,17 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
+interface GitHubTokenResponse {
+  access_token?: string;
+  error?: string;
+  error_description?: string;
+}
+
+interface GitHubUser {
+  login: string;
+  name: string;
+  avatar_url: string;
+}
+
 const ALLOWED_USERS = (process.env.GITHUB_ALLOWED_USERS || 'xia-66').split(',').map(u => u.trim());
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -31,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }),
     });
 
-    const tokenData = await tokenResponse.json();
+    const tokenData = await tokenResponse.json() as GitHubTokenResponse;
 
     if (tokenData.error) {
       return res.status(400).json({ error: tokenData.error_description || '授权失败' });
@@ -47,7 +59,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
-    const userData = await userResponse.json();
+    const userData = await userResponse.json() as GitHubUser;
 
     // 3. 验证用户是否在允许列表中
     if (!ALLOWED_USERS.includes(userData.login)) {

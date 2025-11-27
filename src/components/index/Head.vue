@@ -101,10 +101,17 @@ onUnmounted(() => {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 1;
     }
     
     .flex-grow {
       display: none;
+    }
+    
+    .admin-menu-item {
+      position: relative;
+      z-index: 2;
+      margin-left: auto;
     }
   }
   .flex-grow {

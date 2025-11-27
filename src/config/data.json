@@ -35,6 +35,10 @@
     {
       "id": 12,
       "name": "开发工具"
+    },
+    {
+      "id": 13,
+      "name": "分类测试"
     }
   ],
   "items": [
@@ -583,6 +587,13 @@
       "url": "https://github.com/hiroi-sora/Umi-OCR",
       "description": "离线OCR文字识别",
       "categoryId": 10
+    },
+    {
+      "id": 165,
+      "name": "网站测试",
+      "url": "https://www.baidu.com",
+      "description": "test",
+      "categoryId": 13
     }
   ]
 }

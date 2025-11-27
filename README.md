@@ -157,6 +157,29 @@ export const Favicon = '/api/favicon?url='
 - **环境变量**：在 Vercel 项目设置中添加
 - **构建配置**：`vercel.json` 已预配置，一般无需修改
 
+## 🔐 后台管理系统
+
+本项目内置了后台管理系统，支持通过 Web 界面管理导航数据。
+
+### 快速配置
+
+1. **创建 GitHub OAuth App** - 参考 [ADMIN_CONFIG.md](./ADMIN_CONFIG.md)
+2. **配置环境变量**：
+
+在 Vercel Dashboard → Settings → Environment Variables 添加：
+
+```
+VITE_GITHUB_CLIENT_ID=你的_client_id
+GITHUB_CLIENT_SECRET=你的_client_secret
+GITHUB_REPO_OWNER=你的_github_用户名
+GITHUB_REPO_NAME=nav
+GITHUB_ALLOWED_USERS=你的_github_用户名
+```
+
+3. **访问后台** - `https://你的域名.com/#/admin/login`
+
+详细配置请参考：[后台管理配置指南](./ADMIN_CONFIG.md)
+
 ## 📊 网站分类
 
 | 分类     | 数量 | 说明                        |

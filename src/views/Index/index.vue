@@ -1,5 +1,7 @@
 <script setup lang="ts">
-
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus';
 import Head from '@/components/index/Head.vue'
 import Background from '@/components/index/Background.vue'
 import Search from '@/components/index/Search.vue'
@@ -8,6 +10,19 @@ import Site from '@/components/index/Site.vue'
 import Sidebar from '@/components/index/Sidebar.vue'
 import Footer from '@/components/index/Footer.vue'
 
+const route = useRoute();
+
+onMounted(() => {
+  // 检查是否有错误信息（来自 OAuth 回调）
+  const error = route.query.error as string;
+  if (error) {
+    ElMessage.error(decodeURIComponent(error));
+    // 清除 URL 中的错误参数
+    const newQuery = { ...route.query };
+    delete newQuery.error;
+    window.history.replaceState({}, '', window.location.pathname + window.location.hash.split('?')[0]);
+  }
+});
 </script>
 
 <template>

@@ -11,21 +11,40 @@
     </ul>
     <Clock></Clock>
     <div class="flex-grow" />
+    <div class="admin-menu-item" @click="goToAdmin">
+      <i class="iconfont icon-md-lock" style="margin-right: 5px;"></i>后台登录
+    </div>
   </div>
   <LeftDrawer></LeftDrawer>
+  <LoginDialog v-model="showLoginDialog" />
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import Clock from './Clock.vue';
-import LeftDrawer from './LeftDrawer.vue'
+import LeftDrawer from './LeftDrawer.vue';
+import LoginDialog from '@/components/admin/LoginDialog.vue';
 import { useMainStore } from '@/store';
+import { useAdminStore } from '@/store/admin';
 
 const change = ref(false)
 const store = useMainStore()
+const router = useRouter()
+const adminStore = useAdminStore()
 const scrollHeight = ref(0);
+const showLoginDialog = ref(false);
 
 const showDrawer = () => {
   store.$state.isShowDrawer = true
+}
+
+const goToAdmin = () => {
+  // 如果已登录，跳转到管理后台，否则弹出登录对话框
+  if (adminStore.isAuthenticated) {
+    router.push('/admin/dashboard')
+  } else {
+    showLoginDialog.value = true
+  }
 }
 const handleScroll = () => {
   // 直接使用 window.scrollY 获取当前滚动高度
@@ -79,6 +98,13 @@ onUnmounted(() => {
   }
   .flex-grow {
     flex-grow: 1;
+  }
+
+  .admin-menu-item {
+    margin-right: 30px;
+    overflow: hidden;
+    height: 75px;
+    cursor: pointer;
   }
 }
 .headsp {

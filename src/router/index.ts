@@ -11,6 +11,18 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Index',
     component: () => import('@/views/Index/index.vue'),
     meta: { title: SITE_NAME }
+  },
+  {
+    path: '/admin/callback',
+    name: 'AdminCallback',
+    component: () => import('@/views/AdminCallback.vue'),
+    meta: { title: '授权回调 - ' + SITE_NAME }
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: () => import('@/views/AdminDashboard.vue'),
+    meta: { title: '后台管理 - ' + SITE_NAME }
   }
 ]
 

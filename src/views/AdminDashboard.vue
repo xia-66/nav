@@ -576,6 +576,30 @@ onMounted(() => {
       }
     }
 
+    @media screen and (max-width: 768px) {
+      gap: 6px;
+      
+      .el-button {
+        font-size: 13px;
+        padding: 7px 12px;
+        
+        // 在移动端隐藏部分按钮文字，只保留图标
+        span:not(.el-icon) {
+          display: none;
+        }
+        
+        .el-icon {
+          margin-right: 0 !important;
+        }
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .el-button {
+        padding: 6px 10px;
+      }
+    }
+
     .user-info {
       display: flex;
       align-items: center;
@@ -594,8 +618,12 @@ onMounted(() => {
       .username {
         font-size: 14px;
         color: #333;
+        
+        // 在小屏幕上隐藏用户名
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
       }
-
     }
     
     // 移除 dropdown 的默认样式
@@ -612,6 +640,25 @@ onMounted(() => {
       box-shadow: none;
     }
   }
+
+  // 移动端优化标题
+  @media screen and (max-width: 768px) {
+    padding: 10px 16px;
+    min-height: 56px;
+    
+    .header-left h1 {
+      font-size: 18px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 8px 12px;
+    min-height: 52px;
+    
+    .header-left h1 {
+      font-size: 16px;
+    }
+  }
 }
 
 .admin-content {
@@ -624,6 +671,25 @@ onMounted(() => {
     background: white;
     padding: 24px;
     border-radius: 8px;
+  }
+
+  // 移动端减少内边距
+  @media screen and (max-width: 768px) {
+    padding: 16px;
+    padding-top: 76px; // 调整顶部间距
+    
+    .content-tabs {
+      padding: 16px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 12px;
+    padding-top: 68px;
+    
+    .content-tabs {
+      padding: 12px;
+    }
   }
 }
 
@@ -650,8 +716,132 @@ onMounted(() => {
       
       .el-input {
         flex: 1;
-        min-width: 200px;
+        min-width: 150px;
+        width: 100%;
       }
+      
+      .el-select {
+        flex: 1;
+        min-width: 120px;
+      }
+      
+      .el-button {
+        flex: 0 0 auto;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    gap: 8px;
+    
+    .header-actions {
+      gap: 8px;
+      flex-direction: column;
+      
+      .el-input,
+      .el-select,
+      .el-button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// 表格容器 - 添加横向滚动
+:deep(.el-card__body) {
+  overflow-x: auto;
+  
+  .el-table {
+    min-width: 800px; // 确保表格有最小宽度
+  }
+}
+
+// 表格在移动端的优化
+@media screen and (max-width: 768px) {
+  :deep(.el-table) {
+    font-size: 13px;
+    
+    .el-table__header th,
+    .el-table__body td {
+      padding: 8px 0;
+    }
+    
+    .el-button {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :deep(.el-table) {
+    font-size: 12px;
+    
+    .el-table__header th,
+    .el-table__body td {
+      padding: 6px 0;
+    }
+  }
+}
+
+// 对话框响应式
+:deep(.el-dialog) {
+  @media screen and (max-width: 768px) {
+    width: 90% !important;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 95% !important;
+    
+    .el-dialog__header {
+      padding: 16px;
+    }
+    
+    .el-dialog__body {
+      padding: 16px;
+    }
+    
+    .el-dialog__footer {
+      padding: 12px 16px;
+    }
+    
+    .el-form-item__label {
+      font-size: 13px;
+    }
+  }
+}
+
+// Tabs 响应式
+:deep(.el-tabs__nav-wrap) {
+  @media screen and (max-width: 480px) {
+    .el-tabs__item {
+      font-size: 14px;
+      padding: 0 12px;
+    }
+  }
+}
+
+// Card 响应式
+:deep(.el-card) {
+  @media screen and (max-width: 768px) {
+    .el-card__header {
+      padding: 14px;
+    }
+    
+    .el-card__body {
+      padding: 14px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .el-card__header {
+      padding: 12px;
+    }
+    
+    .el-card__body {
+      padding: 12px;
     }
   }
 }

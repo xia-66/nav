@@ -543,13 +543,6 @@
       "categoryId": 2
     },
     {
-      "id": 157,
-      "name": "TV",
-      "url": "https://tvplus.588235.xyz/",
-      "description": "在线视频聚合",
-      "categoryId": 3
-    },
-    {
       "id": 159,
       "name": "v2rayNG",
       "url": "https://github.com/2dust/v2rayNG/releases",

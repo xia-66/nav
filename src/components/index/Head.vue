@@ -9,7 +9,7 @@
         <div style="margin-right: 30px;overflow: hidden;height: 75px;"><i :class="item.iconClass" style="margin-right: 5px;"></i>{{ item.name }}</div>
       </li>
     </ul>
-    <Clock></Clock>
+    <Clock class="clock-component"></Clock>
     <div class="flex-grow" />
     <div class="admin-menu-item" @click="goToAdmin">
       <i class="iconfont icon-md-lock"></i>
@@ -96,6 +96,16 @@ onUnmounted(() => {
     .my {
       display: none;
     }
+    
+    .clock-component {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .flex-grow {
+      display: none;
+    }
   }
   .flex-grow {
     flex-grow: 1;
@@ -137,6 +147,7 @@ onUnmounted(() => {
   // 移动端优化
   @media screen and (max-width: 768px) {
     padding: 0 20px;
+    position: relative;
     
     .admin-menu-item {
       margin-right: 0;

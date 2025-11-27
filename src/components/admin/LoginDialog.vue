@@ -123,14 +123,14 @@ const handleLogin = () => {
 .mobile-login-dialog {
   :deep(.el-dialog) {
     @media screen and (max-width: 768px) {
-      width: 75% !important;
-      max-width: 360px;
+      width: 65% !important;
+      max-width: 320px;
       margin: 5vh auto;
     }
 
     @media screen and (max-width: 480px) {
-      width: 80% !important;
-      max-width: 320px;
+      width: 70% !important;
+      max-width: 280px;
       margin: 10vh auto;
       
       .el-dialog__body {
@@ -139,8 +139,8 @@ const handleLogin = () => {
     }
     
     @media screen and (max-width: 375px) {
-      width: 85% !important;
-      max-width: 300px;
+      width: 75% !important;
+      max-width: 260px;
       
       .el-dialog__body {
         padding: 0 16px 16px;

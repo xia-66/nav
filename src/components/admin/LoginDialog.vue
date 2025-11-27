@@ -85,6 +85,10 @@ const handleLogin = () => {
   :deep(.el-dialog) {
     border-radius: 12px;
     overflow: hidden;
+    
+    @media screen and (max-width: 480px) {
+      border-radius: 10px;
+    }
   }
 
   :deep(.el-dialog__header) {
@@ -94,6 +98,10 @@ const handleLogin = () => {
 
   :deep(.el-dialog__body) {
     padding: 0 40px 40px;
+    
+    @media screen and (max-width: 768px) {
+      padding: 0 30px 30px;
+    }
   }
 
   :deep(.el-dialog__headerbtn) {
@@ -117,15 +125,24 @@ const handleLogin = () => {
     @media screen and (max-width: 768px) {
       width: 85% !important;
       max-width: 420px;
-      margin: 0 auto;
+      margin: 5vh auto;
     }
 
     @media screen and (max-width: 480px) {
-      width: 90% !important;
-      margin: 0 auto;
+      width: 92% !important;
+      max-width: 380px;
+      margin: 10vh auto;
       
       .el-dialog__body {
-        padding: 0 24px 24px;
+        padding: 0 20px 20px;
+      }
+    }
+    
+    @media screen and (max-width: 375px) {
+      width: 94% !important;
+      
+      .el-dialog__body {
+        padding: 0 16px 16px;
       }
     }
   }
@@ -198,6 +215,12 @@ const handleLogin = () => {
     justify-content: center;
     gap: 8px;
     border-radius: 8px;
+    touch-action: manipulation; // 优化移动端点击
+    -webkit-tap-highlight-color: transparent; // 移除移动端点击高亮
+    
+    svg {
+      flex-shrink: 0;
+    }
   }
 
   .notice {
@@ -214,8 +237,8 @@ const handleLogin = () => {
   }
 
   // 移动端适配
-  @media screen and (max-width: 480px) {
-    padding-top: 20px;
+  @media screen and (max-width: 768px) {
+    padding-top: 24px;
     
     .feature-list {
       margin-bottom: 20px;
@@ -223,18 +246,104 @@ const handleLogin = () => {
       .feature-item {
         font-size: 13px;
         padding: 8px 0;
+        gap: 8px;
+      }
+    }
+    
+    .login-btn {
+      height: 46px;
+      font-size: 15px;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    padding-top: 16px;
+    
+    .feature-list {
+      margin-bottom: 16px;
+      
+      .feature-item {
+        font-size: 12px;
+        padding: 6px 0;
+        gap: 6px;
+        
+        .el-icon {
+          font-size: 16px;
+        }
       }
     }
     
     .login-btn {
       height: 44px;
-      font-size: 15px;
+      font-size: 14px;
+      gap: 6px;
+      
+      svg {
+        width: 15px;
+        height: 15px;
+      }
     }
     
     .notice {
-      margin-top: 16px;
-      padding: 10px;
+      margin-top: 14px;
+      padding: 8px;
       font-size: 11px;
+      gap: 4px;
+      
+      .el-icon {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  @media screen and (max-width: 375px) {
+    padding-top: 12px;
+    
+    .feature-list {
+      margin-bottom: 12px;
+      
+      .feature-item {
+        font-size: 11px;
+        padding: 5px 0;
+      }
+    }
+    
+    .login-btn {
+      height: 42px;
+      font-size: 13px;
+    }
+    
+    .notice {
+      margin-top: 12px;
+      padding: 6px;
+      font-size: 10px;
+    }
+  }
+  
+  // 横屏模式优化
+  @media screen and (max-height: 600px) and (orientation: landscape) {
+    padding-top: 10px;
+    
+    .feature-list {
+      margin-bottom: 12px;
+      
+      .feature-item {
+        padding: 4px 0;
+      }
+    }
+    
+    .login-btn {
+      height: 40px;
+    }
+    
+    .notice {
+      margin-top: 10px;
+      padding: 6px;
     }
   }
 }

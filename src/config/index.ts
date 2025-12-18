@@ -5,7 +5,7 @@ import * as pkg from '../../package.json'
 export const SITE_NAME = '黑羽导航'
 
 // 备案号
-export const ICP_NUMBER = '豫ICP备2023030596号'
+export const ICP_NUMBER = ''
 
 // ==================== 版本信息 ====================
 // 项目版本号

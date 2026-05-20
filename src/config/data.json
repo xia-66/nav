@@ -35,13 +35,6 @@
   ],
   "items": [
     {
-      "id": 1,
-      "name": "Kimi",
-      "url": "https://kimi.moonshot.cn/",
-      "description": "月之暗面AI助手",
-      "categoryId": 1
-    },
-    {
       "id": 2,
       "name": "Gmail",
       "url": "https://www.google.com.hk/intl/zh-HK_hk/gmail/about/",
@@ -196,13 +189,6 @@
       "categoryId": 2
     },
     {
-      "id": 40,
-      "name": "获取Favicon图标",
-      "url": "https://favicon.vwood.xyz/",
-      "description": "网站图标提取工具",
-      "categoryId": 12
-    },
-    {
       "id": 44,
       "name": "帧率测试",
       "url": "https://www.testufo.com/",
@@ -313,13 +299,6 @@
       "url": "https://github.com/",
       "description": "全球最大开源社区",
       "categoryId": 11
-    },
-    {
-      "id": 101,
-      "name": "腾讯元宝",
-      "url": "https://yuanbao.tencent.com/chat",
-      "description": "腾讯AI智能助手",
-      "categoryId": 1
     },
     {
       "id": 104,

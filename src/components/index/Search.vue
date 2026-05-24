@@ -29,9 +29,6 @@
               @click.prevent="handleItemClick(item.url)"
             >
               <el-card class="site-card" shadow="never">
-                <div class="img-group">
-                  <el-avatar :size="42" :src="`${Favicon}${item.url}`"></el-avatar>
-                </div>
                 <div class="text-group">
                   <div class="name text">{{ item.name }}</div>
                   <div class="name text describe">{{ item.description }}</div>
@@ -52,7 +49,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { Favicon } from '@/config'
 import { allNavItems, type NavItem } from '@/utils/navData'
 import { openUrl } from '@/utils'
 
@@ -229,22 +225,10 @@ const handleItemClick = (url: string) => {
         border: 1px solid var(--glass-border);
         background-color: var(--glass-bg-soft);
 
-        .img-group {
-          position: absolute;
-          left: 14px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 50%;
-          overflow: hidden;
-          z-index: 2;
-        }
-
         .text-group {
-          width: calc(100% - 60px);
+          width: 100%;
           display: block;
-          margin-left: 66px;
-          padding-right: 10px;
+          padding: 0 10px;
 
           .name {
             font-weight: 500;

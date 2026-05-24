@@ -35,7 +35,7 @@ import Footer from '@/components/index/Footer.vue'
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-image: url('@/assets/img/wallpaper/2.jpeg');
+    background-image: url('@/assets/img/wallpaper/pc.jpeg');
     background-repeat: no-repeat;
     background-position: center top;
     background-size: cover;
@@ -43,7 +43,7 @@ import Footer from '@/components/index/Footer.vue'
 
   @media screen and (max-width: 768px) {
     &::before {
-      background-image: url('@/assets/img/wallpaper/khadmv.webp');
+      background-image: url('@/assets/img/wallpaper/mobile.webp');
       background-position: center center;
     }
   }

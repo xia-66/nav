@@ -1,5 +1,5 @@
 <template>
-  <div class="footer px-5">
+  <footer class="footer px-5">
     <div class="footer-copy">
       <span>&copy; {{ copyrightYears }} All rights reserved. </span>
       <a target="_blank" href="https://beian.miit.gov.cn/">{{ ICP_NUMBER }}</a>
@@ -9,7 +9,7 @@
       <a target="_blank" href="https://blog.heiyu.fun/">黑羽</a>
       <span> &nbsp; {{ RELEASE }}</span>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script setup>
@@ -27,16 +27,27 @@ const copyrightYears = computed(() => {
 <style lang="scss" scoped>
 .footer {
   position: relative;
-  background: #fff;
+  width: min(90vw, 1440px);
+  margin: 18px auto 32px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 8px;
+  box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  backdrop-filter: blur(18px) saturate(135%);
   z-index: 99;
-  padding-top: 50px;
-  padding: 20px 0;
+  padding: 24px 0 22px;
+
+  @media screen and (max-width: 768px) {
+    width: calc(100% - 20px);
+    margin-bottom: 20px;
+  }
 }
 .footer .footer-alink,
 .footer .footer-copy,
 .footer .footer-powered {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .footer .footer-alink a {
   margin-right: 10px;

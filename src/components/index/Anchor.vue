@@ -3,79 +3,91 @@
     <header></header>
     <main id="js-home-nav__main">
       <ul id="js-home-nav__main-ul">
-        <li class="record-item pointer text" v-for="category in store.$state.site" :key="category.id" @click="changeAnchorPosition(category.name)">
-          <div style="width: 100%; height: 100%; text-align: center">{{ category.name }}</div>
+        <li v-for="category in navSections" :key="category.id" class="record-item pointer text" @click="changeAnchorPosition(category.anchorId)">
+          <div class="record-name">{{ category.name }}</div>
         </li>
-        <i style="width: 100px" v-for="i in 6" :key="i.index"></i>
       </ul>
     </main>
   </div>
 </template>
-<script setup>
-import { useMainStore } from '@/store'
-import { ref } from 'vue'
 
-const store = useMainStore()
-const changeAnchorPosition = name => {
-  let target = document.getElementById(`site-anchor-${name}`)
-  // console.log(name);
-  // 没有找到节点，退出执行
+<script setup lang="ts">
+import { navSections } from '@/utils/navData'
+
+const changeAnchorPosition = (anchorId: string) => {
+  const target = document.getElementById(anchorId)
+
   if (!target) return
-  // 计算目标元素距离视口顶部的距离
-  let targetTop = target.getBoundingClientRect().top + window.scrollY
 
-  // 设置额外的滚动偏移量
-  let additionalOffset = 75
+  const targetTop = target.getBoundingClientRect().top + window.scrollY
+  const finalScrollPosition = targetTop - 75
 
-  // 计算最终的滚动位置
-  let finalScrollPosition = targetTop - additionalOffset
-
-  // 滚动到最终位置
   window.scroll({
     top: finalScrollPosition,
     left: 0,
     behavior: 'smooth'
   })
-  // target.scrollIntoView({
-  //   behavior: 'smooth',
-  //   block: 'start',
-  // });
 }
 </script>
 
 <style lang="scss" scoped>
 .home-nav {
   width: 100%;
-  margin-top: 300px;
+  margin-top: 100px;
   padding-bottom: 10px;
   box-sizing: border-box;
-  background-color: #f9fafb;
+  background-color: transparent;
+
   main {
-    width: calc(100% - 20px);
+    width: min(90vw, 1440px);
     margin: 0 auto;
-    padding: 10px 0;
+    padding: 14px 0;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.48);
+    border-radius: 8px;
+    box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
+
+    @media screen and (max-width: 768px) {
+      width: calc(100% - 20px);
+    }
+
     ul {
       width: calc(100% - 20px);
       margin: 0 auto;
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       align-items: center;
-      justify-content: space-between;
+      gap: 12px;
+      background-color: rgba(255, 255, 255, 0.34);
+      border-radius: 6px;
 
-      flex-wrap: wrap;
-      background-color: #f9fafb;
       .record-item {
         position: relative;
         width: 100px;
-        padding: 10px;
+        padding: 12px 10px;
         display: flex;
         text-align: center;
-
-        // justify-content: space-between;
         align-items: center;
         box-sizing: border-box;
+        border-radius: 6px;
+        color: var(--gray-700);
+        transition: background-color 0.2s ease, color 0.2s ease;
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.5);
+          color: var(--gray-900);
+        }
       }
+
+      .record-name {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+      }
+
     }
   }
 }

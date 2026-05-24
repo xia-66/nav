@@ -236,3 +236,9 @@ body {
   --pink-100: #9d174d;
   --pink-50: #831843;
 }
+
+html,
+body,
+#app {
+  background-color: var(--gray-50);
+}

@@ -9,12 +9,11 @@ import '@/assets/css/base.css'
 import '@/assets/css/content.scss'
 import router from "./router";
 
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+const savedTheme = localStorage.getItem('theme-mode')
+const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+document.documentElement.setAttribute('theme-mode', savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : prefersDark ? 'dark' : 'light')
 
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate)
-createApp(App).use(router).use(ElementPlus).use(pinia).mount('#app')
+createApp(App).use(router).use(ElementPlus).mount('#app')
 // router.beforeEach((to, from, next) => {
 //   if (to.meta.title) {
 //     document.title = to.meta.title;

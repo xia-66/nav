@@ -1,74 +1,59 @@
 <template>
-  <div class="head" :class="{headsp:change}">
-    <div @click="showDrawer">
-      <i class="iconfont icon-md-menu" style="margin-right: 5px;"></i>
-      <span style="margin-right: 40px;"></span>
+  <div class="head" :class="{ headsp: change }">
+    <div class="brand">
+      <img class="brand-logo" :src="logoUrl" alt="LaLa" />
+      <span class="brand-name">LaLa</span>
     </div>
-    <ul class="menu">
-      <li v-for="item in store.$state.menu" :key="item.index">
-        <div style="margin-right: 30px;overflow: hidden;height: 75px;"><i :class="item.iconClass" style="margin-right: 5px;"></i>{{ item.name }}</div>
-      </li>
-    </ul>
-    <Clock class="clock-component"></Clock>
-    <div class="flex-grow" />
-    <div class="admin-menu-item" @click="goToAdmin">
-      <i class="iconfont icon-md-lock"></i>
-      <span class="admin-text">后台登录</span>
-    </div>
+    <Search class="head-search"></Search>
+    <button class="theme-toggle" type="button" :aria-label="themeLabel" :title="themeLabel" @click="toggleTheme">
+      <el-icon>
+        <Sunny v-if="themeMode === 'dark'" />
+        <Moon v-else />
+      </el-icon>
+    </button>
   </div>
-  <LeftDrawer></LeftDrawer>
-  <LoginDialog v-model="showLoginDialog" />
 </template>
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
-import Clock from './Clock.vue';
-import LeftDrawer from './LeftDrawer.vue';
-import LoginDialog from '@/components/admin/LoginDialog.vue';
-import { useMainStore } from '@/store';
-import { useAdminStore } from '@/store/admin';
+
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Moon, Sunny } from '@element-plus/icons-vue'
+import Search from './Search.vue'
+import logoUrl from '@/assets/img/logo/favicon.ico'
+
+type ThemeMode = 'light' | 'dark'
 
 const change = ref(false)
-const store = useMainStore()
-const router = useRouter()
-const adminStore = useAdminStore()
-const scrollHeight = ref(0);
-const showLoginDialog = ref(false);
+const scrollHeight = ref(0)
+const themeMode = ref<ThemeMode>('light')
+const themeLabel = ref('切换夜间主题')
 
-const showDrawer = () => {
-  store.$state.isShowDrawer = true
+const applyTheme = (mode: ThemeMode) => {
+  themeMode.value = mode
+  themeLabel.value = mode === 'dark' ? '切换白天主题' : '切换夜间主题'
+  document.documentElement.setAttribute('theme-mode', mode)
+  localStorage.setItem('theme-mode', mode)
 }
 
-const goToAdmin = () => {
-  // 如果已登录，跳转到管理后台，否则弹出登录对话框
-  if (adminStore.isAuthenticated) {
-    router.push('/admin/dashboard')
-  } else {
-    showLoginDialog.value = true
-  }
+const toggleTheme = () => {
+  applyTheme(themeMode.value === 'dark' ? 'light' : 'dark')
 }
+
 const handleScroll = () => {
-  // 直接使用 window.scrollY 获取当前滚动高度
-  scrollHeight.value = window.scrollY;
-
-  // console.log(scrollHeight.value);
-  if (scrollHeight.value > 30) {
-    change.value = true;
-  } else {
-    change.value = false;
-  }// 打印当前滚动高度
-};
+  scrollHeight.value = window.scrollY
+  change.value = scrollHeight.value > 30
+}
 
 onMounted(() => {
-  // 监听整个窗口的滚动事件
-  window.addEventListener('scroll', handleScroll);
-});
+  const currentTheme = document.documentElement.getAttribute('theme-mode') as ThemeMode | null
+  applyTheme(currentTheme ?? 'light')
+  window.addEventListener('scroll', handleScroll)
+})
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
-
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
+
 <style lang="scss" scoped>
 .head {
   position: fixed;
@@ -76,141 +61,125 @@ onUnmounted(() => {
   top: 0;
   right: 0;
   width: 100%;
-  display: flex;
   height: 75px;
-  line-height: 75px;
-  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-inline: max(5vw, calc((100vw - 1440px) / 2));
   background-color: transparent;
+  color: var(--gray-800);
   z-index: 999;
-  color: #fff;
-  -webkit-backface-visibility: hidden; // 优化移动端固定定位
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  .menu {
-    display: flex;
-  }
 
-  .my {
-    display: flex;
-  }
-  @media screen and (max-width: 414px) {
-    justify-content: space-between;
-    
-    .menu {
-      display: none;
-    }
-    .my {
-      display: none;
-    }
-    
-    // 左侧菜单图标容器
-    > div:first-child {
-      order: 1;
-      flex: 1;
-      min-width: 0;
-    }
-    
-    .clock-component {
-      order: 2;
-      flex: 0 0 140px;
-      display: flex;
-      justify-content: center;
-    }
-    
-    .flex-grow {
-      display: none;
-    }
-    
-    .admin-menu-item {
-      order: 3;
-      flex: 1;
-      min-width: 0;
-      margin-left: 0;
-      margin-right: 0;
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-  .flex-grow {
-    flex-grow: 1;
-  }
-
-  .admin-menu-item {
-    margin-right: 30px;
-    overflow: hidden;
-    height: 75px;
-    cursor: pointer;
+  .brand {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    min-width: 130px;
+    margin-right: auto;
+  }
+
+  .brand-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
     border-radius: 8px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    
-    .iconfont {
-      font-size: 18px;
-      transition: transform 0.3s ease;
+  }
+
+  .brand-name {
+    margin-left: 10px;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .head-search {
+    flex: 0 1 520px;
+    max-width: 520px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .theme-toggle {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    background: var(--gray-o8);
+    color: var(--gray-900);
+    box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+
+    .el-icon {
+      font-size: 22px;
     }
-    
-    .admin-text {
-      margin-left: 5px;
-      font-size: 14px;
-      font-weight: 500;
-      transition: opacity 0.3s ease;
-    }
-    
+
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      
-      .iconfont {
-        transform: scale(1.1);
-      }
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(31, 41, 55, 0.12);
     }
   }
-  
-  // 移动端优化
+
   @media screen and (max-width: 768px) {
-    padding: 0 20px;
-    
-    .admin-menu-item {
+    gap: 12px;
+    padding: 0 16px;
+
+    .brand {
+      min-width: auto;
       margin-right: 0;
-      padding: 0 12px;
-      
-      .admin-text {
-        font-size: 13px;
-      }
+    }
+
+    .brand-name {
+      font-size: 18px;
     }
   }
-  
+
   @media screen and (max-width: 480px) {
-    padding: 0 12px;
-    
-    .admin-menu-item {
-      padding: 0 8px;
-      margin-right: 0;
-      
-      .iconfont {
+    height: auto;
+    min-height: 75px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+
+    .brand {
+      height: 32px;
+    }
+
+    .head-search {
+      width: 100%;
+      max-width: none;
+      flex: 1;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+
+      .el-icon {
         font-size: 20px;
       }
-      
-      .admin-text {
-        display: none; // 小屏幕只显示图标
-      }
     }
-  }
-  
-  @media screen and (max-width: 375px) {
-    padding: 0 8px;
   }
 }
+
 .headsp {
-  background-color: #fff;
-  color: #000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  
-  .admin-menu-item {
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-  }
+  background-color: var(--gray-o7);
+  box-shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--gray-o5);
 }
 </style>

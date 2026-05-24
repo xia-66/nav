@@ -1,11 +1,11 @@
 <template>
   <div id="js-home-site" class="home-site">
-    <div v-if="loading || dataValue.length === 0" class="site-container">
-      <el-skeleton v-if="loading" :rows="5" animated />
-      <el-empty v-else description="暂无数据" />
+    <div v-if="navSections.length === 0" class="site-container">
+      <el-empty description="暂无数据" />
     </div>
+
     <template v-else>
-      <section v-for="category in dataValue" :key="category.index" :id="`site-anchor-${category.name}`">
+      <section v-for="category in navSections" :id="category.anchorId" :key="category.id">
         <div class="site-item">
           <header :id="category.name">
             <i class="category-icon relative left-px-2 iconfont icon-tag"></i>
@@ -13,10 +13,18 @@
           </header>
           <main>
             <ul>
-              <a class="relative site inherit-text" target="_blank" v-for="item in category.content" :key="item.index" @click="openUrl(item.url)">
+              <a
+                v-for="item in category.content"
+                :key="item.id"
+                class="relative site inherit-text"
+                :href="item.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click.prevent="openUrl(item.url)"
+              >
                 <div class="site-card inherit-text text w-px-180 sm:w-px-150">
                   <div class="img-group">
-                    <img v-lazy :src="`${Favicon}${item.url}`" />
+                    <img loading="lazy" :src="`${Favicon}${item.url}`" :alt="item.name" @error="handleImageError" />
                   </div>
                   <div class="text-group">
                     <div class="name text">{{ item.name }}</div>
@@ -24,7 +32,6 @@
                   </div>
                 </div>
               </a>
-              <i style="width: 200px" v-for="i in 6" :key="i.indx"></i>
             </ul>
           </main>
         </div>
@@ -33,105 +40,16 @@
   </div>
 </template>
 
-<script setup>
-import { useMainStore } from '@/store'
+<script setup lang="ts">
 import { Favicon } from '@/config'
 import { openUrl } from '@/utils'
+import { navSections } from '@/utils/navData'
 import unloadImg from '@/assets/img/error/image-error.png'
-import loadImg from '@/assets/img/loading/3.gif'
-import { ref, onMounted } from 'vue'
-// 导入本地数据
-import localData from '@/config/data.json'
 
-const store = useMainStore()
-const dataValue = ref([]) // 创建一个数组来存储最终的对象
-const loading = ref(true) // 添加加载状态
-let categories = {}
-
-// 使用本地数据替代API调用
-onMounted(() => {
-  // 模拟加载延迟，使体验更真实
-  setTimeout(() => {
-    try {
-      // 处理分类数据
-      categories = transformData(localData.categories)
-
-      // 处理项目数据
-      let data = localData.items
-      if (Array.isArray(data) && data.length > 0) {
-        const arrays = {} // 创建一个对象来存储每个categoryId对应的数组
-        Object.keys(categories).forEach(key => {
-          arrays[key] = [] // 初始化每个categoryId对应的空数组
-        })
-
-        data.forEach(item => {
-          if (item.categoryId && categories[item.categoryId]) {
-            arrays[item.categoryId].push(item) // 直接使用categoryId作为键来push到对应的数组
-          }
-        })
-
-        Object.keys(categories).forEach(key => {
-          const obj = {} // 创建一个新对象
-          obj.name = categories[key] // 设置name属性
-          obj.content = arrays[key] // 设置content属性
-          dataValue.value.push(obj) // 将对象push到数组中
-        })
-        store.$state.site = dataValue.value
-        // console.log(dataValue.value);
-      }
-      loading.value = false // 数据加载完成，设置loading为false
-    } catch (err) {
-      console.error('加载本地数据失败', err)
-      loading.value = false // 即使出错也要设置loading为false
-    }
-  }, 300) // 模拟300ms的加载时间
-})
-
-//转换分类的返回数据
-function transformData(arr) {
-  return arr.reduce((acc, item) => {
-    acc[item.id] = item.name
-    return acc
-  }, {})
-}
-
-const vLazy = {
-  // 在绑定元素插入到 DOM 中时调用
-  mounted(el, binding) {
-    handleLazy(el, binding)
-  },
-  // 当绑定元素的 VNode 更新时调用
-  updated(el, binding) {
-    handleLazy(el, binding)
-  }
-}
-function handleLazy(el, binding) {
-  let url = el.src
-  // 清空加载资源
-  el.src = loadImg // Vue 3 中使用空字符串代替 loadImg 占位符
-  let { unload = unloadImg } = binding.value || {} // 假设 unloadImg 是一个 URL 字符串
-  // 元素进入离开可视区域触发回调
-  let observe = new IntersectionObserver(
-    ([{ isIntersecting }]) => {
-      if (isIntersecting) {
-        el.src = url
-        el.onload = function () {
-          observe.unobserve(el)
-        }
-        el.onerror = function () {
-          // 加载失败时
-          el.src = unload
-          observe.unobserve(el)
-        }
-      }
-    },
-    {
-      root: null, // 可选，指定 IntersectionObserver 的根
-      rootMargin: '0px', // 可选，指定 IntersectionObserver 的根边缘
-      threshold: 0.1 // 可选，指定 IntersectionObserver 的触发阈值
-    }
-  )
-  observe.observe(el)
+const handleImageError = (event: Event) => {
+  const image = event.currentTarget as HTMLImageElement
+  if (image.src.endsWith(unloadImg)) return
+  image.src = unloadImg
 }
 </script>
 
@@ -140,88 +58,104 @@ function handleLazy(el, binding) {
   flex: 1;
   position: relative;
   height: 100vh;
-  // margin-top: 40vh;
-  background-color: #f9fafb;
+  background-color: transparent;
   z-index: 1;
 
   .site-container {
-    width: calc(100% - 20px);
+    width: min(90vw, 1440px);
     margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.48);
+    border-radius: 8px;
     padding: 10px;
+    box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+    backdrop-filter: blur(18px) saturate(135%);
   }
 
   section {
-    width: calc(100% - 20px);
+    width: min(90vw, 1440px);
     margin: 10px auto 0 auto;
+    content-visibility: auto;
+    contain-intrinsic-size: 320px;
+
     &:first-of-type {
-      margin-top: 0px;
+      margin-top: 0;
     }
+
+    &:last-of-type {
+      margin-bottom: 18px;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: calc(100% - 20px);
+    }
+
     .site-item {
-      padding: 10px;
-      border-radius: 2px;
-      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.46);
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.72);
       box-sizing: border-box;
+      box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+      backdrop-filter: blur(18px) saturate(135%);
+
       header {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        margin-bottom: 14px;
+
         .category-icon {
           font-size: 20px;
           font-weight: 500;
         }
+
         .category-title {
           margin-left: 8px;
           font-size: 16px;
           font-weight: 500;
         }
+
         .selected {
           color: #ffffff;
           background-color: #60a5fa;
         }
+
         .tag-container {
           min-width: max-content;
         }
       }
+
       main {
         ul {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          // &::after {
-          //   content: "";
-          //   width: 100rem;
-          //   // flex: 0.95;
-          // }
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 16px;
 
           .site {
-            margin-top: 10px;
+            min-width: 0;
 
-            .pin-group {
-              transition: transform 0.3s ease;
-            }
             .site-card {
               position: relative;
-              width: 200px;
-              height: 50px;
-              padding: 5px;
+              width: 100%;
+              height: 64px;
+              padding: 8px;
               display: flex;
               align-items: center;
               border-radius: 3px;
-              color: #374151;
-              border: 1px solid rgba(0, 0, 0, 0.02);
-              box-shadow: 0px 0px 20px -5px rgba(158, 158, 158, 0.2);
-              transition: box-shadow 0.3s ease;
-              transition: transform 0.3s ease;
-              @media screen and (max-width: 768px) {
-                width: 160px;
-              }
+              color: var(--gray-700);
+              border: 1px solid rgba(255, 255, 255, 0.52);
+              background-color: rgba(255, 255, 255, 0.5);
+              box-shadow: 0 10px 24px rgba(31, 41, 55, 0.06);
+              transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+
               .img-group {
                 position: absolute;
                 left: 10px;
-                width: 42px;
-                height: 42px;
+                width: 48px;
+                height: 48px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -231,31 +165,35 @@ function handleLazy(el, binding) {
                 border-radius: 6px;
                 overflow: hidden;
                 z-index: 2;
+
                 img {
                   width: 100%;
                   height: 100%;
                 }
               }
+
               .text-group {
                 width: calc(100% - 50px);
                 display: block;
-                margin-left: 60px;
+                margin-left: 66px;
+
                 .name {
                   font-weight: 500;
                 }
+
                 .describe {
                   color: #9ca3af;
                   font-size: 12px;
+                  margin-top: 4px;
                 }
               }
             }
+
             &:hover {
-              .pin-group {
-                transform: translateY(-2px);
-              }
               .site-card {
                 transform: translateY(-2px);
-                box-shadow: 0 26px 40px -24px #1f2937;
+                background-color: rgba(255, 255, 255, 0.82);
+                box-shadow: 0 26px 40px -24px var(--gray-800);
               }
             }
           }
@@ -263,23 +201,20 @@ function handleLazy(el, binding) {
       }
     }
   }
-  // 动态插入样式名，实现锚点效果
+
   .active-anchor {
     header {
-      .category-icon {
-        color: #ef4444 !important;
-      }
+      .category-icon,
       .category-title {
         color: #ef4444 !important;
       }
     }
   }
 }
+
 .el-empty {
-  // margin: 20px 0;
   padding: 40px;
-  // padding-bottom: 40px;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--gray-0);
 }
 </style>

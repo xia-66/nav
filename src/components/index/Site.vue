@@ -118,14 +118,6 @@ const handleImageError = (event: Event) => {
           font-weight: 500;
         }
 
-        .selected {
-          color: #ffffff;
-          background-color: #60a5fa;
-        }
-
-        .tag-container {
-          min-width: max-content;
-        }
       }
 
       main {
@@ -237,15 +229,6 @@ const handleImageError = (event: Event) => {
             }
           }
         }
-      }
-    }
-  }
-
-  .active-anchor {
-    header {
-      .category-icon,
-      .category-title {
-        color: #ef4444 !important;
       }
     }
   }

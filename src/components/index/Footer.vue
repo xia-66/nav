@@ -2,18 +2,17 @@
   <footer class="footer px-5">
     <div class="footer-copy">
       <span>&copy; {{ copyrightYears }} All rights reserved. </span>
-      <a target="_blank" href="https://beian.miit.gov.cn/">{{ ICP_NUMBER }}</a>
     </div>
     <div class="footer-powered">
       <span>Powered by &nbsp;</span>
-      <a target="_blank" href="https://blog.heiyu.fun/">黑羽</a>
+      <a target="_blank" href="https://blog.heiyu.fun/">LaLa</a>
       <span> &nbsp; {{ RELEASE }}</span>
     </div>
   </footer>
 </template>
 
 <script setup>
-import { RELEASE, ICP_NUMBER } from '@/config'
+import { RELEASE } from '@/config'
 import { computed } from 'vue'
 
 const START_YEAR = 2024

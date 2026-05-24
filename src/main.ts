@@ -14,9 +14,3 @@ const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
 document.documentElement.setAttribute('theme-mode', savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : prefersDark ? 'dark' : 'light')
 
 createApp(App).use(router).use(ElementPlus).mount('#app')
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.title) {
-//     document.title = to.meta.title;
-//   }
-//   next();
-// });

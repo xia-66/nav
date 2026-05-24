@@ -63,14 +63,6 @@ import Footer from '@/components/index/Footer.vue'
       overflow-x: hidden;
       overflow-y: auto;
       background: transparent;
-
-      .empty-panel {
-        width: 100%;
-        height: 100%;
-        padding: 10px;
-        background-color: #111827;
-        box-sizing: border-box;
-      }
     }
   }
 }

@@ -155,12 +155,9 @@ onUnmounted(() => {
     }
 
     .brand-logo {
-      width: 24px;
-      height: 24px;
-    }
-
-    .brand-name {
-      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
     }
 
     .head-search {

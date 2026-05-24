@@ -160,6 +160,10 @@ onUnmounted(() => {
       border-radius: 12px;
     }
 
+    .brand-name {
+      display: none;
+    }
+
     .head-search {
       min-width: 0;
       max-width: none;

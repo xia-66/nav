@@ -160,8 +160,7 @@ onUnmounted(() => {
     }
 
     .brand-name {
-      margin-left: 6px;
-      font-size: 15px;
+      display: none;
     }
 
     .head-search {

@@ -41,6 +41,13 @@ import Footer from '@/components/index/Footer.vue'
     background-size: cover;
   }
 
+  @media screen and (max-width: 768px) {
+    &::before {
+      background-image: url('@/assets/img/wallpaper/khadmv.webp');
+      background-position: center center;
+    }
+  }
+
   .content {
     position: relative;
     width: 100%;

@@ -163,9 +163,9 @@ body {
   --gray-50: #111827;
   --gray-0: #000000;
   --glass-bg: rgba(17, 24, 39, 0.72);
-  --glass-bg-soft: rgba(31, 41, 55, 0.56);
-  --glass-bg-strong: rgba(31, 41, 55, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-bg-soft: rgba(15, 23, 42, 0.62);
+  --glass-bg-strong: rgba(15, 23, 42, 0.9);
+  --glass-border: rgba(148, 163, 184, 0.22);
 
   --red-900: #fef2f2;
   --red-800: #fee2e2;

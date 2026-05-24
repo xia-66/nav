@@ -224,9 +224,10 @@ const handleItemClick = (url: string) => {
         display: flex;
         align-items: center;
         border-radius: 8px;
-        color: var(--el-text-color-primary);
+        color: var(--gray-800);
         transition: all 0.3s;
-        border: 1px solid var(--el-border-color-lighter);
+        border: 1px solid var(--glass-border);
+        background-color: var(--glass-bg-soft);
 
         .img-group {
           position: absolute;
@@ -275,7 +276,7 @@ const handleItemClick = (url: string) => {
 
 :deep(.el-input__wrapper) {
   height: 40px;
-  border: 1px solid rgba(148, 163, 184, 0.24);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   background-color: var(--glass-bg);
   box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08) !important;
@@ -292,6 +293,11 @@ const handleItemClick = (url: string) => {
   line-height: 40px;
   font-size: 14px;
   font-weight: 500;
+  color: var(--gray-900);
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: var(--gray-500);
 }
 
 @media screen and (max-width: 480px) {
@@ -302,11 +308,12 @@ const handleItemClick = (url: string) => {
 
 :deep(.el-input__prefix) {
   padding-left: 8px;
-  color: #64748b;
+  color: var(--gray-500);
 }
 
 :deep(.el-input__suffix) {
   padding-right: 8px;
+  color: var(--gray-500);
 }
 
 :deep(.el-card__body) {

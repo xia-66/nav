@@ -112,7 +112,7 @@ onUnmounted(() => {
     justify-content: center;
     border: 1px solid rgba(148, 163, 184, 0.18);
     border-radius: 14px;
-    background: var(--gray-o8);
+    background: var(--glass-bg-strong);
     color: var(--gray-900);
     box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08);
     cursor: pointer;
@@ -143,27 +143,35 @@ onUnmounted(() => {
   }
 
   @media screen and (max-width: 480px) {
-    height: auto;
-    min-height: 75px;
-    align-items: stretch;
-    flex-direction: column;
-    gap: 10px;
-    padding: 12px;
+    height: 64px;
+    min-height: 64px;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0 8px;
 
     .brand {
-      height: 32px;
+      height: auto;
+    }
+
+    .brand-logo {
+      width: 24px;
+      height: 24px;
+    }
+
+    .brand-name {
+      margin-left: 6px;
+      font-size: 15px;
     }
 
     .head-search {
-      width: 100%;
+      min-width: 0;
       max-width: none;
       flex: 1;
     }
 
     .theme-toggle {
-      position: absolute;
-      top: 12px;
-      right: 12px;
+      position: static;
       width: 40px;
       height: 40px;
       border-radius: 12px;
@@ -176,10 +184,10 @@ onUnmounted(() => {
 }
 
 .headsp {
-  background-color: var(--gray-o7);
+  background-color: var(--glass-bg);
   box-shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
-  border-bottom: 1px solid var(--gray-o5);
+  border-bottom: 1px solid var(--glass-border);
 }
 </style>

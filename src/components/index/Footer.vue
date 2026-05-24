@@ -29,8 +29,8 @@ const copyrightYears = computed(() => {
   position: relative;
   width: min(90vw, 1440px);
   margin: 18px auto 32px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.48);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
   box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
   -webkit-backdrop-filter: blur(18px) saturate(135%);

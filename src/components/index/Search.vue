@@ -164,8 +164,8 @@ const handleItemClick = (url: string) => {
   width: 100%;
   max-height: 70vh;
   overflow-y: auto;
-  background-color: var(--gray-o9);
-  border: 1px solid var(--gray-200);
+  background-color: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
   box-shadow: 0 18px 45px rgba(31, 41, 55, 0.14);
   padding: 16px;
@@ -204,7 +204,7 @@ const handleItemClick = (url: string) => {
       }
 
       @media screen and (max-width: 480px) {
-        width: 100%;
+        width: calc(50% - 8px);
       }
 
       &:hover {
@@ -277,7 +277,7 @@ const handleItemClick = (url: string) => {
   height: 40px;
   border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 12px;
-  background-color: var(--gray-o7);
+  background-color: var(--glass-bg);
   box-shadow: 0 6px 18px rgba(31, 41, 55, 0.08) !important;
   transition: all 0.3s ease;
 
@@ -292,6 +292,12 @@ const handleItemClick = (url: string) => {
   line-height: 40px;
   font-size: 14px;
   font-weight: 500;
+}
+
+@media screen and (max-width: 480px) {
+  :deep(.el-input__inner) {
+    font-size: 13px;
+  }
 }
 
 :deep(.el-input__prefix) {

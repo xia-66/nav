@@ -64,8 +64,8 @@ const handleImageError = (event: Event) => {
   .site-container {
     width: min(90vw, 1440px);
     margin: 0 auto;
-    background-color: rgba(255, 255, 255, 0.68);
-    border: 1px solid rgba(255, 255, 255, 0.48);
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 8px;
     padding: 10px;
     box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
@@ -93,9 +93,9 @@ const handleImageError = (event: Event) => {
 
     .site-item {
       padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.46);
+      border: 1px solid var(--glass-border);
       border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.72);
+      background-color: var(--glass-bg);
       box-sizing: border-box;
       box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
       -webkit-backdrop-filter: blur(18px) saturate(135%);
@@ -134,6 +134,11 @@ const handleImageError = (event: Event) => {
           grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
           gap: 16px;
 
+          @media screen and (max-width: 768px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+          }
+
           .site {
             min-width: 0;
 
@@ -146,8 +151,8 @@ const handleImageError = (event: Event) => {
               align-items: center;
               border-radius: 3px;
               color: var(--gray-700);
-              border: 1px solid rgba(255, 255, 255, 0.52);
-              background-color: rgba(255, 255, 255, 0.5);
+              border: 1px solid var(--glass-border);
+              background-color: var(--glass-bg-soft);
               box-shadow: 0 10px 24px rgba(31, 41, 55, 0.06);
               transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 
@@ -192,8 +197,42 @@ const handleImageError = (event: Event) => {
             &:hover {
               .site-card {
                 transform: translateY(-2px);
-                background-color: rgba(255, 255, 255, 0.82);
+                background-color: var(--glass-bg-strong);
                 box-shadow: 0 26px 40px -24px var(--gray-800);
+              }
+            }
+          }
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        padding: 14px;
+
+        main {
+          ul {
+            .site {
+              .site-card {
+                height: 58px;
+                padding: 6px;
+
+                .img-group {
+                  left: 8px;
+                  width: 42px;
+                  height: 42px;
+                }
+
+                .text-group {
+                  width: calc(100% - 52px);
+                  margin-left: 52px;
+
+                  .name {
+                    font-size: 13px;
+                  }
+
+                  .describe {
+                    font-size: 11px;
+                  }
+                }
               }
             }
           }

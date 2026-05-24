@@ -43,8 +43,8 @@ const changeAnchorPosition = (anchorId: string) => {
     margin: 0 auto;
     padding: 14px 0;
     box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.68);
-    border: 1px solid rgba(255, 255, 255, 0.48);
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 8px;
     box-shadow: 0 18px 48px rgba(31, 41, 55, 0.1);
     -webkit-backdrop-filter: blur(18px) saturate(135%);
@@ -61,7 +61,7 @@ const changeAnchorPosition = (anchorId: string) => {
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       align-items: center;
       gap: 12px;
-      background-color: rgba(255, 255, 255, 0.34);
+      background-color: var(--glass-bg-soft);
       border-radius: 6px;
 
       .record-item {
@@ -77,7 +77,7 @@ const changeAnchorPosition = (anchorId: string) => {
         transition: background-color 0.2s ease, color 0.2s ease;
         
         &:hover {
-          background-color: rgba(255, 255, 255, 0.5);
+          background-color: var(--glass-bg-strong);
           color: var(--gray-900);
         }
       }

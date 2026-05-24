@@ -55,6 +55,10 @@ body {
   --gray-800: #1f2937;
   --gray-900: #111827;
   --gray-1000: #000000;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-soft: rgba(255, 255, 255, 0.5);
+  --glass-bg-strong: rgba(255, 255, 255, 0.86);
+  --glass-border: rgba(255, 255, 255, 0.5);
 
   --red-50: #fef2f2;
   --red-100: #fee2e2;
@@ -158,6 +162,10 @@ body {
   --gray-100: #1f2937;
   --gray-50: #111827;
   --gray-0: #000000;
+  --glass-bg: rgba(17, 24, 39, 0.72);
+  --glass-bg-soft: rgba(31, 41, 55, 0.56);
+  --glass-bg-strong: rgba(31, 41, 55, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.16);
 
   --red-900: #fef2f2;
   --red-800: #fee2e2;

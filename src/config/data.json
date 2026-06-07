@@ -61,9 +61,9 @@
                   },
                   {
                       "id":  4,
-                      "name":  "图床",
-                      "url":  "https://img.heiyu.fun/",
-                      "description":  "图床服务",
+                      "name":  "Openlist",
+                      "url":  "https://file.heiyu.fun/",
+                      "description":  "网盘聚合",
                       "categoryId":  1
                   },
                   {

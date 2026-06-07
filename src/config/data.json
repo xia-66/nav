@@ -1,5 +1,9 @@
 {
   "categories": [
+        {
+      "id": 12,
+      "name": "个人服务"
+    },
     {
       "id": 1,
       "name": "常用推荐"
@@ -495,6 +499,15 @@
       "url": "https://appi.lol/",
       "description": "共享账号",
       "categoryId": 1
+    },
+    
+    {
+      "id": 166,
+      "name": "LaLa Nav",
+      "url": "https://nav.heiyu.fun/",
+      "description": "LaLa Nav",
+      "categoryId": 1
     }
+    
   ]
 }

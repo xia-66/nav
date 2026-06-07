@@ -1,7 +1,7 @@
 {
   "categories": [
         {
-      "id": 12,
+      "id": 16,
       "name": "个人服务"
     },
     {
@@ -506,7 +506,7 @@
       "name": "LaLa Nav",
       "url": "https://nav.heiyu.fun/",
       "description": "LaLa Nav",
-      "categoryId": 12
+      "categoryId": 16
     }
     
   ]

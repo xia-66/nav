@@ -51,21 +51,7 @@
                       "url":  "https://monitor.heiyu.fun/",
                       "description":  "Komari 探针",
                       "categoryId":  1
-                  },
-                  {
-                      "id":  3,
-                      "name":  "New API",
-                      "url":  "https://api.heiyu.fun/",
-                      "description":  "New API",
-                      "categoryId":  1
-                  },
-                  {
-                      "id":  4,
-                      "name":  "Openlist",
-                      "url":  "https://file.heiyu.fun/",
-                      "description":  "网盘聚合",
-                      "categoryId":  1
-                  },
+                  }
                   {
                       "id":  5,
                       "name":  "订阅管理",
@@ -78,13 +64,6 @@
                       "name":  "CLI Proxy API",
                       "url":  "http://23.19.228.84:8317/management.html#/",
                       "description":  "CLI Proxy API 管理面板",
-                      "categoryId":  1
-                  },
-                  {
-                      "id":  7,
-                      "name":  "文件传递",
-                      "url":  "https://data.heiyu.fun/",
-                      "description":  "文件传递",
                       "categoryId":  1
                   },
                   {
@@ -109,24 +88,10 @@
                       "categoryId":  1
                   },
                   {
-                      "id":  11,
-                      "name":  "剩余价值计算器",
-                      "url":  "https://calc.heiyu.fun/",
-                      "description":  "剩余价值计算器",
-                      "categoryId":  1
-                  },
-                  {
                       "id":  12,
                       "name":  "临时邮箱",
                       "url":  "https://mail.heiyu.fun/",
                       "description":  "临时邮箱服务",
-                      "categoryId":  1
-                  },
-                  {
-                      "id":  13,
-                      "name":  "Sublink",
-                      "url":  "https://sublink.heiyu.fun/",
-                      "description":  "订阅转化",
                       "categoryId":  1
                   },
                   {

@@ -51,7 +51,7 @@
                       "url":  "https://monitor.heiyu.fun/",
                       "description":  "Komari 探针",
                       "categoryId":  1
-                  }
+                  },
                   {
                       "id":  5,
                       "name":  "订阅管理",

@@ -62,7 +62,7 @@
                   {
                       "id":  6,
                       "name":  "CLI Proxy API",
-                      "url":  "http://23.19.228.84:8317/management.html#/",
+                      "url":  "https://api.heiyu.fun/management.html#/",
                       "description":  "CLI Proxy API 管理面板",
                       "categoryId":  1
                   },
